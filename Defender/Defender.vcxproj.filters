@@ -13,17 +13,23 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\SceneManager">
+    <Filter Include="Header Files\Scene Manager">
       <UniqueIdentifier>{e584d2ce-6397-4f78-b26d-96f2a2f8a7d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\SceneManager\Scenes">
+    <Filter Include="Header Files\Scene Manager\Scenes">
       <UniqueIdentifier>{51747cbd-3c3f-4e69-8806-90efc56fef0c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\SceneManager">
+    <Filter Include="Source Files\Scene Manager">
       <UniqueIdentifier>{38006d33-54f7-462f-8b0c-3b29464244d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\SceneManager\Scenes">
+    <Filter Include="Source Files\Scene Manager\Scenes">
       <UniqueIdentifier>{a6df67cf-de3a-48f4-9feb-587c22f90e20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Asset Loader">
+      <UniqueIdentifier>{dda01e56-d115-41f7-bd13-4bc430e9d798}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Asset Loader">
+      <UniqueIdentifier>{9a4f727f-073c-4748-bde2-3ea2027075dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -37,19 +43,22 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Header Files\SceneManager</Filter>
+      <Filter>Header Files\Scene Manager</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>Header Files\SceneManager</Filter>
+      <Filter>Header Files\Scene Manager</Filter>
     </ClInclude>
     <ClInclude Include="MenuScene.h">
-      <Filter>Header Files\SceneManager\Scenes</Filter>
+      <Filter>Header Files\Scene Manager\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="GameScene.h">
-      <Filter>Header Files\SceneManager\Scenes</Filter>
+      <Filter>Header Files\Scene Manager\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="GameOverScene.h">
-      <Filter>Header Files\SceneManager\Scenes</Filter>
+      <Filter>Header Files\Scene Manager\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetLoader.h">
+      <Filter>Header Files\Asset Loader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -60,19 +69,22 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>Source Files\SceneManager</Filter>
+      <Filter>Source Files\Scene Manager</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Source Files\SceneManager</Filter>
+      <Filter>Source Files\Scene Manager</Filter>
     </ClCompile>
     <ClCompile Include="MenuScene.cpp">
-      <Filter>Source Files\SceneManager\Scenes</Filter>
+      <Filter>Source Files\Scene Manager\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
-      <Filter>Source Files\SceneManager\Scenes</Filter>
+      <Filter>Source Files\Scene Manager\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="GameOverScene.cpp">
-      <Filter>Source Files\SceneManager\Scenes</Filter>
+      <Filter>Source Files\Scene Manager\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetLoader.cpp">
+      <Filter>Source Files\Asset Loader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -12,6 +12,8 @@ SceneManager::SceneManager() :
 
 	GameOverScene* gos = new GameOverScene();
 	m_scenes.push_back(gos);
+
+	AssetLoader::getInstance();
 }
 
 SceneManager::~SceneManager()

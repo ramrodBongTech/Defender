@@ -7,6 +7,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include "AssetLoader.h"
+
 class Scene {
 public:
 	Scene(std::string name);
