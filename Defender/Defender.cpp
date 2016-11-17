@@ -1,7 +1,8 @@
 //////////////////////////////////////////////////////////// 
 // Headers 
 //////////////////////////////////////////////////////////// 
-#include "stdafx.h" 
+#include "stdafx.h"
+
 #ifdef _DEBUG 
 #pragma comment(lib,"sfml-graphics-d.lib") 
 #pragma comment(lib,"sfml-audio-d.lib") 
@@ -24,20 +25,30 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-
+#include "SceneManager.h"
 
 ////////////////////////////////////////////////////////////
 ///Entrypoint of application 
 //////////////////////////////////////////////////////////// 
 
+SceneManager* sceneMgr;
+sf::Clock myClock;
+
 int main()
 {
+	srand(time(NULL));
 	// Create the main window 
 	sf::RenderWindow window(sf::VideoMode(800, 600, 32), "Defender");
+	window.setFramerateLimit(60);
+
+	sceneMgr = new SceneManager();
+	sf::Time time;
 
 	// Start game loop 
 	while (window.isOpen())
 	{
+		time = myClock.restart();
+
 		// Process events 
 		sf::Event Event;
 		while (window.pollEvent(Event))
@@ -50,12 +61,18 @@ int main()
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::Escape))
 				window.close();
 
-
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				sceneMgr->nextScene();
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				sceneMgr->previousScene();
 		}
+
+		sceneMgr->update(time.asMilliseconds());
 
 		//prepare frame
 		window.clear();
 
+		sceneMgr->draw(window);
 
 		// Finally, display rendered frame on screen 
 		window.display();
