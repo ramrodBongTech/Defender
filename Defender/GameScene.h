@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "Scene.h"
+#include "Player.h"
 
 class GameScene : public Scene {
 public:
@@ -11,6 +12,9 @@ public:
 
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
+
+private:
+	Player*		m_player;
 };
 
 #endif

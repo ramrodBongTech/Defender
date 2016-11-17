@@ -23,13 +23,9 @@ void AssetLoader::loadTextures()
 	// Load in the player textures
 	if (!m_playerLeft.loadFromFile("Assets/Textures/playerLeft.png"))
 		std::cout << "PlayerLeft image not loading" << std::endl;
-	else
-		std::cout << "PlayerLeft image loaded" << std::endl;
 
 	if (!m_playerRight.loadFromFile("Assets/Textures/playerRight.png"))
 		std::cout << "PlayerRight image not loading" << std::endl;
-	else
-		std::cout << "PlayerRight image loaded" << std::endl;
 
 	// Load in the astronaut textures
 

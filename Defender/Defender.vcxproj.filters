@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Asset Loader">
       <UniqueIdentifier>{9a4f727f-073c-4748-bde2-3ea2027075dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game Entities">
+      <UniqueIdentifier>{934da8a8-ed08-4eb6-93ef-ee89f27bdf7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Entities">
+      <UniqueIdentifier>{43525b23-4b25-4130-bd76-50692789782e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -60,6 +66,12 @@
     <ClInclude Include="AssetLoader.h">
       <Filter>Header Files\Asset Loader</Filter>
     </ClInclude>
+    <ClInclude Include="GameEntity.h">
+      <Filter>Header Files\Game Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Game Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -85,6 +97,12 @@
     </ClCompile>
     <ClCompile Include="AssetLoader.cpp">
       <Filter>Source Files\Asset Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEntity.cpp">
+      <Filter>Source Files\Game Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Game Entities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
