@@ -55,9 +55,7 @@ void SceneManager::switchScene(std::string name)
 	if (_found)
 	{
 		if (m_currScene != nullptr)
-		{
 			m_currScene->stop();
-		}
 
 		m_currScene = _nextScene;
 		m_currScene->start();
@@ -83,9 +81,7 @@ void SceneManager::nextScene()
 	if (_found)
 	{
 		if (m_currScene != nullptr)
-		{
 			m_currScene->stop();
-		}
 
 		m_currScene = _nextScene;
 		m_currScene->start();
@@ -111,9 +107,7 @@ void SceneManager::previousScene()
 	if (_found)
 	{
 		if (m_currScene != nullptr)
-		{
 			m_currScene->stop();
-		}
 
 		m_currScene = _nextScene;
 		m_currScene->start();

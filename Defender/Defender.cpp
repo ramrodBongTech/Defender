@@ -61,9 +61,9 @@ int main()
 			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::Escape))
 				window.close();
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sceneMgr->getCurrentScene()->getTitle() == "Menu")
 				sceneMgr->nextScene();
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sceneMgr->getCurrentScene()->getTitle() == "GameOver")
 				sceneMgr->previousScene();
 		}
 
