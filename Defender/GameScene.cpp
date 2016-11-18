@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "GameScene.h"
 
-GameScene::GameScene() : Scene("Game")
+GameScene::GameScene(int width, int height) : Scene("Game")
 {
 	m_player = new Player();
+	m_cam = new Camera(width, height);
 }
 
 GameScene::~GameScene()
@@ -15,15 +16,11 @@ GameScene::~GameScene()
 void GameScene::update(float dt)
 {
 	m_player->update(dt);
+	m_cam->move(m_player);
 }
 
 void GameScene::draw(sf::RenderWindow& window)
 {
-	if (m_alive)
-	{
-		std::cout << "GAME SCREEN!!" << std::endl;
-	}
-	m_alive = false;
-
 	m_player->draw(window);
+	m_cam->draw(window);
 }

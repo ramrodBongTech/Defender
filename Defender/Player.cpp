@@ -39,12 +39,17 @@ Player::~Player()
 	m_texRight = nullptr;
 }
 
+sf::Vector2f Player::getVelocity() { return m_velocity; }
+
 void Player::update(float dt)
 {
 	processInput();
 
 	m_position += m_velocity;
 	m_sprite.setPosition(m_position);
+
+	std::cout << m_position.x << std::endl;
+	std::cout << m_position.y << std::endl;
 
 	wrapAround();
 }
@@ -118,10 +123,10 @@ void Player::moveDown()
 
 void Player::wrapAround()
 {
-	if (m_position.x > 800)
+	/*if (m_position.x > 800)
 		m_position.x = 0;
 	if (m_position.x < 0)
-		m_position.x = 800.0f - m_texLeft->getSize().x;
+		m_position.x = 800.0f - m_texLeft->getSize().x;*/
 
 	if (m_position.y > 600 - m_texLeft->getSize().y)
 		m_position.y = 600 - m_texLeft->getSize().y;

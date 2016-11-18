@@ -10,6 +10,8 @@ public:
 	Player(float speed, sf::Vector2f pos);
 	~Player();
 
+	sf::Vector2f getVelocity();
+
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
 

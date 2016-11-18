@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "SceneManager.h"
 
-SceneManager::SceneManager() :
+SceneManager::SceneManager(int width, int height) :
 	m_currScene(nullptr)
 {
 	MenuScene* ms = new MenuScene();
 	addScene(ms);
 
-	GameScene* gs = new GameScene();
+	GameScene* gs = new GameScene(width, height);
 	m_scenes.push_back(gs);
 
 	GameOverScene* gos = new GameOverScene();

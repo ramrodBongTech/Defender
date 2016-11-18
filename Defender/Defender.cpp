@@ -41,7 +41,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(800, 600, 32), "Defender");
 	window.setFramerateLimit(60);
 
-	sceneMgr = new SceneManager();
+	sceneMgr = new SceneManager(window.getSize().x, window.getSize().y);
 	sf::Time time;
 
 	// Start game loop 
