@@ -30,13 +30,22 @@ void Camera::update(sf::RenderWindow &window) { window.setView(m_view); }
 
 void Camera::move(Player* player)
 {
-	if (player->getPosition().x <= -((m_width*4)))
+	if (player->getPosition().x <= -((m_width * 4)))
+	{
 		player->setPosition(sf::Vector2f((m_width * 5), player->getPosition().y));
+		m_view.setCenter(sf::Vector2f(((m_width * 5) - m_width / 2), m_height / 2));
+	}
 
 	if (player->getPosition().x > (m_width * 5))
+	{
 		player->setPosition(sf::Vector2f(-((m_width * 4)), player->getPosition().y));
+		m_view.setCenter(sf::Vector2f((-(m_width * 4) + m_width / 2), m_height / 2));
+	}
 
-	m_view.setCenter(player->getPosition());
+	if (player->getPosition().x < (-(m_width*4) + m_width / 2) || player->getPosition().x > ((m_width * 5) - m_width / 2))
+		m_view.setCenter(m_view.getCenter());
+	else
+		m_view.setCenter(sf::Vector2f(player->getPosition().x, m_height / 2));
 }
 
 sf::View Camera::getView() { return m_view; }
