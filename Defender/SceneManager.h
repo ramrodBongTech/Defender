@@ -7,7 +7,7 @@
 
 class SceneManager {
 public:
-	SceneManager();
+	SceneManager(int width, int height);
 	~SceneManager();
 
 	void update(float dt);
