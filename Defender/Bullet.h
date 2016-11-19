@@ -35,7 +35,7 @@ private:
 
 	sf::Texture*		m_texture = nullptr;
 
-	const float			MAX_TTL = 500.0f;
+	const float			MAX_TTL = 1000.0f;
 	const float			MAX_SPEED = 12.0f;
 
 	void setSprite();

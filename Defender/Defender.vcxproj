@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="AssetLoader.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletFactory.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameOverScene.h" />
@@ -169,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="AssetLoader.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletFactory.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Defender.cpp" />
     <ClCompile Include="GameEntity.cpp" />

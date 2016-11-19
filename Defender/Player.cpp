@@ -16,10 +16,12 @@ Player::Player() : GameEntity()
 	m_sprite.setPosition(m_position);
 	m_sprite.setOrigin(m_texLeft->getSize().x / 2, m_texLeft->getSize().y / 2);
 
-	m_bullet = new Bullet();
+	m_firingDelay = 0;
+	m_maxFiringDelay = 50.0f;
+	m_bullets = std::vector<Bullet*>(100, nullptr);
 }
 
-Player::Player(float speed, sf::Vector2f pos) : GameEntity()
+/*Player::Player(float speed, sf::Vector2f pos) : GameEntity()
 {
 	m_position = pos;
 	m_speed = speed;
@@ -33,17 +35,25 @@ Player::Player(float speed, sf::Vector2f pos) : GameEntity()
 
 	m_sprite.setPosition(m_position);
 	m_sprite.setOrigin(m_texLeft->getSize().x / 2, m_texLeft->getSize().y / 2);
-}
+
+	m_firingDelay = 0;
+	m_maxFiringDelay = 50.0f;
+	m_bullets = std::vector<Bullet*>(100, nullptr);
+}*/
 
 Player::~Player()
 {
 	m_texLeft = nullptr;
 	m_texRight = nullptr;
-	delete m_bullet;
-	m_bullet = nullptr;
+	for (int i = 0; i < m_bullets.size(); i++)
+	{
+		if (m_bullets.at(i) != nullptr)
+		{
+			delete m_bullets.at(i);
+			m_bullets.at(i) = nullptr;
+		}
+	}
 }
-
-sf::Vector2f Player::getVelocity() { return m_velocity; }
 
 void Player::update(float dt)
 {
@@ -54,7 +64,7 @@ void Player::update(float dt)
 	m_position += m_velocity;
 	m_sprite.setPosition(m_position);
 
-	m_bullet->update(dt);
+	updateBullets(dt);
 
 	wrapAround();
 }
@@ -62,7 +72,9 @@ void Player::update(float dt)
 void Player::draw(sf::RenderWindow& window)
 {
 	window.draw(m_sprite);
-	m_bullet->draw(window);
+	for (int i = 0; i < m_bullets.size(); i++)
+		if(m_bullets.at(i) != nullptr)
+			m_bullets.at(i)->draw(window);
 }
 
 void Player::processInput()
@@ -81,7 +93,7 @@ void Player::processInput()
 	else
 		slowY();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::milliseconds(m_firingDelay) >= sf::milliseconds(MAX_FIRING_DELAY))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::milliseconds(m_firingDelay) >= sf::milliseconds(m_maxFiringDelay))
 		shoot();
 
 	m_velocity = sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y));
@@ -138,11 +150,36 @@ void Player::slowY()
 
 void Player::shoot()
 {
-	m_bullet->setAlive(true);
-	m_bullet->setDirection(sf::Vector2f(m_direction.x, 0));
-	m_bullet->setPosition(sf::Vector2f(m_position.x + 20, m_position.y + 5));
-	m_bullet->setSpeed();
+	Bullet* _bullet = BulletFactory::getInstance()->getBullet();
+	_bullet->setAlive(true);
+	_bullet->setDirection(sf::Vector2f(m_direction.x, 0));
+	_bullet->setPosition(sf::Vector2f(m_position.x + 20, m_position.y + 5));
+	_bullet->setSpeed();
+	for (int i = 0; i < m_bullets.size(); i++)
+	{
+		if (m_bullets.at(i) == nullptr)
+		{
+			m_bullets.at(i) = _bullet;
+			break;
+		}
+	}
 	m_firingDelay = 0;
+}
+
+void Player::updateBullets(float dt)
+{
+	for (int i = 0; i < m_bullets.size(); i++)
+	{
+		if (m_bullets.at(i) != nullptr)
+		{
+			m_bullets.at(i)->update(dt);
+			if (!m_bullets.at(i)->getAlive())
+			{
+   				delete m_bullets.at(i);
+				m_bullets.at(i) = nullptr;
+			}
+		}
+	}
 }
 
 void Player::wrapAround()
