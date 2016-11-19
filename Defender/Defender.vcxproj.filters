@@ -37,6 +37,12 @@
     <Filter Include="Source Files\Game Entities">
       <UniqueIdentifier>{43525b23-4b25-4130-bd76-50692789782e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game Entities\Bullet Factory">
+      <UniqueIdentifier>{c5c92fa4-8aea-47da-ba9a-02bda54b28c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Entities\Bullet Factory">
+      <UniqueIdentifier>{ff21ce90-499f-4add-8692-d9778328c299}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -75,6 +81,9 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files\Game Entities\Bullet Factory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -109,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\Game Entities\Bullet Factory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

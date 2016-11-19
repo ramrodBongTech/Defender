@@ -15,6 +15,8 @@ Player::Player() : GameEntity()
 
 	m_sprite.setPosition(m_position);
 	m_sprite.setOrigin(m_texLeft->getSize().x / 2, m_texLeft->getSize().y / 2);
+
+	m_bullet = new Bullet();
 }
 
 Player::Player(float speed, sf::Vector2f pos) : GameEntity()
@@ -37,16 +39,22 @@ Player::~Player()
 {
 	m_texLeft = nullptr;
 	m_texRight = nullptr;
+	delete m_bullet;
+	m_bullet = nullptr;
 }
 
 sf::Vector2f Player::getVelocity() { return m_velocity; }
 
 void Player::update(float dt)
 {
+	m_firingDelay += dt;
+
 	processInput();
 
 	m_position += m_velocity;
 	m_sprite.setPosition(m_position);
+
+	m_bullet->update(dt);
 
 	wrapAround();
 }
@@ -54,6 +62,7 @@ void Player::update(float dt)
 void Player::draw(sf::RenderWindow& window)
 {
 	window.draw(m_sprite);
+	m_bullet->draw(window);
 }
 
 void Player::processInput()
@@ -63,24 +72,17 @@ void Player::processInput()
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		moveLeft();
 	else
-	{
-		if (m_acceleration.x > 0)
-			m_acceleration.x -= m_speed;
-		else if (m_acceleration.x < 0)
-			m_acceleration.x = 0;
-	}
+		slowX();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		moveUp();
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		moveDown();
 	else
-	{
-		if (m_acceleration.y > 0)
-			m_acceleration.y -= m_speed;
-		else if (m_acceleration.y < 0)
-			m_acceleration.y = 0;
-	}
+		slowY();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::milliseconds(m_firingDelay) >= sf::milliseconds(MAX_FIRING_DELAY))
+		shoot();
 
 	m_velocity = sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y));
 }
@@ -118,13 +120,33 @@ void Player::moveDown()
 		m_acceleration.y += m_speed;
 }
 
+void Player::slowX()
+{
+	if (m_acceleration.x > 0)
+		m_acceleration.x -= m_speed;
+	else if (m_acceleration.x < 0)
+		m_acceleration.x = 0;
+}
+
+void Player::slowY()
+{
+	if (m_acceleration.y > 0)
+		m_acceleration.y -= m_speed;
+	else if (m_acceleration.y < 0)
+		m_acceleration.y = 0;
+}
+
+void Player::shoot()
+{
+	m_bullet->setAlive(true);
+	m_bullet->setDirection(sf::Vector2f(m_direction.x, 0));
+	m_bullet->setPosition(sf::Vector2f(m_position.x + 20, m_position.y + 5));
+	m_bullet->setSpeed();
+	m_firingDelay = 0;
+}
+
 void Player::wrapAround()
 {
-	/*if (m_position.x > 800)
-		m_position.x = 0;
-	if (m_position.x < 0)
-		m_position.x = 800.0f - m_texLeft->getSize().x;*/
-
 	if (m_position.y > 600 - m_texLeft->getSize().y)
 		m_position.y = 600 - m_texLeft->getSize().y;
 	if (m_position.y < m_texLeft->getSize().y)

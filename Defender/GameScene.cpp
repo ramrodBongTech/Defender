@@ -11,6 +11,8 @@ GameScene::~GameScene()
 {
 	delete m_player;
 	m_player = nullptr;
+	delete m_cam;
+	m_cam = nullptr;
 }
 
 void GameScene::update(float dt)

@@ -18,6 +18,8 @@ public:
 	sf::Texture		m_playerLeft;
 	sf::Texture		m_playerRight;
 
+	sf::Texture		m_bullet;
+
 	sf::Texture		m_astronautLeft;
 	sf::Texture		m_astronautRight;
 

@@ -12,7 +12,6 @@ public:
 	void update(sf::RenderWindow &window);
 	void draw(sf::RenderWindow &window);
 
-	//void move(Player* player);
 	void move(Player* player);
 
 	sf::View getView();

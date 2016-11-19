@@ -17,7 +17,6 @@ Camera::Camera(float width, float height)
 	m_view.setCenter(sf::Vector2f(m_width / 2, m_height / 2));
 }
 
-
 Camera::~Camera() { }
 
 void Camera::draw(sf::RenderWindow &window)
