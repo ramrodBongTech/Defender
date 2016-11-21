@@ -21,6 +21,7 @@ private:
 	void moveRight();
 	void moveUp();
 	void moveDown();
+	void decelerate();
 	void wrapAround();
 
 	sf::Vector2f	m_direction;

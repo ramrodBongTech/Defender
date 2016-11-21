@@ -63,24 +63,14 @@ void Player::processInput()
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		moveLeft();
 	else
-	{
-		if (m_acceleration.x > 0)
-			m_acceleration.x -= m_speed;
-		else if (m_acceleration.x < 0)
-			m_acceleration.x = 0;
-	}
+		decelerate();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		moveUp();
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		moveDown();
 	else
-	{
-		if (m_acceleration.y > 0)
-			m_acceleration.y -= m_speed;
-		else if (m_acceleration.y < 0)
-			m_acceleration.y = 0;
-	}
+		decelerate();
 
 	m_velocity = sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y));
 }
@@ -129,4 +119,12 @@ void Player::wrapAround()
 		m_position.y = 600 - m_texLeft->getSize().y;
 	if (m_position.y < m_texLeft->getSize().y)
 		m_position.y = m_texLeft->getSize().y;
+}
+
+void Player::decelerate()
+{
+	if (m_acceleration.y > 0)
+		m_acceleration.y -= m_speed;
+	else if (m_acceleration.y < 0)
+		m_acceleration.y = 0;
 }
