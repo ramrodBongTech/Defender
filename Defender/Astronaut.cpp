@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Astronaut.h"
 
 Astronaut::Astronaut() : GameEntity()
