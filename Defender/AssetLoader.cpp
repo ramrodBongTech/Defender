@@ -31,7 +31,7 @@ void AssetLoader::loadTextures()
 	if (!m_astronautLeft.loadFromFile("Assets/Textures/astronautLeft.png"))
 		std::cout << "AstronautLeft image not loading" << std::endl;
 
-	if (!m_astronautLeft.loadFromFile("Assets/Textures/astronautRight.png"))
+	if (!m_astronautRight.loadFromFile("Assets/Textures/astronautRight.png"))
 		std::cout << "AstronautRight image not loading" << std::endl;
 
 	// Load in the alien nest textures

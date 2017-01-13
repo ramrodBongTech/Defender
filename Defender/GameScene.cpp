@@ -35,14 +35,15 @@ void GameScene::InitialiseAstronauts(int screenWidth, int screenHeight)
 	const int _NUMBEROFASTRONAUTS = 10;
 	for (int i = 0; i < _NUMBEROFASTRONAUTS; i++)
 	{
-		//int _positionMultiplier = rand() % 8 + (-3);
+		int _positionMultiplier = rand() % 7 + (-3);
 
-		sf::Vector2f _position((rand() % screenWidth) /** _positionMultiplier*/, 0.9 * screenHeight);
+		sf::Vector2f _position((rand() % screenWidth) * _positionMultiplier, 0.9 * screenHeight);
 
 		int _direction = rand() % 2;
 		if (_direction == 0) _direction = -1;
 
 		Astronaut _astro(_position, _direction);
 		m_astronauts.push_back(_astro);
+		cout << m_astronauts.at(i).getPosition().x << endl;
 	}
 }

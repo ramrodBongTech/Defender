@@ -2,7 +2,7 @@
 #include "Game.h"
 
 Game::Game() : m_running(false),
-	m_window(sf::VideoMode(1920, 1080, 32), "Defender") {
+	m_window(sf::VideoMode(800, 600, 32), "Defender") {
 
 }
 

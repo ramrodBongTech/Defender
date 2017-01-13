@@ -9,9 +9,9 @@ Astronaut::Astronaut() : GameEntity()
 Astronaut::Astronaut(sf::Vector2f position, int direction) : GameEntity()
 {
 	m_position = position;
-	m_speed = 0.1f;
+	m_speed = 0.7f;
 	m_direction = direction;
-	m_velocity = m_direction * m_speed;
+	m_velocity =  m_speed * m_direction;
 
 	m_texLeft = &AssetLoader::getInstance()->m_astronautLeft;
 	m_texRight = &AssetLoader::getInstance()->m_astronautRight;
@@ -47,6 +47,7 @@ void Astronaut::draw(sf::RenderWindow & window)
 void Astronaut::Wander() 
 {
 	//to do : boundary checks
+	m_sprite.setPosition(m_position);
 	m_position.x += m_velocity;
 }
 

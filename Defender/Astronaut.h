@@ -20,7 +20,6 @@ private:
 	void Evade();
 	void WrapAround();
 
-	sf::Vector2f	m_position;
 	float	m_velocity;
 	float	m_direction;
 	float	m_speed;
