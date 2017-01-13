@@ -67,7 +67,7 @@ int main()
 				sceneMgr->previousScene();
 		}
 
-		sceneMgr->update(time.asMilliseconds());
+		sceneMgr->update(time.asSeconds());
 
 		//prepare frame
 		window.clear();

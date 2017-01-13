@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "Bullet.h"
 
-Bullet::Bullet()
+Bullet::Bullet() : GameEntity()
 {
-	m_texture = &AssetLoader::getInstance()->m_bullet;
-	m_sprite = sf::Sprite(*m_texture);
-	m_radius = m_texture->getSize().y / 2;
+	m_sprite = sf::Sprite(AssetLoader::getInstance()->m_bullet);
+	m_radius = m_sprite.getTexture()->getSize().y / 2;
 
 	m_direction = sf::Vector2f(0, 0);
 	m_velocity = sf::Vector2f(0, 0);
@@ -16,10 +15,7 @@ Bullet::Bullet()
 	setSprite();
 }
 
-Bullet::~Bullet() 
-{
-	m_texture = nullptr;
-}
+Bullet::~Bullet() {}
 
 void Bullet::update(float dt) 
 {
@@ -30,7 +26,7 @@ void Bullet::update(float dt)
 
 		m_ttl += dt;
 
-		if (sf::milliseconds(m_ttl) >= sf::milliseconds(MAX_TTL))
+		if (sf::milliseconds(m_ttl) >= sf::milliseconds(5.0f))
 			reset();
 
 		checkBorder();
@@ -40,7 +36,27 @@ void Bullet::update(float dt)
 void Bullet::draw(sf::RenderWindow &window) 
 {
 	if (m_alive)
-		window.draw(m_sprite);
+	{
+		int tempX = m_position.x;
+		int tempAlpha = 255;
+		for(int i = 1; i < 9; i++)
+		{ 
+			window.draw(m_sprite);
+
+			m_sprite.setPosition(sf::Vector2f(tempX, m_position.y));
+			m_sprite.setColor(sf::Color(m_color.r, 0, 0, tempAlpha));
+
+			if (m_direction.x > 0)
+				tempX -= m_radius;
+			else
+				tempX += m_radius;
+		
+			tempAlpha -= tempAlpha / 2;
+		}
+
+		m_sprite.setPosition(m_position);
+		m_sprite.setColor(m_color);
+	}
 }
 
 void Bullet::reset()
@@ -66,6 +82,10 @@ void Bullet::setSprite()
 	m_sprite.setOrigin(sf::Vector2f(m_radius, m_radius));
 	m_sprite.setPosition(m_position);
 	m_sprite.setRotation(90);
+	m_sprite.setColor(sf::Color(255, 0, 0, 255));
+	m_sprite.setScale(0.25f, 1.0f);
+
+	m_color = m_sprite.getColor();
 }
 
 void Bullet::checkBorder()

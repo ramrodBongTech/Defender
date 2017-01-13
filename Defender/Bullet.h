@@ -31,11 +31,10 @@ private:
 	float				m_ttl;
 	float				m_radius;
 	int					m_damage;
-	sf::Sprite			m_sprite;
 
-	sf::Texture*		m_texture = nullptr;
+	sf::Color			m_color;
 
-	const float			MAX_TTL = 1000.0f;
+	const float			MAX_TTL = 50.0f;
 	const float			MAX_SPEED = 12.0f;
 
 	void setSprite();

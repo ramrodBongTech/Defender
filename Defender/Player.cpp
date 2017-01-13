@@ -16,8 +16,8 @@ Player::Player() : GameEntity()
 	m_sprite.setPosition(m_position);
 	m_sprite.setOrigin(m_texLeft->getSize().x / 2, m_texLeft->getSize().y / 2);
 
-	m_firingDelay = 0;
-	m_maxFiringDelay = 50.0f;
+	m_firingDelay = 2.0f;
+	m_maxFiringDelay = 2.0f;
 	m_bullets = std::vector<Bullet*>(100, nullptr);
 }
 
@@ -57,7 +57,7 @@ Player::~Player()
 
 void Player::update(float dt)
 {
-	m_firingDelay += dt;
+  	m_firingDelay += dt;
 
 	processInput();
 
