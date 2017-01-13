@@ -81,7 +81,6 @@ void Player::moveLeft()
 	m_sprite.setTexture(*m_texLeft);
 	if (m_acceleration.x < MAX_SPEED)
 		m_acceleration.x += m_speed;
-
 }
 
 void Player::moveRight()

@@ -8,17 +8,27 @@ class Astronaut : public GameEntity
 {
 public:
 	Astronaut();
+	Astronaut(sf::Vector2f position, int direction);
 	~Astronaut();
 
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
-	bool isEnemyDetected();
+	
 
 private:
+	void Wander();
 	void Evade();
+	void WrapAround();
 
-	bool m_enemyDetected;
-	sf::Texture*	m_tex;
+	sf::Vector2f	m_position;
+	float	m_velocity;
+	float	m_direction;
+	float	m_speed;
+
+	bool	isEnemyDetected();
+
+	sf::Texture*	m_texLeft;
+	sf::Texture*	m_texRight;
 };
 #endif // !ASTRONAUT_H
 

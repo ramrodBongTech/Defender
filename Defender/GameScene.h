@@ -4,7 +4,12 @@
 #include "stdafx.h"
 #include "Scene.h"
 #include "Player.h"
+#include "Astronaut.h"
 #include "Camera.h"
+
+#include <vector>
+
+using namespace std;
 
 class GameScene : public Scene {
 public:
@@ -17,6 +22,9 @@ public:
 private:
 	Player*		m_player;
 	Camera*		m_cam;
+
+	vector<Astronaut>	m_astronauts;
+	void InitialiseAstronauts(int screenWidth, int screenHeight);
 };
 
 #endif
