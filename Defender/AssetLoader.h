@@ -20,6 +20,8 @@ public:
 
 	sf::Texture		m_bullet;
 
+	sf::Texture		m_background;
+
 	sf::Texture		m_astronautLeft;
 	sf::Texture		m_astronautRight;
 

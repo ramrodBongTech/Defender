@@ -2,8 +2,9 @@
 #include "Scene.h"
 
 Scene::Scene(std::string name) :
-	m_alive(true),
-	m_title(name) {}
+m_alive(true),
+m_title(name) 
+{}
 
 Scene::~Scene() {}
 

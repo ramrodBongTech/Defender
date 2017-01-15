@@ -1,15 +1,11 @@
 #include "stdafx.h"
 #include "Camera.h"
 
-Camera::Camera(float width, float height)
+Camera::Camera(float width, float height):
+m_width(width),
+m_height(height),
+m_sprite(AssetLoader::getInstance()->m_background)
 {
-	m_width = width;
-	m_height = height;
-
-	// Test texture to see if the camera works
-	if (!texture.loadFromFile("Assets/Textures/grid.png")) { std::cout << "Error Loading Grid Textures" << std::endl; }
-	texture.setSmooth(true);
-	m_sprite.setTexture(texture);
 	m_sprite.setPosition(-(width*4), 0);
 	m_sprite.scale(9, 1);
 
@@ -19,13 +15,13 @@ Camera::Camera(float width, float height)
 
 Camera::~Camera() { }
 
-void Camera::draw(sf::RenderWindow &window)
+void Camera::draw(sf::RenderWindow& window)
 {
 	window.setView(m_view);
 	window.draw(m_sprite);
 }
 
-void Camera::update(sf::RenderWindow &window) { window.setView(m_view); }
+void Camera::update(sf::RenderWindow& window) { window.setView(m_view); }
 
 void Camera::move(Player* player)
 {
@@ -49,4 +45,4 @@ void Camera::move(Player* player)
 
 sf::View Camera::getView() { return m_view; }
 
-void Camera::setViewCenter(sf::Vector2f* pos) { m_view.setCenter(*pos); }
+void Camera::setViewCenter(sf::Vector2f& pos) { m_view.setCenter(pos); }

@@ -1,24 +1,22 @@
 #include "stdafx.h"
 #include "Player.h"
 
-Player::Player() : GameEntity()
+Player::Player() : GameEntity(),
+m_direction(sf::Vector2f(-1, 0)),
+m_velocity(sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y))),
+m_acceleration(sf::Vector2f(0.0f, 0.0f)),
+m_speed(0.1f),
+m_firingDelay(2.0f),
+m_maxFiringDelay(2.0f),
+m_texLeft(&AssetLoader::getInstance()->m_playerLeft),
+m_texRight(&AssetLoader::getInstance()->m_playerRight),
+m_bullets(std::vector<Bullet*>(100, nullptr))
 {
 	m_position = sf::Vector2f(400, 300);
-	m_speed = 0.1f;
-	m_acceleration = sf::Vector2f(0.0f, 0.0f);
-	m_direction = sf::Vector2f(-1, 0);
-	m_velocity = sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y));
-
-	m_texLeft = &AssetLoader::getInstance()->m_playerLeft;
-	m_texRight = &AssetLoader::getInstance()->m_playerRight;
+	
 	m_sprite.setTexture(*m_texLeft);
-
 	m_sprite.setPosition(m_position);
 	m_sprite.setOrigin(m_texLeft->getSize().x / 2, m_texLeft->getSize().y / 2);
-
-	m_firingDelay = 2.0f;
-	m_maxFiringDelay = 2.0f;
-	m_bullets = std::vector<Bullet*>(100, nullptr);
 }
 
 /*Player::Player(float speed, sf::Vector2f pos) : GameEntity()

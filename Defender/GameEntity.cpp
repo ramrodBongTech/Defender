@@ -1,7 +1,11 @@
 #include "stdafx.h"
 #include "GameEntity.h"
 
-GameEntity::GameEntity() {}
+GameEntity::GameEntity() :
+m_alive(false),
+m_position(sf::Vector2f()),
+m_sprite(sf::Sprite())
+{}
 
 GameEntity::~GameEntity() {}
 

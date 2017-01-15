@@ -1,16 +1,16 @@
 #include "stdafx.h"
 #include "Bullet.h"
 
-Bullet::Bullet() : GameEntity()
+Bullet::Bullet() : GameEntity(),
+m_direction(sf::Vector2f(0, 0)),
+m_velocity(sf::Vector2f(0, 0)),
+m_ttl(0),
+m_radius(0),
+m_damage(1),
+m_color(sf::Color::Red)
 {
 	m_sprite = sf::Sprite(AssetLoader::getInstance()->m_bullet);
 	m_radius = m_sprite.getTexture()->getSize().y / 2;
-
-	m_direction = sf::Vector2f(0, 0);
-	m_velocity = sf::Vector2f(0, 0);
-
-	m_ttl = 0;
-	m_damage = 1;
 
 	setSprite();
 }

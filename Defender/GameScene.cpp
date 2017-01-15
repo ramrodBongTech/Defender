@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "GameScene.h"
 
-GameScene::GameScene(int width, int height) : Scene("Game")
-{
-	m_player = new Player();
-	m_cam = new Camera(width, height);
-}
+GameScene::GameScene(int width, int height) : Scene("Game"),
+m_player(new Player()),
+m_cam(new Camera(width, height))
+{}
 
 GameScene::~GameScene()
 {

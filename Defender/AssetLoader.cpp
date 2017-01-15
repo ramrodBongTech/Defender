@@ -26,6 +26,10 @@ void AssetLoader::loadTextures()
 	if (!m_playerRight.loadFromFile("Assets/Textures/playerRight.png"))
 		std::cout << "PlayerRight image not loading" << std::endl;
 
+	// Load in the background texture
+	if (!m_background.loadFromFile("Assets/Textures/grid.png")) 
+		std::cout << "Error Loading Grid Textures" << std::endl;
+
 	// Load in the bullet texture
 	if (!m_bullet.loadFromFile("Assets/Textures/bullet.png"))
 		std::cout << "Bullet image not loading" << std::endl;
