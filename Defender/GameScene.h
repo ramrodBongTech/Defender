@@ -25,6 +25,7 @@ private:
 
 	vector<Astronaut>	m_astronauts;
 	void InitialiseAstronauts(int screenWidth, int screenHeight);
+	void WrapAround();
 };
 
 #endif

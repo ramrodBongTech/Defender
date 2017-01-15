@@ -11,10 +11,11 @@ Camera::Camera(float width, float height)
 	texture.setSmooth(true);
 	m_sprite.setTexture(texture);
 	m_sprite.setPosition(-(width*4), 0);
-	m_sprite.scale(9, 1);
+	m_sprite.scale(2, 1);
 
 	m_view.setSize(m_width, m_height);
 	m_view.setCenter(sf::Vector2f(m_width / 2, m_height / 2));
+	m_view.zoom(1.5f);
 }
 
 

@@ -109,11 +109,6 @@ void Player::moveDown()
 
 void Player::wrapAround()
 {
-	/*if (m_position.x > 800)
-		m_position.x = 0;
-	if (m_position.x < 0)
-		m_position.x = 800.0f - m_texLeft->getSize().x;*/
-
 	if (m_position.y > 600 - m_texLeft->getSize().y)
 		m_position.y = 600 - m_texLeft->getSize().y;
 	if (m_position.y < m_texLeft->getSize().y)

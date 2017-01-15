@@ -47,3 +47,8 @@ void GameScene::InitialiseAstronauts(int screenWidth, int screenHeight)
 		cout << m_astronauts.at(i).getPosition().x << endl;
 	}
 }
+
+void GameScene::WrapAround() 
+{
+
+}
