@@ -14,6 +14,11 @@ public:
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
 
+	void setVelocity(sf::Vector2f vel);
+	void setAcceleration(sf::Vector2f accel);
+
+	float getWidth();
+
 private:
 	void processInput();
 	void moveLeft();

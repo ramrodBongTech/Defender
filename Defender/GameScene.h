@@ -15,8 +15,15 @@ public:
 	void draw(sf::RenderWindow& window);
 
 private:
-	Player*		m_player;
-	Camera*		m_cam;
+	float									m_width;
+	float									m_height;
+	Player*									m_player;
+	Camera*									m_cam;
+
+	sf::VertexArray							m_ground;
+
+	void createGround();
+	bool groundCollision();
 };
 
 #endif

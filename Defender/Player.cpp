@@ -187,3 +187,9 @@ void Player::wrapAround()
 	if (m_position.y < m_texLeft->getSize().y)
 		m_position.y = m_texLeft->getSize().y;
 }
+
+void Player::setVelocity(sf::Vector2f vel) { m_velocity = vel; }
+
+void Player::setAcceleration(sf::Vector2f accel) { m_acceleration = accel; }
+
+float Player::getWidth() { return m_texLeft->getSize().x / 2; }
