@@ -34,11 +34,15 @@ void Camera::update(sf::RenderWindow &window) { window.setView(m_view); }
 
 void Camera::move(Player* player)
 {
-	if (player->getPosition().x <= m_worldStart)
-		m_view.setCenter(sf::Vector2f( m_worldEnd - (m_width / 2), (m_height / 2) ) );
+	if (player->getPosition().x <= m_worldStart) {
+		player->setPosition(sf::Vector2f(m_worldEnd, player->getPosition().y));
+		m_view.setCenter(sf::Vector2f(m_worldEnd - (m_width / 2), (m_height / 2)) );
+	}
 
-	if (player->getPosition().x > m_worldEnd)
-		m_view.setCenter(sf::Vector2f( (m_worldStart + m_width / 2), m_height / 2) );
+	if (player->getPosition().x > m_worldEnd) {
+		player->setPosition(sf::Vector2f(m_worldStart, player->getPosition().y) );
+		m_view.setCenter(sf::Vector2f((m_worldStart + m_width / 2), m_height / 2));
+	}
 
 	if (player->getPosition().x < (m_worldStart + (m_width / 2)) || player->getPosition().x > (m_worldEnd - (m_width / 2)))
 		m_view.setCenter(m_view.getCenter());

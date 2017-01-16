@@ -15,7 +15,7 @@ Astronaut::Astronaut(sf::Vector2f position, int direction, int gameWorldStart, i
 
 	m_elapsedWanderTime = 0;
 	m_position = position;
-	m_speed = 0.5f;
+	m_speed = 0.8f;
 	m_direction = direction;
 	m_velocity =  m_speed * m_direction;
 
@@ -74,7 +74,6 @@ void Astronaut::Pause(float dt)
 void Astronaut::Wander(float dt) 
 {
 	m_elapsedWanderTime += dt;
-	std::cout << m_elapsedWanderTime << std::endl;
 
 	if (m_elapsedWanderTime >= 3000) 
 	{
@@ -82,11 +81,12 @@ void Astronaut::Wander(float dt)
 		if (_rnd == 0)
 			m_state = State::PAUSE;
 		else if (_rnd == 1) {
+			m_direction = -m_direction;
 			m_velocity = m_speed * -(m_direction);
-			if (m_sprite.getTexture() == m_texLeft)
-				m_sprite.setTexture(*m_texRight);
-			else
+			if (m_direction > 0)
 				m_sprite.setTexture(*m_texLeft);
+			else
+				m_sprite.setTexture(*m_texRight);
 		}
 		m_elapsedWanderTime = 0;
 	}
