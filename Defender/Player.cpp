@@ -45,7 +45,6 @@ Player::~Player()
 void Player::update(float dt)
 {
 	processInput();
-	std::cout << m_position.x << std::endl;
 	m_position += m_velocity;
 	m_sprite.setPosition(m_position);
 	wrapAround();
