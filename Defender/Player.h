@@ -7,7 +7,7 @@
 class Player : public GameEntity {
 public:
 	Player();
-	Player(float speed, sf::Vector2f pos);
+	Player(float speed, sf::Vector2f pos, int worldStart, int worldEnd);
 	~Player();
 
 	sf::Vector2f getVelocity();
@@ -21,7 +21,6 @@ private:
 	void moveRight();
 	void moveUp();
 	void moveDown();
-	void decelerate();
 	void wrapAround();
 
 	sf::Vector2f	m_direction;
@@ -31,6 +30,9 @@ private:
 
 	sf::Texture*	m_texLeft;
 	sf::Texture*	m_texRight;
+
+	int			m_worldStart;
+	int			m_worldEnd;
 
 	const float		MAX_SPEED = 6.0f;
 };

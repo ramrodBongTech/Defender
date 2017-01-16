@@ -1,21 +1,24 @@
 #include "stdafx.h"
 #include "Camera.h"
 
-Camera::Camera(float width, float height)
+Camera::Camera(float width, float height, int worldStart, int worldEnd)
 {
 	m_width = width;
 	m_height = height;
+
+	m_worldStart = worldStart;
+	m_worldEnd = worldEnd;
 
 	// Test texture to see if the camera works
 	if (!texture.loadFromFile("Assets/Textures/grid.png")) { std::cout << "Error Loading Grid Textures" << std::endl; }
 	texture.setSmooth(true);
 	m_sprite.setTexture(texture);
-	m_sprite.setPosition(-(width*4), 0);
-	m_sprite.scale(2, 1);
+	m_sprite.setPosition(m_worldStart, 0);
+	m_sprite.scale(13.5, 1);
 
 	m_view.setSize(m_width, m_height);
 	m_view.setCenter(sf::Vector2f(m_width / 2, m_height / 2));
-	m_view.zoom(1.5f);
+	//m_view.zoom(1.5f);
 }
 
 
@@ -31,19 +34,13 @@ void Camera::update(sf::RenderWindow &window) { window.setView(m_view); }
 
 void Camera::move(Player* player)
 {
-	if (player->getPosition().x <= -((m_width * 4)))
-	{
-		player->setPosition(sf::Vector2f((m_width * 5), player->getPosition().y));
-		m_view.setCenter(sf::Vector2f(((m_width * 5) - m_width / 2), m_height / 2));
-	}
+	if (player->getPosition().x <= m_worldStart)
+		m_view.setCenter(sf::Vector2f( m_worldEnd - (m_width / 2), (m_height / 2) ) );
 
-	if (player->getPosition().x > (m_width * 5))
-	{
-		player->setPosition(sf::Vector2f(-((m_width * 4)), player->getPosition().y));
-		m_view.setCenter(sf::Vector2f((-(m_width * 4) + m_width / 2), m_height / 2));
-	}
+	if (player->getPosition().x > m_worldEnd)
+		m_view.setCenter(sf::Vector2f( (m_worldStart + m_width / 2), m_height / 2) );
 
-	if (player->getPosition().x < (-(m_width*4) + m_width / 2) || player->getPosition().x > ((m_width * 5) - m_width / 2))
+	if (player->getPosition().x < (m_worldStart + (m_width / 2)) || player->getPosition().x > (m_worldEnd - (m_width / 2)))
 		m_view.setCenter(m_view.getCenter());
 	else
 		m_view.setCenter(sf::Vector2f(player->getPosition().x, m_height / 2));

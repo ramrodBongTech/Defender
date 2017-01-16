@@ -6,7 +6,7 @@
 class Camera
 {
 public:
-	Camera(float width, float height);
+	Camera(float width, float height, int worldStart, int worldEnd);
 	~Camera();
 
 	void update(sf::RenderWindow &window);
@@ -21,6 +21,9 @@ public:
 private:
 	int			m_width;
 	int			m_height;
+
+	int			m_worldStart;
+	int			m_worldEnd;
 
 	sf::View	m_view;
 	sf::Sprite	m_sprite;

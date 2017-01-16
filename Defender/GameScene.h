@@ -24,8 +24,10 @@ private:
 	Camera*		m_cam;
 
 	vector<Astronaut>	m_astronauts;
-	void InitialiseAstronauts(int screenWidth, int screenHeight);
-	void WrapAround();
+	void InitialiseAstronauts(int screenHeight);
+
+	int m_gameWorldStart;
+	int m_gameWorldEnd;
 };
 
 #endif

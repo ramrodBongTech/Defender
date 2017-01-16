@@ -8,7 +8,7 @@ class Astronaut : public GameEntity
 {
 public:
 	Astronaut();
-	Astronaut(sf::Vector2f position, int direction);
+	Astronaut(sf::Vector2f position, int direction, int gameWorldStart, int gameWorldEnd);
 	~Astronaut();
 
 	void update(float dt);
@@ -16,15 +16,28 @@ public:
 	
 
 private:
-	void Wander();
+	enum State {
+		WANDER,
+		EVADE,
+		PAUSE,
+	};
+	State m_state;
+	void Wander(float dt);
+	void Pause(float dt);
 	void Evade();
 	void WrapAround();
+
+	float m_elapsedWanderTime;
+	float m_elapsedPauseTime;
 
 	float	m_velocity;
 	float	m_direction;
 	float	m_speed;
 
-	bool	isEnemyDetected();
+	bool	enemyDetected();
+
+	int			m_worldStart;
+	int			m_worldEnd;
 
 	sf::Texture*	m_texLeft;
 	sf::Texture*	m_texRight;

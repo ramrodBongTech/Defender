@@ -3,9 +3,11 @@
 
 GameScene::GameScene(int width, int height) : Scene("Game")
 {
-	m_player = new Player();
-	m_cam = new Camera(width, height);
-	InitialiseAstronauts(width, height);
+	m_gameWorldStart = -(width * 4);
+	m_gameWorldEnd = width * 5;
+	m_player = new Player(0.1, sf::Vector2f(400, 300), m_gameWorldStart, m_gameWorldEnd);
+	m_cam = new Camera(width, height, m_gameWorldStart, m_gameWorldEnd);
+	InitialiseAstronauts(height);
 }
 
 GameScene::~GameScene()
@@ -30,25 +32,18 @@ void GameScene::draw(sf::RenderWindow& window)
 		m_astronauts.at(i).draw(window);
 }
 
-void GameScene::InitialiseAstronauts(int screenWidth, int screenHeight) 
+void GameScene::InitialiseAstronauts(int screenHeight) 
 {
 	const int _NUMBEROFASTRONAUTS = 10;
 	for (int i = 0; i < _NUMBEROFASTRONAUTS; i++)
 	{
-		int _positionMultiplier = rand() % 7 + (-3);
-
-		sf::Vector2f _position((rand() % screenWidth) * _positionMultiplier, 0.9 * screenHeight);
+		sf::Vector2f _position(rand() % ( (- m_gameWorldStart )+ m_gameWorldEnd) + (m_gameWorldStart), 0.9 * screenHeight);
 
 		int _direction = rand() % 2;
 		if (_direction == 0) _direction = -1;
 
-		Astronaut _astro(_position, _direction);
+		Astronaut _astro(_position, _direction, m_gameWorldStart, m_gameWorldEnd);
 		m_astronauts.push_back(_astro);
 		cout << m_astronauts.at(i).getPosition().x << endl;
 	}
-}
-
-void GameScene::WrapAround() 
-{
-
 }
