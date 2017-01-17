@@ -23,28 +23,6 @@ m_texRight(&AssetLoader::getInstance()->m_playerRight)
 	}
 }
 
-Player::Player(float speed, sf::Vector2f pos) : GameEntity(),
-m_speed(speed),
-m_firingDelay(2.0f),
-m_maxFiringDelay(2.0f),
-m_direction(sf::Vector2f(-1, 0)),
-m_acceleration(sf::Vector2f(0.0f, 0.0f)),
-m_velocity(sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y))),
-m_texLeft(&AssetLoader::getInstance()->m_playerLeft),
-m_texRight(&AssetLoader::getInstance()->m_playerRight)
-{
-	m_position = pos;
-
-	m_sprite.setTexture(*m_texLeft);
-	m_sprite.setPosition(m_position);
-	m_sprite.setOrigin(m_texLeft->getSize().x / 2, m_texLeft->getSize().y / 2);
-
-	while (m_bullets.size() < MAX_BULLETS)
-	{
-		m_bullets.push_back(new Bullet());
-	}
-}
-
 Player::~Player()
 {
 	m_texLeft = nullptr;

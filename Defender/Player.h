@@ -8,7 +8,6 @@
 class Player : public GameEntity {
 public:
 	Player();
-	Player(float speed, sf::Vector2f pos);
 	~Player();
 
 	void update(float dt);

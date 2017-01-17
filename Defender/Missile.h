@@ -10,7 +10,6 @@ public:
 	~Missile();
 
 	void update(float dt);
-	void update(float dt, sf::Vector2f& targetPos);
 	void draw(sf::RenderWindow& window);
 
 	int getRadius();
