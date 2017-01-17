@@ -4,11 +4,14 @@
 GameScene::GameScene(int width, int height) : Scene("Game"),
 m_width(width),
 m_height(height),
-m_player(new Player()),
-m_cam(new Camera(width, height)),
+m_gameWorldStart(-(width * 4)),
+m_gameWorldEnd(width * 5),
 m_ground(sf::VertexArray(sf::PrimitiveType::LineStrip, 10))
 {
+	m_player = new Player();
+	m_cam = new Camera(width, height, m_gameWorldStart, m_gameWorldEnd);
 	createGround();
+	InitialiseAstronauts(height);
 }
 
 GameScene::~GameScene()
@@ -29,6 +32,9 @@ void GameScene::update(float dt)
 		m_player->setVelocity(sf::Vector2f(0, 0));
 		m_player->setAcceleration(sf::Vector2f(0, 0));
 	}
+
+	for (int i = 0; i < m_astronauts.size(); i++)
+		m_astronauts.at(i).update(dt);
 }
 
 void GameScene::draw(sf::RenderWindow& window)
@@ -36,6 +42,8 @@ void GameScene::draw(sf::RenderWindow& window)
 	window.draw(m_ground);
 	m_player->draw(window);
 	m_cam->draw(window);
+	for (int i = 0; i < m_astronauts.size(); i++)
+		m_astronauts.at(i).draw(window);
 }
 
 void GameScene::createGround()
@@ -135,6 +143,20 @@ bool GameScene::groundCollision()
 			break;
 		}
 	}
-
 	return true;
+}
+
+void GameScene::InitialiseAstronauts(int screenHeight) 
+{
+	const int _NUMBEROFASTRONAUTS = 10;
+	for (int i = 0; i < _NUMBEROFASTRONAUTS; i++)
+	{
+		sf::Vector2f _position(rand() % ( (- m_gameWorldStart )+ m_gameWorldEnd) + (m_gameWorldStart), 0.9 * screenHeight);
+
+		int _direction = rand() % 2;
+		if (_direction == 0) _direction = -1;
+
+		Astronaut _astro(_position, _direction, m_gameWorldStart, m_gameWorldEnd);
+		m_astronauts.push_back(_astro);
+	}
 }

@@ -25,58 +25,28 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include "SceneManager.h"
+#include "Game.h"
 
 ////////////////////////////////////////////////////////////
 ///Entrypoint of application 
 //////////////////////////////////////////////////////////// 
 
-SceneManager* sceneMgr;
-sf::Clock myClock;
-
 int main()
 {
 	srand(time(NULL));
-	// Create the main window 
-	sf::RenderWindow window(sf::VideoMode(800, 600, 32), "Defender");
-	window.setFramerateLimit(60);
 
-	sceneMgr = new SceneManager(window.getSize().x, window.getSize().y);
-	sf::Time time;
+	Game* game = new Game();
+	game->Initialise();
 
 	// Start game loop 
-	while (window.isOpen())
+	while (game->IsRunning())
 	{
-		time = myClock.restart();
-
-		// Process events 
-		sf::Event Event;
-		while (window.pollEvent(Event))
-		{
-			// Close window : exit 
-			if (Event.type == sf::Event::Closed)
-				window.close();
-
-			// Escape key : exit 
-			if ((Event.type == sf::Event::KeyPressed) && (Event.key.code == sf::Keyboard::Escape))
-				window.close();
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sceneMgr->getCurrentScene()->getTitle() == "Menu")
-				sceneMgr->nextScene();
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && sceneMgr->getCurrentScene()->getTitle() == "GameOver")
-				sceneMgr->previousScene();
-		}
-
-		sceneMgr->update(time.asSeconds());
-
-		//prepare frame
-		window.clear();
-
-		sceneMgr->draw(window);
-
-		// Finally, display rendered frame on screen 
-		window.display();
+		game->Update();
+		game->Draw();
+		game->CheckInput();
 	} //loop back for next frame
+
+	delete game;
 
 	return EXIT_SUCCESS;
 }

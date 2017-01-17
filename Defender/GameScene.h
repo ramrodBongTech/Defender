@@ -4,7 +4,12 @@
 #include "stdafx.h"
 #include "Scene.h"
 #include "Player.h"
+#include "Astronaut.h"
 #include "Camera.h"
+
+#include <vector>
+
+using namespace std;
 
 class GameScene : public Scene {
 public:
@@ -17,13 +22,20 @@ public:
 private:
 	float									m_width;
 	float									m_height;
-	Player*									m_player;
-	Camera*									m_cam;
 
 	sf::VertexArray							m_ground;
 
 	void createGround();
 	bool groundCollision();
+
+	Player*		m_player;
+	Camera*		m_cam;
+
+	vector<Astronaut>	m_astronauts;
+	void InitialiseAstronauts(int screenHeight);
+
+	int m_gameWorldStart;
+	int m_gameWorldEnd;
 };
 
 #endif

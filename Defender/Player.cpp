@@ -19,7 +19,7 @@ m_bullets(std::vector<Bullet*>(100, nullptr))
 	m_sprite.setOrigin(m_texLeft->getSize().x / 2, m_texLeft->getSize().y / 2);
 }
 
-/*Player::Player(float speed, sf::Vector2f pos) : GameEntity()
+Player::Player(float speed, sf::Vector2f pos) : GameEntity()
 {
 	m_position = pos;
 	m_speed = speed;
@@ -37,7 +37,7 @@ m_bullets(std::vector<Bullet*>(100, nullptr))
 	m_firingDelay = 0;
 	m_maxFiringDelay = 50.0f;
 	m_bullets = std::vector<Bullet*>(100, nullptr);
-}*/
+}
 
 Player::~Player()
 {
@@ -58,12 +58,11 @@ void Player::update(float dt)
   	m_firingDelay += dt;
 
 	processInput();
-
 	m_position += m_velocity;
 	m_sprite.setPosition(m_position);
 
 	updateBullets(dt);
-
+	std::cout << m_position.x << std::endl;
 	wrapAround();
 }
 
@@ -103,7 +102,6 @@ void Player::moveLeft()
 	m_sprite.setTexture(*m_texLeft);
 	if (m_acceleration.x < MAX_SPEED)
 		m_acceleration.x += m_speed;
-
 }
 
 void Player::moveRight()
@@ -184,12 +182,12 @@ void Player::wrapAround()
 {
 	if (m_position.y > 600 - m_texLeft->getSize().y)
 		m_position.y = 600 - m_texLeft->getSize().y;
-	if (m_position.y < m_texLeft->getSize().y)
+	else if (m_position.y < m_texLeft->getSize().y)
 		m_position.y = m_texLeft->getSize().y;
 }
 
 void Player::setVelocity(sf::Vector2f vel) { m_velocity = vel; }
-
 void Player::setAcceleration(sf::Vector2f accel) { m_acceleration = accel; }
 
 float Player::getWidth() { return m_texLeft->getSize().x / 2; }
+sf::Vector2f Player::getVelocity() { return m_velocity; }

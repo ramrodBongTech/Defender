@@ -8,12 +8,13 @@
 class Player : public GameEntity {
 public:
 	Player();
-	//Player(float speed, sf::Vector2f pos);
+	Player(float speed, sf::Vector2f pos);
 	~Player();
 
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
 
+	sf::Vector2f getVelocity();
 	void setVelocity(sf::Vector2f vel);
 	void setAcceleration(sf::Vector2f accel);
 
@@ -43,6 +44,6 @@ private:
 
 	std::vector<Bullet*>	m_bullets;
 
-	const float				MAX_SPEED = 6.0f;
+	const float		MAX_SPEED = 6.0f;
 };
 #endif
