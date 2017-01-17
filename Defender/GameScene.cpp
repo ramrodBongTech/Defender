@@ -6,10 +6,10 @@ m_width(width),
 m_height(height),
 m_gameWorldStart(-(width * 4)),
 m_gameWorldEnd(width * 5),
+m_player(new Player()),
+m_cam(new Camera(width, height, m_gameWorldStart, m_gameWorldEnd)),
 m_ground(sf::VertexArray(sf::PrimitiveType::LineStrip, 10))
 {
-	m_player = new Player();
-	m_cam = new Camera(width, height, m_gameWorldStart, m_gameWorldEnd);
 	createGround();
 	InitialiseAstronauts(height);
 }
@@ -39,57 +39,19 @@ void GameScene::update(float dt)
 
 void GameScene::draw(sf::RenderWindow& window)
 {
+	m_cam->draw(window);
 	window.draw(m_ground);
 	m_player->draw(window);
-	m_cam->draw(window);
 	for (int i = 0; i < m_astronauts.size(); i++)
 		m_astronauts.at(i).draw(window);
 }
 
 void GameScene::createGround()
 {
-	int _randY = (rand() % 200) + 300;
-
-	m_ground[0].position = sf::Vector2f(-(m_width * 4), _randY);
-
-	_randY = (rand() % 200) + 300;
-
-	m_ground[1].position = sf::Vector2f(-(m_width * 3), _randY);
-
-	_randY = (rand() % 200) + 300;
-
-	m_ground[2].position = sf::Vector2f(-(m_width * 2), _randY);
-
-	_randY = (rand() % 200) + 300;
-
-	m_ground[3].position = sf::Vector2f(-(m_width), _randY);
-
-	_randY = (rand() % 200) + 300;
-
-	m_ground[4].position = sf::Vector2f(0, _randY);
-
-	_randY = (rand() % 200) + 300;
-
-	m_ground[5].position = sf::Vector2f(m_width, _randY);
-
-	_randY = (rand() % 200) + 300;
-
-	m_ground[6].position = sf::Vector2f(m_width * 2, _randY);
-
-	_randY = (rand() % 200) + 300;
-
-	m_ground[7].position = sf::Vector2f(m_width * 3, _randY);
-
-	_randY = (rand() % 200) + 300;
-
-	m_ground[8].position = sf::Vector2f(m_width * 4, _randY);
-
-	_randY = (rand() % 200) + 300;
-
-	m_ground[9].position = sf::Vector2f(m_width * 5, _randY);
-
 	for (int i = 0; i < m_ground.getVertexCount(); i++)
 	{
+		int _randY = (rand() % 200) + 300;
+		m_ground[i].position = sf::Vector2f(m_gameWorldStart + (m_width * i), _randY);
 		m_ground[i].color = sf::Color::Yellow;
 	}
 }
@@ -98,10 +60,10 @@ bool GameScene::groundCollision()
 {
 	std::vector<sf::Vector2f> _playerPoints;
 
-	_playerPoints.push_back(sf::Vector2f(m_player->getPosition().x - m_player->getWidth(), m_player->getPosition().y - m_player->getWidth()));
-	_playerPoints.push_back(sf::Vector2f(m_player->getPosition().x + m_player->getWidth(), m_player->getPosition().y - m_player->getWidth()));
-	_playerPoints.push_back(sf::Vector2f(m_player->getPosition().x - m_player->getWidth(), m_player->getPosition().y + m_player->getWidth()));
-	_playerPoints.push_back(sf::Vector2f(m_player->getPosition().x + m_player->getWidth(), m_player->getPosition().y + m_player->getWidth()));
+	_playerPoints.push_back(sf::Vector2f(m_player->getPosition().x - m_player->getWidth(), m_player->getPosition().y - m_player->getHeight()));
+	_playerPoints.push_back(sf::Vector2f(m_player->getPosition().x + m_player->getWidth(), m_player->getPosition().y - m_player->getHeight()));
+	_playerPoints.push_back(sf::Vector2f(m_player->getPosition().x - m_player->getWidth(), m_player->getPosition().y + m_player->getHeight()));
+	_playerPoints.push_back(sf::Vector2f(m_player->getPosition().x + m_player->getWidth(), m_player->getPosition().y + m_player->getHeight()));
 
 	for (int i = 0; i < m_ground.getVertexCount() - 1; i++)
 	{

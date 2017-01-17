@@ -19,6 +19,7 @@ public:
 	void setAcceleration(sf::Vector2f accel);
 
 	float getWidth();
+	float getHeight();
 
 private:
 	void processInput();
@@ -32,18 +33,19 @@ private:
 	void updateBullets(float dt);
 	void wrapAround();
 
-	sf::Vector2f			m_direction;
-	sf::Vector2f			m_velocity;
-	sf::Vector2f			m_acceleration;
 	float					m_speed;
 	float					m_firingDelay;
 	float					m_maxFiringDelay;
+	sf::Vector2f			m_direction;
+	sf::Vector2f			m_acceleration;
+	sf::Vector2f			m_velocity;
 
 	sf::Texture*			m_texLeft = nullptr;
 	sf::Texture*			m_texRight = nullptr;
 
 	std::vector<Bullet*>	m_bullets;
 
-	const float		MAX_SPEED = 6.0f;
+	const int		MAX_SPEED = 6.0f;
+	const int		MAX_BULLETS = 100;
 };
 #endif

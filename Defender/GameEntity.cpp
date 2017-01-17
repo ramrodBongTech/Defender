@@ -3,7 +3,7 @@
 
 GameEntity::GameEntity() :
 m_alive(false),
-m_position(sf::Vector2f()),
+m_position(sf::Vector2f(-999999, -999999)),
 m_sprite(sf::Sprite())
 {}
 

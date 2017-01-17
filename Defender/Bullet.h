@@ -34,8 +34,8 @@ private:
 
 	sf::Color			m_color;
 
-	const float			MAX_TTL = 50.0f;
-	const float			MAX_SPEED = 12.0f;
+	const int			MAX_TTL = 5;
+	const int			MAX_SPEED = 12;
 
 	void setSprite();
 	void checkBorder();

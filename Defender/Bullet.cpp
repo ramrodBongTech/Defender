@@ -9,7 +9,7 @@ m_radius(0),
 m_damage(1),
 m_color(sf::Color::Red)
 {
-	m_sprite = sf::Sprite(AssetLoader::getInstance()->m_bullet);
+	m_sprite.setTexture(AssetLoader::getInstance()->m_bullet);
 	m_radius = m_sprite.getTexture()->getSize().y / 2;
 
 	setSprite();
@@ -26,7 +26,7 @@ void Bullet::update(float dt)
 
 		m_ttl += dt;
 
-		if (sf::milliseconds(m_ttl) >= sf::milliseconds(5.0f))
+		if (sf::milliseconds(m_ttl) >= sf::milliseconds(MAX_TTL))
 			reset();
 
 		checkBorder();
@@ -63,7 +63,7 @@ void Bullet::reset()
 {
 	m_direction = sf::Vector2f(0, 0);
 	m_velocity = sf::Vector2f(0, 0);
-	m_position = sf::Vector2f(-9999, -9999);
+	m_position = sf::Vector2f(-99999, -99999);
 	m_ttl = 0;
 	m_alive = false;
 }
