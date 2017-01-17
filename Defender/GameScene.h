@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Astronaut.h"
 #include "Camera.h"
+#include "AlienNest.h"
 
 #include <vector>
 
@@ -20,14 +21,22 @@ public:
 	void draw(sf::RenderWindow& window);
 
 private:
+	float				m_width;
+	float				m_height;
+	int					m_gameWorldStart;
+	int					m_gameWorldEnd;
+
+	sf::VertexArray		m_ground;
+
 	Player*		m_player;
 	Camera*		m_cam;
+	AlienNest*	m_nest;
+
+	void createGround();
+	bool groundCollision();
 
 	vector<Astronaut>	m_astronauts;
 	void InitialiseAstronauts(int screenHeight);
-
-	int m_gameWorldStart;
-	int m_gameWorldEnd;
 };
 
 #endif

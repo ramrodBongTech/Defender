@@ -26,15 +26,9 @@ SceneManager::~SceneManager()
 	}
 }
 
-void SceneManager::update(float dt)
-{
-	m_currScene->update(dt);
-}
+void SceneManager::update(float dt) { m_currScene->update(dt); }
 
-void SceneManager::draw(sf::RenderWindow& window)
-{
-	m_currScene->draw(window);
-}
+void SceneManager::draw(sf::RenderWindow& window) { m_currScene->draw(window); }
 
 void SceneManager::switchScene(std::string name)
 {
@@ -114,10 +108,7 @@ void SceneManager::previousScene()
 	}
 }
 
-Scene* SceneManager::getCurrentScene()
-{
-	return m_currScene;
-}
+Scene* SceneManager::getCurrentScene() { return m_currScene; }
 
 void SceneManager::addScene(Scene* scene)
 {

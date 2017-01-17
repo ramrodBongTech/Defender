@@ -19,7 +19,7 @@ void Game::Initialise() {
 
 void Game::Update() {
 	m_time = m_clock.restart();
-	m_sceneMgr->update(m_time.asMilliseconds());
+	m_sceneMgr->update(m_time.asSeconds());
 }
 
 void Game::Draw() {
