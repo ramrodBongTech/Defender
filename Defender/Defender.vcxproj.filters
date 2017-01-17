@@ -17,6 +17,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Missile.cpp" />
+    <ClCompile Include="AlienNest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetLoader.h" />
@@ -35,6 +36,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Missile.h" />
+    <ClInclude Include="AlienNest.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

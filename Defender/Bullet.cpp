@@ -90,14 +90,14 @@ void Bullet::setSprite()
 
 void Bullet::checkBorder()
 {
-	if (m_position.x + m_radius <= -3200)
+	if (m_position.x + m_radius <= -4800)
 	{				// From left to right
-		m_position.x = 4000;
+		m_position.x = 6000;
 		m_sprite.setPosition(m_position);
 	}
-	if (m_position.x - m_radius >= 4000)
+	if (m_position.x - m_radius >= 6000)
 	{				// From right to left
-		m_position.x = -3200;
+		m_position.x = -4800;
 		m_sprite.setPosition(m_position);
 	}
 }

@@ -19,9 +19,7 @@ m_player(player)
 
 Missile::~Missile() {}
 
-void Missile::update(float dt) {}
-
-void Missile::update(float dt, sf::Vector2f& targetPos)
+void Missile::update(float dt) 
 {
 	if (m_alive)
 	{
@@ -33,7 +31,7 @@ void Missile::update(float dt, sf::Vector2f& targetPos)
 			m_acceleration.y += m_speed;
 		}
 
-		track(targetPos);
+		track();
 		updatePosition();
 
 		if (sf::milliseconds(m_ttl) >= sf::milliseconds(MAX_TTL))
@@ -43,7 +41,8 @@ void Missile::update(float dt, sf::Vector2f& targetPos)
 
 void Missile::draw(sf::RenderWindow& window)
 {
-	window.draw(m_sprite);
+	if(m_alive)
+		window.draw(m_sprite);
 }
 
 int Missile::getRadius() { return m_radius; }
@@ -56,9 +55,9 @@ void Missile::updatePosition()
 	m_sprite.setPosition(m_position);
 }
 
-void Missile::track(sf::Vector2f& targetPos)
+void Missile::track()
 {
-	m_direction = targetPos - m_position;
+	m_direction = m_player->getPosition() - m_position;
 	normalize(m_direction);
 	m_velocity = sf::Vector2f(m_direction.x * m_acceleration.x, m_direction.y * m_acceleration.y);
 
@@ -73,6 +72,7 @@ void Missile::explode()
 void Missile::reset()
 {
 	m_direction = sf::Vector2f(0, 0);
+	m_acceleration = sf::Vector2f(0, 0);
 	m_velocity = sf::Vector2f(0, 0);
 	m_position = sf::Vector2f(-9999, -9999);
 	m_ttl = 0;

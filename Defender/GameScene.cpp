@@ -8,6 +8,7 @@ m_gameWorldStart(-(width * 4)),
 m_gameWorldEnd(width * 5),
 m_player(new Player()),
 m_cam(new Camera(width, height, m_gameWorldStart, m_gameWorldEnd)),
+m_nest(new AlienNest(m_player)),
 m_ground(sf::VertexArray(sf::PrimitiveType::LineStrip, 10))
 {
 	createGround();
@@ -20,6 +21,8 @@ GameScene::~GameScene()
 	m_player = nullptr;
 	delete m_cam;
 	m_cam = nullptr;
+	delete m_nest;
+	m_nest = nullptr;
 }
 
 void GameScene::update(float dt)
@@ -35,6 +38,8 @@ void GameScene::update(float dt)
 
 	for (int i = 0; i < m_astronauts.size(); i++)
 		m_astronauts.at(i).update(dt);
+
+	m_nest->update(dt);
 }
 
 void GameScene::draw(sf::RenderWindow& window)
@@ -44,6 +49,7 @@ void GameScene::draw(sf::RenderWindow& window)
 	m_player->draw(window);
 	for (int i = 0; i < m_astronauts.size(); i++)
 		m_astronauts.at(i).draw(window);
+	m_nest->draw(window);
 }
 
 void GameScene::createGround()

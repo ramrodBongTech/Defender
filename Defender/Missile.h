@@ -29,7 +29,7 @@ private:
 	Player*				m_player;
 
 	void updatePosition();
-	void track(sf::Vector2f& targetPos);
+	void track();
 	void explode();
 	void reset();
 	void getNewOrientation();

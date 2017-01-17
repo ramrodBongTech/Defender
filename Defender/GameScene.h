@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Astronaut.h"
 #include "Camera.h"
+#include "AlienNest.h"
 
 #include <vector>
 
@@ -29,6 +30,7 @@ private:
 
 	Player*		m_player;
 	Camera*		m_cam;
+	AlienNest*	m_nest;
 
 	void createGround();
 	bool groundCollision();
