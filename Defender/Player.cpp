@@ -11,7 +11,7 @@ m_velocity(sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_a
 m_texLeft(&AssetLoader::getInstance()->m_playerLeft),
 m_texRight(&AssetLoader::getInstance()->m_playerRight)
 {
-	m_position = sf::Vector2f(400, 300);
+	m_position = sf::Vector2f(5400, 300);
 	
 	m_sprite.setTexture(*m_texLeft);
 	m_sprite.setPosition(m_position);
@@ -43,7 +43,6 @@ void Player::update(float dt)
 	m_sprite.setPosition(m_position);
 
 	updateBullets(dt);
-	std::cout << "dt: " + std::to_string(m_firingDelay) << std::endl;
 	wrapAround();
 }
 

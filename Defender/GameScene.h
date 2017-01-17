@@ -1,7 +1,6 @@
 #ifndef GAMESCENE_H
 #define GAMESCENE_H
 
-#include "stdafx.h"
 #include "Scene.h"
 #include "Player.h"
 #include "Astronaut.h"
@@ -28,15 +27,20 @@ private:
 
 	sf::VertexArray		m_ground;
 
-	Player*		m_player;
-	Camera*		m_cam;
-	AlienNest*	m_nest;
+	Player*				m_player;
+	Camera*				m_cam;
+	vector<AlienNest*>	m_nests;
+	sf::Sprite			m_radarSprite;
 
 	void createGround();
+	void createNests();
 	bool groundCollision();
+	void drawRadar(sf::RenderWindow& window);
 
 	vector<Astronaut>	m_astronauts;
 	void InitialiseAstronauts(int screenHeight);
+
+	const int MAX_NUMBER_NESTS = 5;
 };
 
 #endif

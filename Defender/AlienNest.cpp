@@ -11,7 +11,7 @@ m_texLeft(&AssetLoader::getInstance()->m_alienNestLeft),
 m_texRight(&AssetLoader::getInstance()->m_alienNestRight),
 m_player(player)
 {
-	m_position = sf::Vector2f(100, 100);
+	m_position = sf::Vector2f(rand() % 10800, rand() % 300);
 	m_alive = true;
 	m_sprite.setTexture(*m_texLeft);
 	m_sprite.setPosition(m_position);

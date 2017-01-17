@@ -17,6 +17,7 @@ public:
 
 	bool getAlive();
 	sf::Vector2f getPosition();
+	sf::Sprite* getSprite();
 
 	void setAlive(bool alive);
 	void setPosition(sf::Vector2f pos);

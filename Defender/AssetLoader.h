@@ -1,7 +1,6 @@
 #ifndef ASSETLOADER_H
 #define ASSETLOADER_H
 
-#include "stdafx.h"
 #include "SFML/Graphics.hpp" 
 #include "SFML/OpenGL.hpp" 
 #include <iostream> 
