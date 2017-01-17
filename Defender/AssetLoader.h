@@ -19,6 +19,7 @@ public:
 	sf::Texture		m_playerRight;
 
 	sf::Texture		m_bullet;
+	sf::Texture		m_missile;
 
 	sf::Texture		m_background;
 

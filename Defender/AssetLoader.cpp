@@ -34,6 +34,10 @@ void AssetLoader::loadTextures()
 	if (!m_bullet.loadFromFile("Assets/Textures/bullet.png"))
 		std::cout << "Bullet image not loading" << std::endl;
 
+	// Load in the missile texture
+	if (!m_missile.loadFromFile("Assets/Textures/missile.png"))
+		std::cout << "Missile image not loading" << std::endl;
+
 	// Load in the astronaut textures
 	if (!m_astronautLeft.loadFromFile("Assets/Textures/astronautLeft.png"))
 		std::cout << "AstronautLeft image not loading" << std::endl;
