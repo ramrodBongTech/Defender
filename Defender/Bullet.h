@@ -1,12 +1,6 @@
 #ifndef BULLET_H
 #define BULLET_H
 
-#include "SFML/Graphics.hpp" 
-#include "SFML/OpenGL.hpp" 
-#include <iostream> 
-#define _USE_MATH_DEFINES
-#include <math.h>
-
 #include "GameEntity.h"
 
 class Bullet: public GameEntity {

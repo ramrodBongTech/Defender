@@ -9,7 +9,7 @@ Camera::Camera(float width, float height, int worldStart, int worldEnd):
 	m_sprite(AssetLoader::getInstance()->m_background)
 {
 	m_sprite.setPosition(m_worldStart, 0);
-	m_sprite.scale(13.5, 1);
+	m_sprite.scale(9, 1);
 
 	m_view.setSize(m_width, m_height);
 	m_view.setCenter(sf::Vector2f(m_width / 2, m_height / 2));
@@ -20,7 +20,7 @@ Camera::~Camera() { }
 void Camera::draw(sf::RenderWindow& window)
 {
 	window.setView(m_view);
-	window.draw(m_sprite);
+	//window.draw(m_sprite);
 }
 
 void Camera::update(sf::RenderWindow& window) { window.setView(m_view); }

@@ -1,7 +1,6 @@
 #ifndef GAMEOVERSCENE_H
 #define GAMEOVERSCENE_H
 
-#include "stdafx.h"
 #include "Scene.h"
 
 class GameOverScene : public Scene {

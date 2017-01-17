@@ -1,6 +1,6 @@
-#include "SFML/Graphics.hpp"  
-#include "SFML/OpenGL.hpp" 
-#include <iostream> 
+#ifndef CAMERA_H
+#define CAMERA_H
+
 #include "Player.h"
 
 class Camera
@@ -28,3 +28,4 @@ private:
 	sf::Sprite	m_sprite;
 };
 
+#endif

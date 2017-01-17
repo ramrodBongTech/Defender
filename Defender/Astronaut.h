@@ -1,7 +1,6 @@
 #ifndef ASTRONAUT_H
 #define ASTRONAUT_h
 
-#include "stdafx.h"
 #include "GameEntity.h"
 
 class Astronaut : public GameEntity 
