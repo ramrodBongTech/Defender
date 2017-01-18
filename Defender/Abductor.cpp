@@ -7,6 +7,7 @@ m_firingDelay(3.0f),
 m_direction(sf::Vector2f(-1,0)),
 m_velocity(sf::Vector2f((m_direction.x * m_speed), (m_direction.y * m_speed))),
 m_abductorCaught(false),
+m_damage(10),
 m_texLeft(&AssetLoader::getInstance()->m_abductorLeft),
 m_texRight(&AssetLoader::getInstance()->m_abductorRight),
 m_astronauts(astros),
@@ -57,7 +58,15 @@ void Abductor::reset()
 	m_alive = false;
 	m_position = sf::Vector2f(99999, 99999);
 	m_sprite.setPosition(m_position);
+	if (m_abductorCaught)
+	{
+		m_abductorCaught = false;
+		m_caughtAstro->setState(Astro::State::FALL);
+		m_caughtAstro = nullptr;
+	}
 }
+
+int Abductor::getDamage() { return m_damage; }
 
 void Abductor::updatePosition() 
 {

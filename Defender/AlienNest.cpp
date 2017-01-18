@@ -86,6 +86,7 @@ void AlienNest::spawnAbductor()
 		_abductor->setPosition(m_position);
 		_abductor->setAlive(true);
 	}
+	m_abductorDelay = 0;
 }
 
 void AlienNest::wander()

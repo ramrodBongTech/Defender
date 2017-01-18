@@ -9,7 +9,7 @@
 class CollisionManager
 {
 public:
-	CollisionManager(Player* player, std::vector<PowerUp>* powerUps, std::vector<Bullet>* bullets, std::vector<Missile>* missiles, std::vector<AlienNest>* nests);
+	CollisionManager(Player* player, std::vector<PowerUp>* powerUps, std::vector<Bullet>* bullets, std::vector<Missile>* missiles, std::vector<AlienNest>* nests, std::vector<Abductor>* abductors);
 	~CollisionManager();
 
 	void update();
@@ -20,6 +20,7 @@ private:
 	std::vector<Bullet>*			m_bullets;
 	std::vector<Missile>*			m_missiles;
 	std::vector<AlienNest>*			m_nests;
+	std::vector<Abductor>*			m_abductors;
 	//std::vector<Astro>*			m_astronauts;
 
 	bool collide(sf::Sprite* s1, sf::Sprite* s2);

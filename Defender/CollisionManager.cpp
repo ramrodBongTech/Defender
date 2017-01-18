@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "CollisionManager.h"
 
-CollisionManager::CollisionManager(Player* player, std::vector<PowerUp>* powerUps, std::vector<Bullet>* bullets, std::vector<Missile>* missiles, std::vector<AlienNest>* nests):
+CollisionManager::CollisionManager(Player* player, std::vector<PowerUp>* powerUps, std::vector<Bullet>* bullets, std::vector<Missile>* missiles, std::vector<AlienNest>* nests, std::vector<Abductor>* abductors):
 m_player(player),
 m_powerUps(powerUps),
 m_bullets(bullets),
 m_missiles(missiles),
-m_nests(nests)
+m_nests(nests),
+m_abductors(abductors)
 {}
 
 CollisionManager::~CollisionManager() {}
@@ -99,6 +100,20 @@ void CollisionManager::Player_Nest_Collision()
 	}
 }
 
-void CollisionManager::Player_Abductor_Collision() {}
+void CollisionManager::Player_Abductor_Collision() 
+{
+	for (int i = 0; i < m_abductors->size(); i++)
+	{
+		Abductor* _a = &m_abductors->at(i);
+		if (_a->getAlive())
+		{
+			if (collide(_a->getSprite(), m_player->getSprite()))
+			{
+				m_player->takeDamage(_a->getDamage());
+				_a->reset();
+			}
+		}
+	}
+}
 
 void CollisionManager::Player_Mutant_Collision() {}
