@@ -5,21 +5,29 @@
 #include "BulletManager.h"
 #include "Astro.h"
 #include "Player.h"
+#include <vector>
+
+using namespace std;
 
 class Abductor : public GameEntity {
 public:
 	Abductor(Player* player, std::vector<Astro>* astros, BulletManager* bulletManager);
 	~Abductor();
 
+	void Flock(vector<Abductor> abductors);
+
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
 
+	sf::Vector2f GetVelocity();
 private:
 	float						m_speed;
 	float						m_firingDelay;
 	sf::Vector2f				m_direction;
 	sf::Vector2f				m_velocity;
+	sf::Vector2f				m_acceleration;
 	bool						m_abductorCaught;
+	const int					MAX_SPEED = 5.f;
 
 	std::vector<Astro>*			m_astronauts;
 	Player*						m_player;
@@ -27,6 +35,13 @@ private:
 
 	sf::Texture*				m_texLeft;
 	sf::Texture*				m_texRight;
+
+	sf::Vector2f Separation(vector<Abductor> abductors);
+	sf::Vector2f Alignment(vector<Abductor> abductors);
+	sf::Vector2f Cohesion(vector<Abductor> abductors);
+
+	sf::Vector2f Seek(sf::Vector2f v);
+	sf::Vector2f normalize(sf::Vector2f v);
 
 	void updatePosition();
 	void chase();
