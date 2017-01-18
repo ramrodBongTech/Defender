@@ -19,8 +19,6 @@ public:
 
 	Scene* getCurrentScene();
 
-	void addScene(Scene* scene);
-
 private:
 	Scene*					m_currScene;
 	std::vector<Scene*>		m_scenes;

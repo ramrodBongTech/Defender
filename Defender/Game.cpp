@@ -2,9 +2,9 @@
 #include "Game.h"
 
 Game::Game() : m_running(false),
-	m_window(sf::VideoMode(1200, 600, 32), "Defender") {
-
-}
+m_window(sf::VideoMode(1200, 600, 32), "Defender"),
+m_sceneMgr(nullptr)
+{}
 
 Game::~Game() {
 	delete m_sceneMgr;

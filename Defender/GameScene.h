@@ -3,9 +3,10 @@
 
 #include "Scene.h"
 #include "Player.h"
-#include "Astronaut.h"
+#include "Astro.h"
 #include "Camera.h"
 #include "AlienNest.h"
+#include "AbductorManager.h"
 
 #include <vector>
 
@@ -27,18 +28,19 @@ private:
 
 	sf::VertexArray		m_ground;
 
-	Player*				m_player;
-	Camera*				m_cam;
-	vector<AlienNest*>	m_nests;
+	Player				m_player;
+	Camera				m_cam;
+	vector<Astro>		m_astronauts;
+	vector<AlienNest>	m_nests;
 	sf::Sprite			m_radarSprite;
+	BulletManager		m_bulletManager;
+	AbductorManager		m_abMan;
 
 	void createGround();
 	void createNests();
 	bool groundCollision();
 	void drawRadar(sf::RenderWindow& window);
-
-	vector<Astronaut>	m_astronauts;
-	void InitialiseAstronauts(int screenHeight);
+	void InitialiseAstronauts();
 
 	const int MAX_NUMBER_NESTS = 5;
 };

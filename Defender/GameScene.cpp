@@ -7,62 +7,63 @@ m_height(height),
 m_gameWorldStart(0),
 m_gameWorldEnd(width * 9),
 m_ground(sf::VertexArray(sf::PrimitiveType::LineStrip, 10)),
-m_player(new Player()),
-m_cam(new Camera(width, height, m_gameWorldStart, m_gameWorldEnd)),
-m_radarSprite(sf::Sprite(AssetLoader::getInstance()->m_background))
+m_player(Player()),
+m_cam(Camera(width, height, m_gameWorldStart, m_gameWorldEnd)),
+m_radarSprite(sf::Sprite(AssetLoader::getInstance()->m_background)),
+m_bulletManager(BulletManager()),
+m_abMan(AbductorManager(&m_astronauts, &m_player, &m_bulletManager))
 {
 	m_radarSprite.setScale(1, 0.25);
 	createGround();
 	createNests();
-	InitialiseAstronauts(height);
+	InitialiseAstronauts();
+	m_player.setManager(&m_bulletManager);
 }
 
 GameScene::~GameScene()
-{
-	delete m_player;
-	m_player = nullptr;
-	delete m_cam;
-	m_cam = nullptr;
-	for (int i = 0; i < m_nests.size(); i++)
-	{
-		delete m_nests[i];
-		m_nests[i] = nullptr;
-	}
-}
+{}
 
 void GameScene::update(float dt)
 {
-	m_player->update(dt);
-	m_cam->move(m_player);
+	m_player.update(dt);
+	m_cam.move(&m_player);
 
 	if (groundCollision())
 	{
-		m_player->setVelocity(sf::Vector2f(0, 0));
-		m_player->setAcceleration(sf::Vector2f(0, 0));
+		m_player.setVelocity(sf::Vector2f(0, 0));
+		m_player.setAcceleration(sf::Vector2f(0, 0));
 	}
 
 	for (int i = 0; i < m_astronauts.size(); i++)
 		m_astronauts.at(i).update(dt);
 
 	for (int i = 0; i < m_nests.size(); i++)
-		m_nests.at(i)->update(dt);
+		m_nests.at(i).update(dt);
+
+	m_abMan.update(dt);
+
+	m_bulletManager.update(dt, m_player.getPosition());
 }
 
 void GameScene::draw(sf::RenderWindow& window)
 {
-	m_cam->draw(window);
+	m_cam.draw(window);
 
 	drawRadar(window);
 
 	window.draw(m_ground);
 
-	m_player->draw(window);
+	m_player.draw(window);
 
 	for (int i = 0; i < m_astronauts.size(); i++)
 		m_astronauts.at(i).draw(window);
 
 	for (int i = 0; i < m_nests.size(); i++)
-		m_nests.at(i)->draw(window);
+		m_nests.at(i).draw(window);
+
+	m_abMan.draw(window);
+
+	m_bulletManager.draw(window);
 }
 
 void GameScene::createGround()
@@ -78,24 +79,24 @@ void GameScene::createGround()
 void GameScene::createNests()
 {
 	for (int i = 0; i < MAX_NUMBER_NESTS; i++)
-		m_nests.push_back(new AlienNest(m_player));
+		m_nests.push_back(AlienNest(&m_player, &m_astronauts, &m_abMan, &m_bulletManager));
 }
 
 bool GameScene::groundCollision()
 {
 	std::vector<sf::Vector2f> _playerPoints;
 
-	_playerPoints.push_back(sf::Vector2f(m_player->getPosition().x - m_player->getWidth(), m_player->getPosition().y - m_player->getHeight()));
-	_playerPoints.push_back(sf::Vector2f(m_player->getPosition().x + m_player->getWidth(), m_player->getPosition().y - m_player->getHeight()));
-	_playerPoints.push_back(sf::Vector2f(m_player->getPosition().x - m_player->getWidth(), m_player->getPosition().y + m_player->getHeight()));
-	_playerPoints.push_back(sf::Vector2f(m_player->getPosition().x + m_player->getWidth(), m_player->getPosition().y + m_player->getHeight()));
+	_playerPoints.push_back(sf::Vector2f(m_player.getPosition().x - m_player.getWidth(), m_player.getPosition().y - m_player.getHeight()));
+	_playerPoints.push_back(sf::Vector2f(m_player.getPosition().x + m_player.getWidth(), m_player.getPosition().y - m_player.getHeight()));
+	_playerPoints.push_back(sf::Vector2f(m_player.getPosition().x - m_player.getWidth(), m_player.getPosition().y + m_player.getHeight()));
+	_playerPoints.push_back(sf::Vector2f(m_player.getPosition().x + m_player.getWidth(), m_player.getPosition().y + m_player.getHeight()));
 
 	for (int i = 0; i < m_ground.getVertexCount() - 1; i++)
 	{
 		sf::Vector2f _groundA = m_ground[i].position;
 		sf::Vector2f _groundB = m_ground[i + 1].position;
 
-		if (m_player->getPosition().x >= _groundA.x && m_player->getPosition().x <= _groundB.x)
+		if (m_player.getPosition().x >= _groundA.x && m_player.getPosition().x <= _groundB.x)
 		{
 			sf::Vector2f _B = sf::Vector2f(-(_groundB - _groundA).y, (_groundB - _groundA).x);
 			_B = _B / sqrt(_B.x * _B.x + _B.y * _B.y);
@@ -148,19 +149,28 @@ void GameScene::drawRadar(sf::RenderWindow& window)
 	window.draw(gr);
 
 	sf::RectangleShape p = sf::RectangleShape();
-	p.setPosition(sf::Vector2f((m_player->getPosition().x / 9) + screenPos.x, m_player->getPosition().y * 0.25));
-	p.setSize(sf::Vector2f(m_player->getWidth() * 0.25, m_player->getHeight() * 0.25));
+	p.setPosition(sf::Vector2f((m_player.getPosition().x / 9) + screenPos.x, m_player.getPosition().y * 0.25));
+	p.setSize(sf::Vector2f(m_player.getWidth() * 0.25, m_player.getHeight() * 0.25));
 	p.setFillColor(sf::Color::Green);
 	window.draw(p);
-
 
 	for (int i = 0; i < m_nests.size(); i++)
 	{
 		sf::RectangleShape n = sf::RectangleShape();
-		n.setPosition(sf::Vector2f((m_nests[i]->getPosition().x / 9) + screenPos.x, (m_nests[i]->getPosition().y * 0.25)));
+		n.setPosition(sf::Vector2f((m_nests[i].getPosition().x / 9) + screenPos.x, (m_nests[i].getPosition().y * 0.25)));
 		n.setFillColor(sf::Color::Red);
-		n.setSize(sf::Vector2f(m_nests[i]->getSprite()->getTexture()->getSize().x * 0.25, m_nests[i]->getSprite()->getTexture()->getSize().y * 0.25));
+		n.setSize(sf::Vector2f(m_nests[i].getSprite()->getTexture()->getSize().x * 0.25, m_nests[i].getSprite()->getTexture()->getSize().y * 0.25));
 		window.draw(n);
+	}
+
+	vector<Abductor>* _abductors = m_abMan.getAbductors();
+	for (int i = 0; i < _abductors->size(); i++)
+	{
+		sf::RectangleShape ab = sf::RectangleShape();
+		ab.setPosition(sf::Vector2f((_abductors->at(i).getPosition().x / 9) + screenPos.x, (_abductors->at(i).getPosition().y * 0.25)));
+		ab.setFillColor(sf::Color::White);
+		ab.setSize(sf::Vector2f(_abductors->at(i).getSprite()->getTexture()->getSize().x * 0.25, _abductors->at(i).getSprite()->getTexture()->getSize().y * 0.25));
+		window.draw(ab);
 	}
 
 	for (int i = 0; i < m_astronauts.size(); i++)
@@ -173,17 +183,17 @@ void GameScene::drawRadar(sf::RenderWindow& window)
 	}
 }
 
-void GameScene::InitialiseAstronauts(int screenHeight) 
+void GameScene::InitialiseAstronauts() 
 {
 	const int _NUMBEROFASTRONAUTS = 10;
 	for (int i = 0; i < _NUMBEROFASTRONAUTS; i++)
 	{
-		sf::Vector2f _position(rand() % ( (- m_gameWorldStart )+ m_gameWorldEnd) + (m_gameWorldStart), 0.9 * screenHeight);
+		sf::Vector2f _position(rand() % ( (- m_gameWorldStart )+ m_gameWorldEnd) + (m_gameWorldStart), 0.9 * m_height);
 
 		int _direction = rand() % 2;
 		if (_direction == 0) _direction = -1;
 
-		Astronaut _astro(_position, _direction, m_gameWorldStart, m_gameWorldEnd);
+		Astro _astro(_position, _direction, m_gameWorldStart, m_gameWorldEnd);
 		m_astronauts.push_back(_astro);
 	}
 }

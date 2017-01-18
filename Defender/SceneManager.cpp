@@ -5,13 +5,15 @@ SceneManager::SceneManager(int width, int height) :
 	m_currScene(nullptr)
 {
 	MenuScene* ms = new MenuScene();
-	addScene(ms);
+	m_scenes.push_back(ms);
 
 	GameScene* gs = new GameScene(width, height);
 	m_scenes.push_back(gs);
 
 	GameOverScene* gos = new GameOverScene();
 	m_scenes.push_back(gos);
+
+	m_currScene = ms;
 
 	AssetLoader::getInstance();
 }
@@ -109,14 +111,3 @@ void SceneManager::previousScene()
 }
 
 Scene* SceneManager::getCurrentScene() { return m_currScene; }
-
-void SceneManager::addScene(Scene* scene)
-{
-	if (m_currScene == nullptr)
-	{
-		m_currScene = scene;
-		m_currScene->start();
-	}
-
-	m_scenes.push_back(scene);
-}

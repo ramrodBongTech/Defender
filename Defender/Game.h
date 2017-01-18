@@ -15,12 +15,12 @@ public:
 
 	bool IsRunning();
 private:
-	bool m_running;
-	SceneManager* m_sceneMgr;
-
-	sf::Clock m_clock;
-	sf::Time m_time;
-	sf::RenderWindow m_window;
+	bool				m_running;
+	SceneManager*		m_sceneMgr;
+		
+	sf::Clock			m_clock;
+	sf::Time			m_time;
+	sf::RenderWindow	m_window;
 };
 
 #endif // !GAME_H

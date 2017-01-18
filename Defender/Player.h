@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "GameEntity.h"
-#include "BulletFactory.h"
+#include "BulletManager.h"
 
 class Player : public GameEntity {
 public:
@@ -15,6 +15,7 @@ public:
 	sf::Vector2f getVelocity();
 	void setVelocity(sf::Vector2f vel);
 	void setAcceleration(sf::Vector2f accel);
+	void setManager(BulletManager* bf);
 
 	float getWidth();
 	float getHeight();
@@ -28,7 +29,6 @@ private:
 	void slowX();
 	void slowY();
 	void shoot();
-	void updateBullets(float dt);
 	void wrapAround();
 
 	float					m_speed;
@@ -38,10 +38,9 @@ private:
 	sf::Vector2f			m_acceleration;
 	sf::Vector2f			m_velocity;
 
-	sf::Texture*			m_texLeft = nullptr;
-	sf::Texture*			m_texRight = nullptr;
-
-	std::vector<Bullet*>	m_bullets;
+	sf::Texture*			m_texLeft;
+	sf::Texture*			m_texRight;
+	BulletManager*			m_bulletManager;
 
 	const int		MAX_SPEED = 6.0f;
 	const int		MAX_BULLETS = 100;

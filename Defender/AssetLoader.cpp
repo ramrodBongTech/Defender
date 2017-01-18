@@ -53,6 +53,11 @@ void AssetLoader::loadTextures()
 		std::cout << "Alien Nest Right image not loading" << std::endl;
 
 	// Load in the alien abductor textures
+	if (!m_abductorLeft.loadFromFile("Assets/Textures/abductorLeft.png"))
+		std::cout << "Abductor Left image not loading" << std::endl;
+
+	if (!m_abductorRight.loadFromFile("Assets/Textures/abductorRight.png"))
+		std::cout << "Abductor Right image not loading" << std::endl;
 
 	// Load in the mutant textures
 }

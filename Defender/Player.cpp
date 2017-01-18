@@ -16,22 +16,12 @@ m_texRight(&AssetLoader::getInstance()->m_playerRight)
 	m_sprite.setTexture(*m_texLeft);
 	m_sprite.setPosition(m_position);
 	m_sprite.setOrigin(m_texLeft->getSize().x / 2, m_texLeft->getSize().y / 2);
-
-	while(m_bullets.size() < MAX_BULLETS)
-	{
-		m_bullets.push_back(new Bullet());
-	}
 }
 
 Player::~Player()
 {
 	m_texLeft = nullptr;
 	m_texRight = nullptr;
-	for (int i = 0; i < MAX_BULLETS; i++)
-	{
-		delete m_bullets.at(i);
-		m_bullets.at(i) = nullptr;
-	}
 }
 
 void Player::update(float dt)
@@ -42,15 +32,12 @@ void Player::update(float dt)
 	m_position += m_velocity;
 	m_sprite.setPosition(m_position);
 
-	updateBullets(dt);
 	wrapAround();
 }
 
 void Player::draw(sf::RenderWindow& window)
 {
 	window.draw(m_sprite);
-	for (int i = 0; i < m_bullets.size(); i++)
-		m_bullets.at(i)->draw(window);
 }
 
 void Player::processInput()
@@ -125,25 +112,16 @@ void Player::slowY()
 
 void Player::shoot()
 {
-	for (int i = 0; i < m_bullets.size(); i++)
+	Bullet* _bullet = m_bulletManager->nextBullet();
+	if (_bullet != nullptr)
 	{
-		if (!m_bullets.at(i)->getAlive())
-		{
-			m_bullets.at(i)->setAlive(true);
-			m_bullets.at(i)->setDirection(sf::Vector2f(m_direction.x, 0));
-			m_bullets.at(i)->setPosition(sf::Vector2f(m_position.x + 20, m_position.y + 5));
-			m_bullets.at(i)->setSpeed();
-			break;
-		}
+		_bullet->setAlive(true);
+		_bullet->setDirection(sf::Vector2f(m_direction.x, 0));
+		_bullet->setPosition(sf::Vector2f(m_position.x + 20, m_position.y + 5));
+		_bullet->setSpeed();
+		_bullet->setIsPlayerBullet(true);
 	}
-
 	m_firingDelay = 0;
-}
-
-void Player::updateBullets(float dt)
-{
-	for (int i = 0; i < m_bullets.size(); i++)
-		m_bullets.at(i)->update(dt);
 }
 
 void Player::wrapAround()
@@ -156,6 +134,7 @@ void Player::wrapAround()
 
 void Player::setVelocity(sf::Vector2f vel) { m_velocity = vel; }
 void Player::setAcceleration(sf::Vector2f accel) { m_acceleration = accel; }
+void Player::setManager(BulletManager* bf) { m_bulletManager = bf; }
 
 float Player::getWidth() { return m_texLeft->getSize().x / 2; }
 float Player::getHeight() { return m_texLeft->getSize().y / 2; }

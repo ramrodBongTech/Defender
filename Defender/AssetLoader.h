@@ -28,8 +28,8 @@ public:
 	sf::Texture		m_alienNestLeft;
 	sf::Texture		m_alienNestRight;
 
-	sf::Texture		m_abductorsLeft;
-	sf::Texture		m_abductorsRight;
+	sf::Texture		m_abductorLeft;
+	sf::Texture		m_abductorRight;
 
 	sf::Texture		m_mutantLeft;
 	sf::Texture		m_mutantRight;

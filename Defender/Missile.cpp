@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Missile.h"
 
-Missile::Missile(Player* player): GameEntity(),
+Missile::Missile(): GameEntity(),
 m_speed(0.1f),
 m_ttl(0),
 m_radius(0),
@@ -9,8 +9,7 @@ m_damage(1),
 m_acceleration(sf::Vector2f(0.0f, 0.0f)),
 m_direction(sf::Vector2f(-1, 0)),
 m_orientation(atan2(m_direction.x, m_direction.y) * (180 / 3.141592654)),
-m_velocity(sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y))),
-m_player(player)
+m_velocity(sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y)))
 {
 	m_sprite.setTexture(AssetLoader::getInstance()->m_missile);
 	m_sprite.setRotation(m_orientation - 90);
@@ -19,7 +18,9 @@ m_player(player)
 
 Missile::~Missile() {}
 
-void Missile::update(float dt) 
+void Missile::update(float dt) {}
+
+void Missile::update(float dt, sf::Vector2f playerPos) 
 {
 	if (m_alive)
 	{
@@ -31,7 +32,7 @@ void Missile::update(float dt)
 			m_acceleration.y += m_speed;
 		}
 
-		track();
+		track(playerPos);
 		updatePosition();
 
 		if (sf::milliseconds(m_ttl) >= sf::milliseconds(MAX_TTL))
@@ -55,10 +56,11 @@ void Missile::updatePosition()
 	m_sprite.setPosition(m_position);
 }
 
-void Missile::track()
+void Missile::track(sf::Vector2f playerPos)
 {
-	m_direction = m_player->getPosition() - m_position;
-	normalize(m_direction);
+	m_direction = playerPos - m_position;
+	float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
+	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
 	m_velocity = sf::Vector2f(m_direction.x * m_acceleration.x, m_direction.y * m_acceleration.y);
 
 	getNewOrientation();
@@ -87,10 +89,4 @@ void Missile::getNewOrientation()
 		m_orientation = atan2(m_direction.x, -m_direction.y) * (180 / 3.141592654);
 		m_sprite.setRotation(m_orientation - 90);
 	}
-}
-
-void Missile::normalize(sf::Vector2f& vec)
-{
-	float length = sqrt((vec.x*vec.x) + (vec.y*vec.y));
-	vec = sf::Vector2f(vec.x / length, vec.y / length);
 }
