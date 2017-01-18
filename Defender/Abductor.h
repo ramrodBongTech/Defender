@@ -19,6 +19,7 @@ private:
 	float						m_firingDelay;
 	sf::Vector2f				m_direction;
 	sf::Vector2f				m_velocity;
+	bool						m_abductorCaught;
 
 	std::vector<Astro>*			m_astronauts;
 	Player*						m_player;
@@ -31,6 +32,8 @@ private:
 	void chase();
 	void flock();
 	void shoot(float dis);
+	void rise();
+	void signalAbduction();
 
 	const int MAX_SHOOTING_DISTANCE = 300;
 	const int MAX_FIRING_DELAY = 3;

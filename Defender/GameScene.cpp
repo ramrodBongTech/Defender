@@ -70,7 +70,7 @@ void GameScene::createGround()
 {
 	for (int i = 0; i < m_ground.getVertexCount(); i++)
 	{
-		int _randY = (rand() % 200) + 300;
+		int _randY = (rand() % 200) + 400;
 		m_ground[i].position = sf::Vector2f(m_gameWorldStart + (m_width * i), _randY);
 		m_ground[i].color = sf::Color::Yellow;
 	}

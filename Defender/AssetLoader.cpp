@@ -60,6 +60,11 @@ void AssetLoader::loadTextures()
 		std::cout << "Abductor Right image not loading" << std::endl;
 
 	// Load in the mutant textures
+	if (!m_mutantLeft.loadFromFile("Assets/Textures/mutantLeft.png"))
+		std::cout << "Mutant Left image not loading" << std::endl;
+
+	if (!m_mutantRight.loadFromFile("Assets/Textures/mutantRight.png"))
+		std::cout << "Mutant Right image not loading" << std::endl;
 }
 
 void AssetLoader::loadSounds()

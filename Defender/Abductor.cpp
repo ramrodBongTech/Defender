@@ -6,6 +6,7 @@ m_speed(1.0f),
 m_firingDelay(3.0f),
 m_direction(sf::Vector2f(-1,0)),
 m_velocity(sf::Vector2f((m_direction.x * m_speed), (m_direction.y * m_speed))),
+m_abductorCaught(false),
 m_texLeft(&AssetLoader::getInstance()->m_abductorLeft),
 m_texRight(&AssetLoader::getInstance()->m_abductorRight),
 m_astronauts(astros),
@@ -29,7 +30,10 @@ void Abductor::update(float dt)
 	{
 		m_firingDelay += dt;
 
-		chase();
+		if (!m_abductorCaught)
+			chase();
+		else
+			rise();
 
 		sf::Vector2f BA = m_player->getPosition() - m_position;
 		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
@@ -37,7 +41,6 @@ void Abductor::update(float dt)
 		if (dis < MAX_SHOOTING_DISTANCE && m_firingDelay >= MAX_FIRING_DELAY)
 			shoot(dis);
 	}
-
 }
 
 void Abductor::draw(sf::RenderWindow& window) 
@@ -61,19 +64,26 @@ void Abductor::chase()
 {
 	sf::Vector2f temp = m_astronauts->at(0).getPosition() - m_position;
 	float _lowestDistance = std::sqrt((temp.x*temp.x) + (temp.y*temp.y));;
-	Astro _closestAstro = m_astronauts->at(0);
+	Astro* _closestAstro = &m_astronauts->at(0);
 	for (int i = 1; i < m_astronauts->size(); i++)
 	{
 		sf::Vector2f BA = m_astronauts->at(i).getPosition() - m_position;
 		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
-		if (dis < _lowestDistance)
+		if (dis < _lowestDistance && !m_astronauts->at(i).isCaught() && !m_astronauts->at(i).isMutant())
 		{
 			_lowestDistance = dis;
-			_closestAstro = m_astronauts->at(i);
+			_closestAstro = &m_astronauts->at(i);
 		}
 	}
 
-	m_direction = _closestAstro.getPosition() - m_position;
+	if (_lowestDistance < m_sprite.getTexture()->getSize().x / 2)
+	{
+		m_abductorCaught = true;
+		_closestAstro->caught();
+		signalAbduction();
+	}
+
+	m_direction = _closestAstro->getPosition() - m_position;
 	float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
 	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
 	m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
@@ -100,4 +110,17 @@ void Abductor::shoot(float dis)
 		_bullet->setSpeed();
 	}
 	m_firingDelay = 0;
+}
+
+void Abductor::rise()
+{
+	m_position.y -= m_speed;
+	m_sprite.setPosition(m_position);
+	if (m_position.y < 0)
+		m_abductorCaught = false;
+}
+
+void Abductor::signalAbduction()
+{
+
 }
