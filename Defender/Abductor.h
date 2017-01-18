@@ -19,7 +19,10 @@ public:
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
 
+	void reset();
+
 	sf::Vector2f GetVelocity();
+
 private:
 	float						m_speed;
 	float						m_firingDelay;
@@ -27,11 +30,11 @@ private:
 	sf::Vector2f				m_velocity;
 	sf::Vector2f				m_acceleration;
 	bool						m_abductorCaught;
-	const int					MAX_SPEED = 5.f;
 
 	std::vector<Astro>*			m_astronauts;
 	Player*						m_player;
 	BulletManager*				m_bulletManager;
+	Astro*						m_caughtAstro;
 
 	sf::Texture*				m_texLeft;
 	sf::Texture*				m_texRight;
@@ -52,6 +55,7 @@ private:
 
 	const int MAX_SHOOTING_DISTANCE = 300;
 	const int MAX_FIRING_DELAY = 3;
+	const int MAX_SPEED = 5;
 };
 
 #endif

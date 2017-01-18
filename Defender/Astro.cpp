@@ -4,7 +4,7 @@
 Astro::Astro() : GameEntity()
 {}
 
-Astro::Astro(sf::Vector2f position, int direction, int gameWorldStart, int gameWorldEnd, Player* player) : GameEntity(),
+Astro::Astro(sf::Vector2f position, int gameWorldStart, int gameWorldEnd, Player* player) : GameEntity(),
 m_state(State::WANDER),
 m_elapsedWanderTime(0),
 m_elapsedPauseTime(0),
@@ -59,6 +59,9 @@ void Astro::update(float dt)
 		case State::RISE:
 			Rise();
 			break;
+		case State::FALL:
+			Fall();
+			break;
 		case State::MUTANT:
 			MutantBehaviour();
 			break;
@@ -84,9 +87,18 @@ void Astro::caught()
 	m_isCaught = true;
 }
 
+void Astro::reset()
+{
+	m_alive = false;
+	m_position = sf::Vector2f(99999, 99999);
+	m_sprite.setPosition(m_position);
+}
+
 bool Astro::isCaught() { return m_isCaught; }
 
 bool Astro::isMutant() { return m_isMutant; }
+
+void Astro::setState(State s) { m_state = s; }
 
 void Astro::Pause(float dt)
 {
@@ -133,6 +145,22 @@ void Astro::Rise()
 		m_state = State::MUTANT;
 		m_sprite.setTexture(*m_mutantLeft);
 		m_isMutant = true;
+		m_isCaught = false;
+	}
+}
+
+void Astro::Fall()
+{
+	m_position.y += 1.0f;
+	m_sprite.setPosition(m_position);
+	if (m_position.y >= 0.9 * 600)
+	{
+		m_state = State::WANDER;
+		if(m_direction.x < 0)
+			m_sprite.setTexture(*m_texLeft);
+		else
+			m_sprite.setTexture(*m_texRight);
+
 		m_isCaught = false;
 	}
 }

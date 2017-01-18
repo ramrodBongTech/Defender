@@ -6,6 +6,7 @@ m_speed(0.1f),
 m_firingDelay(2.0f),
 m_maxFiringDelay(0.25f),
 m_smartBombTimer(0.0f),
+m_health(100),
 m_direction(sf::Vector2f(-1, 0)),
 m_acceleration(sf::Vector2f(m_speed, m_speed)),
 m_velocity(sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y))),
@@ -48,6 +49,9 @@ void Player::update(float dt)
 	m_sprite.setPosition(m_position);
 
 	wrapAround();
+
+	if (m_health <= 0)
+		m_alive = false;
 }
 
 void Player::draw(sf::RenderWindow& window)
@@ -170,6 +174,8 @@ void Player::resetSmartBomb()
 }
 
 void Player::pickedUpHyperJump() { m_canHyperJump = true; }
+
+void Player::takeDamage(int damage){ m_health -= damage; }
 
 void Player::hyperJump()
 {

@@ -11,6 +11,8 @@ public:
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
 
+	virtual void reset();
+
 	float getWidth();
 	float getHeight();
 	int getDamage();
@@ -19,7 +21,7 @@ public:
 	void setSpeed();
 	void setIsPlayerBullet(bool ipb);
 
-	bool isplayerBullet();
+	bool isPlayerBullet();
 
 protected:
 	float				m_speed;
@@ -37,7 +39,6 @@ private:
 	sf::Color			m_color;
 
 	void setSprite();
-	void reset();
 	void checkBorder();
 	void getNewOrientation();
 };

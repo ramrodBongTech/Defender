@@ -11,7 +11,8 @@ m_texLeft(&AssetLoader::getInstance()->m_abductorLeft),
 m_texRight(&AssetLoader::getInstance()->m_abductorRight),
 m_astronauts(astros),
 m_player(player),
-m_bulletManager(bulletManager)
+m_bulletManager(bulletManager),
+m_caughtAstro(nullptr)
 {
 	m_sprite.setTexture(*m_texLeft);
 	m_sprite.setPosition(m_position);
@@ -51,6 +52,13 @@ void Abductor::draw(sf::RenderWindow& window)
 		window.draw(m_sprite);
 }
 
+void Abductor::reset()
+{
+	m_alive = false;
+	m_position = sf::Vector2f(99999, 99999);
+	m_sprite.setPosition(m_position);
+}
+
 void Abductor::updatePosition() 
 {
 	m_position += m_velocity;
@@ -81,13 +89,14 @@ void Abductor::chase()
 	if (_lowestDistance < m_sprite.getTexture()->getSize().x / 2)
 	{
 		m_abductorCaught = true;
+		m_caughtAstro = _closestAstro;
 		_closestAstro->caught();
 		signalAbduction();
 	}
 
 	m_direction = _closestAstro->getPosition() - m_position;
-	float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
-	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
+	float _length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
+	m_direction = sf::Vector2f(m_direction.x / _length, m_direction.y / _length);
 	m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
 
 	updatePosition();
@@ -119,7 +128,10 @@ void Abductor::rise()
 	m_position.y -= m_speed;
 	m_sprite.setPosition(m_position);
 	if (m_position.y < 0)
+	{
 		m_abductorCaught = false;
+		m_caughtAstro = nullptr;
+	}
 }
 
 void Abductor::signalAbduction()

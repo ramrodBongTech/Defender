@@ -5,27 +5,31 @@
 
 class Astro : public GameEntity {
 public:
+	enum State {
+		WANDER,
+		EVADE,
+		PAUSE,
+		RISE,
+		FALL,
+		MUTANT,
+	};
+
 	Astro();
-	Astro(sf::Vector2f position, int direction, int gameWorldStart, int gameWorldEnd, Player* player);
+	Astro(sf::Vector2f position, int gameWorldStart, int gameWorldEnd, Player* player);
 	~Astro();
 
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
 
 	void caught();
+	void reset();
 
 	bool isCaught();
 	bool isMutant();
 
-private:
-	enum State {
-		WANDER,
-		EVADE,
-		PAUSE,
-		RISE,
-		MUTANT,
-	};
+	void setState(State s);
 
+private:
 	State m_state;
 	
 	float			m_elapsedWanderTime;
@@ -51,6 +55,7 @@ private:
 	void Pause(float dt);
 	void Evade();
 	void Rise();
+	void Fall();
 	void MutantBehaviour();
 	void Swarm();
 	void WrapAround();

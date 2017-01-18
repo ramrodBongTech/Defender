@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "CollisionManager.h"
 
-CollisionManager::CollisionManager(Player* player, std::vector<PowerUp>* powerUps):
+CollisionManager::CollisionManager(Player* player, std::vector<PowerUp>* powerUps, std::vector<Bullet>* bullets, std::vector<Missile>* missiles):
 m_player(player),
-m_powerUps(powerUps)
+m_powerUps(powerUps),
+m_bullets(bullets),
+m_missiles(missiles)
 {}
 
 CollisionManager::~CollisionManager() {}
@@ -11,35 +13,31 @@ CollisionManager::~CollisionManager() {}
 void CollisionManager::update() 
 {
 	Player_PowerUp_Collision();
+	Bullet_Collisions();
 }
 
 bool CollisionManager::collide(sf::Sprite* s1, sf::Sprite* s2)
 {
-	sf::FloatRect r1 = s1->getGlobalBounds();
-	sf::FloatRect r2 = s2->getGlobalBounds();
-	bool c = r1.intersects(r2);
-	return c;
+	sf::FloatRect _r1 = s1->getGlobalBounds();
+	sf::FloatRect _r2 = s2->getGlobalBounds();
+	return _r1.intersects(_r2);
 }
 
 void CollisionManager::Player_PowerUp_Collision()
 {
 	for (int i = 0; i < m_powerUps->size(); i++)
 	{
-		PowerUp* p = &m_powerUps->at(i);
-		if (p->getAlive())
+		PowerUp* _p = &m_powerUps->at(i);
+		if (_p->getAlive())
 		{
-			if (collide(p->getSprite(), m_player->getSprite()))
+			if (collide(_p->getSprite(), m_player->getSprite()))
 			{
 				m_player->pickedUpHyperJump();
-				p->reset();
+				_p->reset();
 			}
 		}
 	}
 }
-
-void CollisionManager::Player_Ground_Collision() {}
-
-void CollisionManager::Player_Bullet_Collision() {}
 
 void CollisionManager::Player_Missile_Collision() {}
 
@@ -49,8 +47,25 @@ void CollisionManager::Player_Abductor_Collision() {}
 
 void CollisionManager::Player_Mutant_Collision() {}
 
-void CollisionManager::Bullet_Nest_Collision() {}
-
-void CollisionManager::Bullet_Abductor_Collision() {}
-
-void CollisionManager::Bullet_Mutant_Collision() {}
+void CollisionManager::Bullet_Collisions()
+{
+	for (int i = 0; i < m_bullets->size(); i++)
+	{
+		Bullet* _b = &m_bullets->at(i);
+		if (_b->getAlive())
+		{
+			if (!_b->isPlayerBullet())
+			{
+				if (collide(_b->getSprite(), m_player->getSprite()))
+				{
+					m_player->takeDamage(_b->getDamage());
+					_b->reset();
+				}
+			}
+			else
+			{
+				// Loop through all of the aliens
+			}
+		}
+	}
+}

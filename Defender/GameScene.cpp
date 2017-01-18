@@ -15,7 +15,7 @@ m_radarSprite(sf::Sprite(AssetLoader::getInstance()->m_background)),
 m_bulletManager(BulletManager()),
 m_abMan(AbductorManager(&m_astronauts, &m_player, &m_bulletManager)),
 m_powerMan(PowerUpManager()),
-m_collMan(CollisionManager(&m_player, m_powerMan.getPowerUps()))
+m_collMan(CollisionManager(&m_player, m_powerMan.getPowerUps(), m_bulletManager.getBullets(), m_bulletManager.getMissiles()))
 {
 	m_radarSprite.setScale(1, 0.20);
 	createGround();
@@ -249,12 +249,9 @@ void GameScene::InitialiseAstronauts()
 	const int _NUMBEROFASTRONAUTS = 10;
 	for (int i = 0; i < _NUMBEROFASTRONAUTS; i++)
 	{
-		sf::Vector2f _position(rand() % ( (- m_gameWorldStart )+ m_gameWorldEnd) + (m_gameWorldStart), 0.9 * m_height);
+		sf::Vector2f _position(rand() % m_gameWorldEnd, 0.9 * m_height);
 
-		int _direction = rand() % 2;
-		if (_direction == 0) _direction = -1;
-
-		Astro _astro(_position, _direction, m_gameWorldStart, m_gameWorldEnd, &m_player);
+		Astro _astro(_position, m_gameWorldStart, m_gameWorldEnd, &m_player);
 		m_astronauts.push_back(_astro);
 	}
 }
@@ -264,13 +261,15 @@ void GameScene::smartBomb()
 	for (int i = 0; i < m_astronauts.size(); i++)
 	{
 		if (m_astronauts[i].isMutant())
-			m_astronauts[i].setAlive(false);
+			m_astronauts[i].reset();
+		else if(m_astronauts[i].isCaught())
+			m_astronauts[i].setState(Astro::State::FALL);
 	}
 
 	for (int i = 0; i < m_nests.size(); i++)
-		m_nests[i].setAlive(false);
+		m_nests[i].reset();
 
 	vector<Abductor>* _abductors = m_abMan.getAbductors();
 	for (int i = 0; i < _abductors->size(); i++)
-		_abductors->at(i).setAlive(false);
+		_abductors->at(i).reset();
 }

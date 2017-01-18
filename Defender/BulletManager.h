@@ -18,6 +18,7 @@ public:
 	Missile* nextMissile();
 
 	std::vector<Bullet>* getBullets();
+	std::vector<Missile>* getMissiles();
 
 private:
 	std::vector<Bullet>			m_bullets;

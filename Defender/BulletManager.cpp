@@ -53,3 +53,5 @@ Missile* BulletManager::nextMissile()
 }
 
 std::vector<Bullet>* BulletManager::getBullets() { return &m_bullets; }
+
+std::vector<Missile>* BulletManager::getMissiles() { return &m_missiles; }

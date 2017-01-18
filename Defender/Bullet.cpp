@@ -99,7 +99,7 @@ void Bullet::setSpeed() { m_velocity = sf::Vector2f(m_speed * m_direction.x, m_s
 
 void Bullet::setIsPlayerBullet(bool ipb) { m_isPlayerBullet = ipb; }
 
-bool Bullet::isplayerBullet() { return m_isPlayerBullet; }
+bool Bullet::isPlayerBullet() { return m_isPlayerBullet; }
 
 void Bullet::setSprite()
 {

@@ -23,6 +23,7 @@ public:
 
 	void resetSmartBomb();
 	void pickedUpHyperJump();
+	void takeDamage(int damage);
 
 private:
 	void processInput();
@@ -40,6 +41,7 @@ private:
 	float					m_firingDelay;
 	float					m_maxFiringDelay;
 	float					m_smartBombTimer;
+	int						m_health;
 	sf::Vector2f			m_direction;
 	sf::Vector2f			m_acceleration;
 	sf::Vector2f			m_velocity;

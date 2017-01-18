@@ -57,6 +57,13 @@ void AlienNest::draw(sf::RenderWindow& window)
 		window.draw(m_sprite);
 }
 
+void AlienNest::reset()
+{
+	m_alive = false;
+	m_position = sf::Vector2f(99999, 99999);
+	m_sprite.setPosition(m_position);
+}
+
 void AlienNest::updatePosition()
 {
 	m_position += m_velocity;
