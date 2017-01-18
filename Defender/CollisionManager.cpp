@@ -13,6 +13,7 @@ CollisionManager::~CollisionManager() {}
 void CollisionManager::update() 
 {
 	Player_PowerUp_Collision();
+	Player_Missile_Collision();
 	Bullet_Collisions();
 }
 
@@ -39,7 +40,21 @@ void CollisionManager::Player_PowerUp_Collision()
 	}
 }
 
-void CollisionManager::Player_Missile_Collision() {}
+void CollisionManager::Player_Missile_Collision() 
+{
+	for (int i = 0; i < m_missiles->size(); i++)
+	{
+		Bullet* _m = &m_missiles->at(i);
+		if (_m->getAlive())
+		{
+			if (collide(_m->getSprite(), m_player->getSprite()))
+			{
+				m_player->takeDamage(_m->getDamage());
+				_m->reset();
+			}
+		}
+	}
+}
 
 void CollisionManager::Player_Nest_Collision() {}
 
