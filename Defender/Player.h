@@ -22,6 +22,7 @@ public:
 	bool isSmartBombActivated();
 
 	void resetSmartBomb();
+	void pickedUpHyperJump();
 
 private:
 	void processInput();
@@ -33,6 +34,7 @@ private:
 	void slowY();
 	void shoot();
 	void wrapAround();
+	void hyperJump();
 
 	float					m_speed;
 	float					m_firingDelay;
@@ -43,6 +45,7 @@ private:
 	sf::Vector2f			m_velocity;
 	bool					m_isSmartBombActivated;
 	bool					m_canUseSmartBomb;
+	bool					m_canHyperJump;
 
 	sf::Texture*			m_texLeft;
 	sf::Texture*			m_texRight;

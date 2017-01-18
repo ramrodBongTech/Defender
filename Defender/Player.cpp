@@ -5,12 +5,13 @@ Player::Player() : GameEntity(),
 m_speed(0.1f),
 m_firingDelay(2.0f),
 m_maxFiringDelay(0.25f),
-m_smartBombTimer(60.0f),
+m_smartBombTimer(0.0f),
 m_direction(sf::Vector2f(-1, 0)),
 m_acceleration(sf::Vector2f(m_speed, m_speed)),
 m_velocity(sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y))),
 m_isSmartBombActivated(false),
-m_canUseSmartBomb(false),
+m_canUseSmartBomb(true),
+m_canHyperJump(true),
 m_texLeft(&AssetLoader::getInstance()->m_playerLeft),
 m_texRight(&AssetLoader::getInstance()->m_playerRight)
 {
@@ -73,6 +74,9 @@ void Player::processInput()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && m_canUseSmartBomb && !m_isSmartBombActivated)
 		m_isSmartBombActivated = true;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && m_canHyperJump)
+		hyperJump();
 
 	m_velocity = sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y));
 }
@@ -161,4 +165,12 @@ void Player::resetSmartBomb()
 	m_smartBombTimer = 0;
 	m_canUseSmartBomb = false;
 	m_isSmartBombActivated = false;
+}
+
+void Player::pickedUpHyperJump() { m_canHyperJump = true; }
+
+void Player::hyperJump()
+{
+	m_canHyperJump = false;
+	m_position = sf::Vector2f(rand() % 10800, rand() % 400);
 }
