@@ -13,13 +13,14 @@ public:
 	void update(float dt, sf::Vector2f* playerPos);
 	void draw(sf::RenderWindow& window);
 
+	void reset();
+
 private:
 	sf::Vector2f		m_acceleration;
 
 	void updatePosition();
 	void track(sf::Vector2f* playerPos);
 	void explode();
-	void reset();
 	void getNewOrientation();
 
 	const float			MAX_SPEED = 6.0f;

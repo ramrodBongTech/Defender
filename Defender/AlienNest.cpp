@@ -5,6 +5,7 @@ AlienNest::AlienNest(Player* player, std::vector<Astro>* astros, AbductorManager
 m_speed(1.0f),
 m_firingDelay(10.0f),
 m_abductorDelay(0.0f),
+m_damage(10),
 m_direction(sf::Vector2f(-1, 0)),
 m_velocity(sf::Vector2f((m_direction.x * m_speed), (m_direction.y * m_speed))),
 m_texLeft(&AssetLoader::getInstance()->m_alienNestLeft),
@@ -63,6 +64,8 @@ void AlienNest::reset()
 	m_position = sf::Vector2f(99999, 99999);
 	m_sprite.setPosition(m_position);
 }
+
+int AlienNest::getDamage() { return m_damage; }
 
 void AlienNest::updatePosition()
 {
