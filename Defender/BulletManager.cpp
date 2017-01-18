@@ -14,7 +14,7 @@ BulletManager::~BulletManager() {}
 
 void BulletManager::update(float dt) {}
 
-void BulletManager::update(float dt, sf::Vector2f playerPos)
+void BulletManager::update(float dt, sf::Vector2f* playerPos)
 {
 	for (int i = 0; i < m_bullets.size(); i++)
 		m_bullets[i].update(dt);

@@ -83,12 +83,17 @@ void AlienNest::wander()
 
 void AlienNest::evade()
 {
-	m_direction = m_position - m_player->getPosition();
-	float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
-	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
-	m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
+	if (m_position.y - m_sprite.getTexture()->getSize().y/2 >= 0)
+	{
+		m_direction = m_position - m_player->getPosition();
+		float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
+		m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
+		m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
 
-	updatePosition();
+		updatePosition();
+	}
+	else
+		m_position.y = 1 + m_sprite.getTexture()->getSize().y / 2;
 }
 
 void AlienNest::shoot(float dis)

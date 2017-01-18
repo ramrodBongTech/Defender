@@ -4,13 +4,13 @@
 Astro::Astro() : GameEntity()
 {}
 
-Astro::Astro(sf::Vector2f position, int direction, int gameWorldStart, int gameWorldEnd) : GameEntity(),
+Astro::Astro(sf::Vector2f position, int direction, int gameWorldStart, int gameWorldEnd, Player* player) : GameEntity(),
 m_state(State::WANDER),
 m_elapsedWanderTime(0),
 m_elapsedPauseTime(0),
-m_direction(direction),
+m_direction(sf::Vector2f((rand() % 1)-1, 0)),
 m_speed(0.8f),
-m_velocity(m_speed * m_direction),
+m_velocity(sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed)),
 m_isCaught(false),
 m_isMutant(false),
 m_worldStart(gameWorldStart),
@@ -18,11 +18,12 @@ m_worldEnd(gameWorldEnd),
 m_texLeft(&AssetLoader::getInstance()->m_astronautLeft),
 m_texRight(&AssetLoader::getInstance()->m_astronautRight),
 m_mutantLeft(&AssetLoader::getInstance()->m_mutantLeft),
-m_mutantRight(&AssetLoader::getInstance()->m_mutantRight)
+m_mutantRight(&AssetLoader::getInstance()->m_mutantRight),
+m_player(player)
 {
 	m_position = position;
 
-	if (m_direction < 0)
+	if (m_direction.x < 0)
 		m_sprite.setTexture(*m_texLeft);
 	else
 		m_sprite.setTexture(*m_texRight);
@@ -37,9 +38,7 @@ Astro::~Astro()
 	m_texRight = nullptr;
 }
 
-void Astro::update(float dt) {}
-
-void Astro::update(float dt, sf::Vector2f playerPos)
+void Astro::update(float dt) 
 {
 	switch (m_state)
 	{
@@ -56,7 +55,7 @@ void Astro::update(float dt, sf::Vector2f playerPos)
 		Rise();
 		break;
 	case State::MUTANT:
-		MutantBehaviour(playerPos);
+		MutantBehaviour();
 		break;
 	}
 
@@ -99,9 +98,9 @@ void Astro::Wander(float dt)
 		if (_rnd == 0)
 			m_state = State::PAUSE;
 		else if (_rnd == 1) {
-			m_direction = -m_direction;
-			m_velocity = m_speed * -(m_direction);
-			if (m_direction > 0)
+			m_direction.x = -m_direction.x;
+			m_velocity = sf::Vector2f(m_speed * m_direction.x, 0);
+			if (m_direction.x > 0)
 				m_sprite.setTexture(*m_texLeft);
 			else
 				m_sprite.setTexture(*m_texRight);
@@ -109,13 +108,13 @@ void Astro::Wander(float dt)
 		m_elapsedWanderTime = 0;
 	}
 
-	m_position.x += m_velocity;
+	m_position += m_velocity;
 }
 
 void Astro::Evade()
 {
-	m_velocity = (m_speed * 2) * m_direction;
-	m_position.x += m_velocity;
+	m_velocity.x = (m_speed * 2) * m_direction.x;
+	m_position.x += m_velocity.x;
 }
 
 void Astro::Rise()
@@ -131,12 +130,14 @@ void Astro::Rise()
 	}
 }
 
-void Astro::MutantBehaviour(sf::Vector2f playerPos)
+void Astro::MutantBehaviour()
 {
-	/*m_direction = playerPos - m_position;
+	m_direction = m_player->getPosition() - m_position;
 	float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
 	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
-	m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);*/
+	m_velocity = sf::Vector2f(m_direction.x * (m_speed * 6), m_direction.y * (m_speed * 6));
+
+	m_position += m_velocity;;
 }
 
 void Astro::Swarm()
@@ -152,8 +153,5 @@ void Astro::WrapAround()
 		m_position = sf::Vector2f(m_worldStart, m_position.y);
 }
 
-bool Astro::enemyDetected()
-{
-	return false;
-}
+bool Astro::enemyDetected(){ return false; }
 

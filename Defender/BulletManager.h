@@ -1,7 +1,7 @@
 #ifndef BULLETMANAGER_H
 #define BULLETMANAGER_H
 
-#include "Bullet.h"
+//#include "Bullet.h"
 #include "Missile.h"
 
 class BulletManager
@@ -11,7 +11,7 @@ public:
 	~BulletManager();
 
 	void update(float dt);
-	void update(float dt, sf::Vector2f playerPos);
+	void update(float dt, sf::Vector2f* playerPos);
 	void draw(sf::RenderWindow& window);
 
 	Bullet* nextBullet();

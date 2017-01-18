@@ -1,16 +1,15 @@
 #ifndef ASTRO_H
 #define ASTRO_H
 
-#include "GameEntity.h"
+#include "Player.h"
 
 class Astro : public GameEntity {
 public:
 	Astro();
-	Astro(sf::Vector2f position, int direction, int gameWorldStart, int gameWorldEnd);
+	Astro(sf::Vector2f position, int direction, int gameWorldStart, int gameWorldEnd, Player* player);
 	~Astro();
 
 	void update(float dt);
-	void update(float dt, sf::Vector2f playerPos);
 	void draw(sf::RenderWindow& window);
 
 	void caught();
@@ -32,9 +31,9 @@ private:
 	float			m_elapsedWanderTime;
 	float			m_elapsedPauseTime;
 
-	float			m_direction;
+	sf::Vector2f	m_direction;
 	float			m_speed;
-	float			m_velocity;
+	sf::Vector2f	m_velocity;
 
 	bool			m_isCaught;
 	bool			m_isMutant;
@@ -46,12 +45,13 @@ private:
 	sf::Texture*	m_texRight;
 	sf::Texture*	m_mutantLeft;
 	sf::Texture*	m_mutantRight;
+	Player*			m_player;
 
 	void Wander(float dt);
 	void Pause(float dt);
 	void Evade();
 	void Rise();
-	void MutantBehaviour(sf::Vector2f playerPos);
+	void MutantBehaviour();
 	void Swarm();
 	void WrapAround();
 	bool enemyDetected();

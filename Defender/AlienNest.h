@@ -2,7 +2,7 @@
 #define ALIENNEST_H
 
 #include "Missile.h"
-#include "Player.h"
+//#include "Player.h"
 #include "AbductorManager.h"
 #include "Astro.h"
 

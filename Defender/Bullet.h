@@ -11,7 +11,8 @@ public:
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
 
-	int getRadius();
+	float getWidth();
+	float getHeight();
 	int getDamage();
 
 	void setDirection(sf::Vector2f direction);
@@ -20,24 +21,25 @@ public:
 
 	bool isplayerBullet();
 
-private:
+protected:
+	float				m_speed;
 	float				m_ttl;
-	float				m_radius;
+	int					m_maxTTL;
+	float				m_width;
+	float				m_height;
 	int					m_damage;
 	sf::Vector2f		m_direction;
 	sf::Vector2f		m_velocity;
 	float				m_orientation;
-	bool				m_isPlayerBullet;
 
+private:
+	bool				m_isPlayerBullet;
 	sf::Color			m_color;
 
-	void reset();
 	void setSprite();
+	void reset();
 	void checkBorder();
 	void getNewOrientation();
-
-	const int			MAX_TTL = 5;
-	const int			MAX_SPEED = 12;
 };
 
 #endif
