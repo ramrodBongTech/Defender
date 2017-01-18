@@ -5,9 +5,12 @@ Player::Player() : GameEntity(),
 m_speed(0.1f),
 m_firingDelay(2.0f),
 m_maxFiringDelay(0.25f),
+m_smartBombTimer(60.0f),
 m_direction(sf::Vector2f(-1, 0)),
 m_acceleration(sf::Vector2f(m_speed, m_speed)),
 m_velocity(sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y))),
+m_isSmartBombActivated(false),
+m_canUseSmartBomb(false),
 m_texLeft(&AssetLoader::getInstance()->m_playerLeft),
 m_texRight(&AssetLoader::getInstance()->m_playerRight)
 {
@@ -27,6 +30,15 @@ Player::~Player()
 void Player::update(float dt)
 {
   	m_firingDelay += dt;
+
+	if (!m_canUseSmartBomb)
+		m_smartBombTimer += dt;
+
+	if (m_smartBombTimer >= MAX_BOMB_TIMER)
+	{
+		m_canUseSmartBomb = true;
+		m_smartBombTimer = 0;
+	}
 
 	processInput();
 	m_position += m_velocity;
@@ -58,6 +70,9 @@ void Player::processInput()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && m_firingDelay >= m_maxFiringDelay)
 		shoot();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && m_canUseSmartBomb && !m_isSmartBombActivated)
+		m_isSmartBombActivated = true;
 
 	m_velocity = sf::Vector2f((m_direction.x * m_acceleration.x), (m_direction.y * m_acceleration.y));
 }
@@ -139,3 +154,11 @@ void Player::setManager(BulletManager* bf) { m_bulletManager = bf; }
 float Player::getWidth() { return m_texLeft->getSize().x / 2; }
 float Player::getHeight() { return m_texLeft->getSize().y / 2; }
 sf::Vector2f Player::getVelocity() { return m_velocity; }
+bool Player::isSmartBombActivated() { return m_isSmartBombActivated; }
+
+void Player::resetSmartBomb()
+{
+	m_smartBombTimer = 0;
+	m_canUseSmartBomb = false;
+	m_isSmartBombActivated = false;
+}

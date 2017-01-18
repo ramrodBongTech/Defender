@@ -22,6 +22,7 @@ m_mutantRight(&AssetLoader::getInstance()->m_mutantRight),
 m_player(player)
 {
 	m_position = position;
+	m_alive = true;
 
 	if (m_direction.x < 0)
 		m_sprite.setTexture(*m_texLeft);
@@ -40,35 +41,39 @@ Astro::~Astro()
 
 void Astro::update(float dt) 
 {
-	switch (m_state)
+	if (m_alive)
 	{
-	case State::WANDER:
-		Wander(dt);
-		break;
-	case State::PAUSE:
-		Pause(dt);
-		break;
-	case State::EVADE:
-		Evade();
-		break;
-	case State::RISE:
-		Rise();
-		break;
-	case State::MUTANT:
-		MutantBehaviour();
-		break;
+		switch (m_state)
+		{
+		case State::WANDER:
+			Wander(dt);
+			break;
+		case State::PAUSE:
+			Pause(dt);
+			break;
+		case State::EVADE:
+			Evade();
+			break;
+		case State::RISE:
+			Rise();
+			break;
+		case State::MUTANT:
+			MutantBehaviour();
+			break;
+		}
+
+		if (enemyDetected())
+			m_state = State::EVADE;
+
+		m_sprite.setPosition(m_position);
+		WrapAround();
 	}
-
-	if (enemyDetected())
-		m_state = State::EVADE;
-
-	m_sprite.setPosition(m_position);
-	WrapAround();
 }
 
 void Astro::draw(sf::RenderWindow & window)
 {
-	window.draw(m_sprite);
+	if (m_alive)
+		window.draw(m_sprite);
 }
 
 void Astro::caught() 

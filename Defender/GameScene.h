@@ -41,6 +41,7 @@ private:
 	bool groundCollision();
 	void drawRadar(sf::RenderWindow& window);
 	void InitialiseAstronauts();
+	void smartBomb();
 
 	const int MAX_NUMBER_NESTS = 5;
 };
