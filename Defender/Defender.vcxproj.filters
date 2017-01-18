@@ -21,6 +21,8 @@
     <ClCompile Include="Astro.cpp" />
     <ClCompile Include="AbductorManager.cpp" />
     <ClCompile Include="BulletManager.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
+    <ClCompile Include="PowerUpManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetLoader.h" />
@@ -43,6 +45,8 @@
     <ClInclude Include="Astro.h" />
     <ClInclude Include="AbductorManager.h" />
     <ClInclude Include="BulletManager.h" />
+    <ClInclude Include="PowerUp.h" />
+    <ClInclude Include="PowerUpManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

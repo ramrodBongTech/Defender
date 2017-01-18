@@ -79,6 +79,10 @@ void AssetLoader::loadTextures()
 		std::cout << "Mutant Right image not loading" << std::endl;
 	m_mutantRight.setSmooth(true);
 
+	// Load in the power up textures
+	if (!m_powerUp.loadFromFile("Assets/Textures/powerUp.png"))
+		std::cout << "Power Up image not loading" << std::endl;
+	m_powerUp.setSmooth(true);
 }
 
 void AssetLoader::loadSounds()

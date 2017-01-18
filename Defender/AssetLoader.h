@@ -34,6 +34,8 @@ public:
 	sf::Texture		m_mutantLeft;
 	sf::Texture		m_mutantRight;
 
+	sf::Texture		m_powerUp;
+
 private:
 	void loadTextures();
 	void loadSounds();

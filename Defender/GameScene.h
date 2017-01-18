@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "AlienNest.h"
 #include "AbductorManager.h"
+#include "PowerUpManager.h"
 
 #include <vector>
 
@@ -23,8 +24,10 @@ public:
 private:
 	float				m_width;
 	float				m_height;
+	int					m_screenSizes;
 	int					m_gameWorldStart;
 	int					m_gameWorldEnd;
+	double				m_radarMultiplier;
 
 	sf::VertexArray		m_ground;
 
@@ -35,6 +38,7 @@ private:
 	sf::Sprite			m_radarSprite;
 	BulletManager		m_bulletManager;
 	AbductorManager		m_abMan;
+	PowerUpManager		m_powerMan;
 
 	void createGround();
 	void createNests();
