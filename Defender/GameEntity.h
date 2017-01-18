@@ -18,6 +18,8 @@ public:
 	bool getAlive();
 	sf::Vector2f getPosition();
 	sf::Sprite* getSprite();
+	float getWidth();
+	float getHeight();
 
 	void setAlive(bool alive);
 	void setPosition(sf::Vector2f pos);
@@ -29,6 +31,8 @@ protected:
 	bool			m_alive;
 	sf::Vector2f	m_position;
 	sf::Sprite		m_sprite;
+	float			m_width;
+	float			m_height;
 };
 
 #endif

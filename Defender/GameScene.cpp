@@ -14,7 +14,8 @@ m_cam(Camera(width, height, m_gameWorldStart, m_gameWorldEnd)),
 m_radarSprite(sf::Sprite(AssetLoader::getInstance()->m_background)),
 m_bulletManager(BulletManager()),
 m_abMan(AbductorManager(&m_astronauts, &m_player, &m_bulletManager)),
-m_powerMan(PowerUpManager())
+m_powerMan(PowerUpManager()),
+m_collMan(CollisionManager(&m_player, m_powerMan.getPowerUps()))
 {
 	m_radarSprite.setScale(1, 0.20);
 	createGround();
@@ -55,6 +56,8 @@ void GameScene::update(float dt)
 	m_bulletManager.update(dt, &m_player.getPosition());
 
 	m_powerMan.update(dt);
+
+	m_collMan.update();
 }
 
 void GameScene::draw(sf::RenderWindow& window)
@@ -173,6 +176,19 @@ void GameScene::drawRadar(sf::RenderWindow& window)
 	p.setSize(sf::Vector2f(m_player.getWidth() * m_radarMultiplier, m_player.getHeight() * m_radarMultiplier));
 	p.setFillColor(sf::Color::Green);
 	window.draw(p);
+
+	vector<Bullet>* _bullets = m_bulletManager.getBullets();
+	for (int i = 0; i < _bullets->size(); i++)
+	{
+		if (_bullets->at(i).getAlive())
+		{
+			sf::RectangleShape b = sf::RectangleShape();
+			b.setPosition(sf::Vector2f((_bullets->at(i).getPosition().x / m_screenSizes) + screenPos.x, (_bullets->at(i).getPosition().y * m_radarMultiplier)));
+			b.setFillColor(sf::Color(165, 42, 42, 255));
+			b.setSize(sf::Vector2f(_bullets->at(i).getSprite()->getTexture()->getSize().x * m_radarMultiplier, _bullets->at(i).getSprite()->getTexture()->getSize().y * m_radarMultiplier));
+			window.draw(b);
+		}
+	}
 
 	for (int i = 0; i < m_nests.size(); i++)
 	{

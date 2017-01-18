@@ -8,6 +8,7 @@
 #include "AlienNest.h"
 #include "AbductorManager.h"
 #include "PowerUpManager.h"
+#include "CollisionManager.h"
 
 #include <vector>
 
@@ -39,6 +40,7 @@ private:
 	BulletManager		m_bulletManager;
 	AbductorManager		m_abMan;
 	PowerUpManager		m_powerMan;
+	CollisionManager	m_collMan;
 
 	void createGround();
 	void createNests();

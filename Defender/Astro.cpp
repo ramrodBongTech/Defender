@@ -30,7 +30,9 @@ m_player(player)
 		m_sprite.setTexture(*m_texRight);
 
 	m_sprite.setPosition(m_position);
-	m_sprite.setOrigin(m_texLeft->getSize().x / 2, m_texLeft->getSize().y / 2);
+	m_width = m_texLeft->getSize().x / 2;
+	m_height = m_texLeft->getSize().y / 2;
+	m_sprite.setOrigin(m_width, m_height);
 }
 
 Astro::~Astro()

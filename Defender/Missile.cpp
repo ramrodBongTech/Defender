@@ -6,7 +6,7 @@ m_acceleration(sf::Vector2f(0.0f, 0.0f))
 {
 	m_sprite = sf::Sprite(AssetLoader::getInstance()->m_missile);
 
-	m_width = m_sprite.getTexture()->getSize().y / 2;
+	m_width = m_sprite.getTexture()->getSize().x / 2;
 	m_height = m_sprite.getTexture()->getSize().y / 2;
 
 	m_speed = 0.1f;

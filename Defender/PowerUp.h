@@ -11,6 +11,8 @@ public:
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
 
+	void reset();
+
 private:
 	enum PowerUpType {
 		HYPERJUMP,
