@@ -17,7 +17,7 @@ m_bulletManager(bulletManager)
 	m_sprite.setTexture(*m_texLeft);
 	m_sprite.setPosition(m_position);
 	m_sprite.setOrigin(m_texLeft->getSize().x / 2, m_texLeft->getSize().y / 2);
-	m_flockRandomiser = rand() % 6 + 3;
+	m_flockRandomiser = rand() % 11 + 4;
 	m_flocking = true;
 	m_flockDelay = 0;
 }
@@ -106,8 +106,10 @@ void Abductor::flock()
 {
 	m_velocity += m_acceleration;
 	double size = sqrt((m_velocity.x * m_velocity.x) + (m_velocity.y * m_velocity.y));
-	if (size > MAX_SPEED)
+	if (size > MAX_SPEED) {
 		m_velocity = normalize(m_velocity) * MAX_SPEED;
+		m_velocity = sf::Vector2f(m_velocity.x * MAX_SPEED, sin(m_position.x / 15) * MAX_SPEED);
+	}
 
 	updatePosition();
 }
