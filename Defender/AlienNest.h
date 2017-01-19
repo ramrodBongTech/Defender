@@ -23,6 +23,7 @@ private:
 	float						m_speed;
 	float						m_firingDelay;
 	float						m_abductorDelay;
+	float						m_wanderTimer;
 	int							m_damage;
 	int							m_health;
 	sf::Vector2f				m_direction;
@@ -38,14 +39,16 @@ private:
 
 	void updatePosition();
 	void spawnAbductor();
-	void wander();
+	void wander(float dt);
 	void evade();
 	void shoot(float dis);
 	void evadeObstacle();
 	void checkClosestObstacle();
+	void getRandomAngle();
+	void wrapAround();
 
-	const int MAX_SHOOTING_DISTANCE = 300;
-	const int MAX_EVADE_DISTANCE = 600;
+	const int MAX_SHOOTING_DISTANCE = 250;
+	const int MAX_EVADE_DISTANCE = 400;
 	const int MAX_OBSTACLE_DISTANCE = 400;
 	const int MAX_FIRING_DELAY = 10;
 	const int MAX_NUM_ABDUCTORS = 5;
