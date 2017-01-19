@@ -6,7 +6,7 @@ m_type(PowerUpType::HYPERJUMP)
 {
 	int _numTypes = 1;
 	if (rand() % _numTypes - 1 == 0)
-		m_type == PowerUpType::HYPERJUMP;
+		m_type = PowerUpType::HYPERJUMP;
 	m_sprite = sf::Sprite(AssetLoader::getInstance()->m_powerUp);
 	m_sprite.setPosition(m_position);
 	m_width = m_sprite.getTexture()->getSize().x / 2;

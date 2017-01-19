@@ -23,21 +23,34 @@ public:
 	void reset();
 
 	sf::Vector2f GetVelocity();
+
 	int getDamage();
 	void takeDamage(int damage);
 
 private:
 	float						m_speed;
 	float						m_firingDelay;
+
+	float						m_flockDelay;
+	bool						m_flocking;
+
 	float						m_signalTimer;
+	bool	isFlocking();
+
+	int							m_flockRandomiser;
+
 	sf::Vector2f				m_direction;
 	sf::Vector2f				m_velocity;
 	sf::Vector2f				m_acceleration;
 	sf::Vector2f				m_signalPos;
 	bool						m_abductorCaught;
+
 	bool						m_signal;
 	int							m_damage;
 	int							m_health;
+
+	const float					MAX_SPEED = 2.f;
+	const float					MAX_FORCE = .05f;
 
 	std::vector<Astro>*			m_astronauts;
 	Player*						m_player;
@@ -67,7 +80,6 @@ private:
 	const int MAX_SHOOTING_DISTANCE = 200;
 	const int MAX_EVADE_DISTANCE = 400;
 	const int MAX_FIRING_DELAY = 3;
-	const int MAX_SPEED = 5;
 };
 
 #endif

@@ -11,8 +11,10 @@ AbductorManager::~AbductorManager() {}
 
 void AbductorManager::update(float dt) 
 {
-	for (int i = 0; i < m_abductors.size(); i++)
+	for (int i = 0; i < m_abductors.size(); i++) {
+		m_abductors[i].Flock(m_abductors);
 		m_abductors[i].update(dt);
+	}
 }
 
 void AbductorManager::draw(sf::RenderWindow& window) 

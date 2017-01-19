@@ -37,7 +37,7 @@ AlienNest::~AlienNest()
 	m_texRight = nullptr;
 }
 
-void AlienNest::update(float dt) 
+void AlienNest::update(float dt)
 {
 	if (m_alive)
 	{
@@ -62,11 +62,15 @@ void AlienNest::update(float dt)
 		if (dis < MAX_SHOOTING_DISTANCE && m_firingDelay >= MAX_FIRING_DELAY)
 			shoot(dis);
 
-		if (m_abductorDelay >= MAX_ABDUCTOR_DELAY)
+		if (m_abductorDelay >= MAX_ABDUCTOR_DELAY) 
+		{
 			spawnAbductor();
 
-		if (m_health <= 0)
-			reset();
+			if (m_health <= 0)
+				reset();
+
+			m_abductorDelay = 0;
+		}
 	}
 }
 
@@ -74,6 +78,7 @@ void AlienNest::draw(sf::RenderWindow& window)
 {
 	if (m_alive)
 		window.draw(m_sprite);
+	
 }
 
 void AlienNest::reset()
