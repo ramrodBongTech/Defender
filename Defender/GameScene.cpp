@@ -12,7 +12,8 @@ m_ground(sf::VertexArray(sf::PrimitiveType::LineStrip, 10)),
 m_obsMan(ObstacleManager()),
 m_player(Player()),
 m_cam(Camera(width, height, m_gameWorldStart, m_gameWorldEnd)),
-m_radarSprite(sf::Sprite(AssetLoader::getInstance()->m_background)),
+m_radarSprite(sf::Sprite(AssetLoader::getInstance()->m_grid)),
+m_backgroundSprite(sf::Sprite(AssetLoader::getInstance()->m_background)),
 m_bulletManager(BulletManager()),
 m_abMan(AbductorManager(&m_astronauts, &m_player, &m_bulletManager, m_obsMan.getObstacles())),
 m_powerMan(PowerUpManager()),
@@ -20,6 +21,7 @@ m_nestMan(AlienNestManager(&m_player, &m_astronauts, &m_abMan, &m_bulletManager,
 m_collMan(CollisionManager(&m_player, m_powerMan.getPowerUps(), m_bulletManager.getBullets(), m_bulletManager.getMissiles(), m_nestMan.getNests(), m_abMan.getAbductors(), &m_astronauts, m_obsMan.getObstacles()))
 {
 	m_radarSprite.setScale(0.5, 0.20);
+	m_backgroundSprite.setScale(1, 1);
 	createGround();
 	InitialiseAstronauts();
 	InitialiseRadar();
@@ -61,12 +63,14 @@ void GameScene::update(float dt)
 	m_collMan.update();
 
 	m_obsMan.update(dt);
+
+	m_backgroundSprite.setPosition(m_cam.getView().getCenter().x - m_width/2, m_cam.getView().getCenter().y - m_height/2);
 }
 
 void GameScene::draw(sf::RenderWindow& window)
 {
 	m_cam.draw(window);
-
+	window.draw(m_backgroundSprite);
 	drawRadar(window);
 
 	window.draw(m_ground);

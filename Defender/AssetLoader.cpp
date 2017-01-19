@@ -29,9 +29,9 @@ void AssetLoader::loadTextures()
 	m_playerRight.setSmooth(true);
 
 	// Load in the background texture
-	if (!m_background.loadFromFile("Assets/Textures/grid.png")) 
+	if (!m_grid.loadFromFile("Assets/Textures/grid.png")) 
 		std::cout << "Error Loading Grid Textures" << std::endl;
-	m_background.setSmooth(true);
+	m_grid.setSmooth(true);
 
 	// Load in the bullet texture
 	if (!m_bullet.loadFromFile("Assets/Textures/bullet.png"))
@@ -112,6 +112,10 @@ void AssetLoader::loadTextures()
 	// Load in the obstacle texture
 	if (!m_obstacle.loadFromFile("Assets/Textures/obstacle.png"))
 		std::cout << "Opstacle image not loading" << std::endl;
+	m_obstacle.setSmooth(true);
+
+	if (!m_background.loadFromFile("Assets/Textures/background.png"))
+		std::cout << "background image not loading" << std::endl;
 	m_obstacle.setSmooth(true);
 }
 

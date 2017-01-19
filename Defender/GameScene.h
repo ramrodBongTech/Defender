@@ -39,6 +39,7 @@ private:
 	Camera				m_cam;
 	vector<Astro>		m_astronauts;
 	sf::Sprite			m_radarSprite;
+	sf::Sprite			m_backgroundSprite;
 	BulletManager		m_bulletManager;
 	AbductorManager		m_abMan;
 	PowerUpManager		m_powerMan;

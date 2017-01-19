@@ -20,7 +20,7 @@ public:
 	sf::Texture		m_bullet;
 	sf::Texture		m_missile;
 
-	sf::Texture		m_background;
+	sf::Texture		m_grid;
 
 	sf::Texture		m_astronautLeft;
 	sf::Texture		m_astronautRight;
@@ -44,6 +44,8 @@ public:
 	sf::Texture		m_explosion6;
 
 	sf::Texture		m_obstacle;
+
+	sf::Texture		m_background;
 
 private:
 	void loadTextures();

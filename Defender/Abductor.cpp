@@ -132,7 +132,7 @@ void Abductor::updatePosition()
 		m_sprite.setTexture(*m_texRight);
 }
 
-void Abductor::chase() 
+void Abductor::chase()
 {
 	m_flockDelay = 0;
 	m_flocking = false;
