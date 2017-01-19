@@ -42,6 +42,7 @@ private:
 	Player*						m_player;
 	BulletManager*				m_bulletManager;
 	Astro*						m_caughtAstro;
+	std::vector<Obstacle>*		m_obstacles;
 
 	sf::Texture*				m_texLeft;
 	sf::Texture*				m_texRight;
@@ -60,7 +61,8 @@ private:
 	void rise();
 	void signalAbduction();
 
-	const int MAX_SHOOTING_DISTANCE = 300;
+	const int MAX_SHOOTING_DISTANCE = 200;
+	const int MAX_EVADE_DISTANCE = 400;
 	const int MAX_FIRING_DELAY = 3;
 	const int MAX_SPEED = 5;
 };

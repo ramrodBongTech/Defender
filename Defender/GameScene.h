@@ -41,8 +41,8 @@ private:
 	BulletManager		m_bulletManager;
 	AbductorManager		m_abMan;
 	PowerUpManager		m_powerMan;
-	CollisionManager	m_collMan;
 	ObstacleManager		m_obsMan;
+	CollisionManager	m_collMan;
 
 	void createGround();
 	void createNests();

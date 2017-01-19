@@ -6,11 +6,12 @@
 #include "Missile.h"
 #include "AlienNest.h"
 #include "Astro.h"
+#include "Obstacle.h"
 
 class CollisionManager
 {
 public:
-	CollisionManager(Player* player, std::vector<PowerUp>* powerUps, std::vector<Bullet>* bullets, std::vector<Missile>* missiles, std::vector<AlienNest>* nests, std::vector<Abductor>* abductors, std::vector<Astro>* astronauts);
+	CollisionManager(Player* player, std::vector<PowerUp>* powerUps, std::vector<Bullet>* bullets, std::vector<Missile>* missiles, std::vector<AlienNest>* nests, std::vector<Abductor>* abductors, std::vector<Astro>* astronauts, std::vector<Obstacle>* obsacles);
 	~CollisionManager();
 
 	void update();
@@ -23,6 +24,7 @@ private:
 	std::vector<AlienNest>*			m_nests;
 	std::vector<Abductor>*			m_abductors;
 	std::vector<Astro>*				m_astronauts;
+	std::vector<Obstacle>*			m_obsacles;
 
 	bool collide(sf::Sprite* s1, sf::Sprite* s2);
 

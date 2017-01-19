@@ -15,8 +15,8 @@ m_radarSprite(sf::Sprite(AssetLoader::getInstance()->m_background)),
 m_bulletManager(BulletManager()),
 m_abMan(AbductorManager(&m_astronauts, &m_player, &m_bulletManager)),
 m_powerMan(PowerUpManager()),
-m_collMan(CollisionManager(&m_player, m_powerMan.getPowerUps(), m_bulletManager.getBullets(), m_bulletManager.getMissiles(), &m_nests, m_abMan.getAbductors(), &m_astronauts)),
-m_obsMan(ObstacleManager())
+m_obsMan(ObstacleManager()),
+m_collMan(CollisionManager(&m_player, m_powerMan.getPowerUps(), m_bulletManager.getBullets(), m_bulletManager.getMissiles(), &m_nests, m_abMan.getAbductors(), &m_astronauts, m_obsMan.getObstacles()))
 {
 	m_radarSprite.setScale(1, 0.20);
 	createGround();
