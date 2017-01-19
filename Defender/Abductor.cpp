@@ -4,14 +4,18 @@
 Abductor::Abductor(Player* player, std::vector<Astro>* astros, BulletManager* bulletManager, std::vector<Obstacle>* obstacles) : GameEntity(),
 m_speed(1.0f),
 m_firingDelay(3.0f),
+m_flockDelay(0.0f),
 m_signalTimer(0),
+m_flockRandomiser(rand() % 11 + 4),
+m_damage(10),
+m_health(2),
+m_flocking(true),
+m_abductorCaught(false),
+m_signal(false),
+m_acceleration(sf::Vector2f(0, 0)),
 m_direction(sf::Vector2f(-1, 0)),
 m_velocity(sf::Vector2f((m_direction.x * m_speed), (m_direction.y * m_speed))),
 m_signalPos(sf::Vector2f(0, 0)),
-m_abductorCaught(false),
-m_signal(false),
-m_damage(10),
-m_health(2),
 m_texLeft(&AssetLoader::getInstance()->m_abductorLeft),
 m_texRight(&AssetLoader::getInstance()->m_abductorRight),
 m_astronauts(astros),
@@ -28,11 +32,6 @@ m_closestObstacle(nullptr)
 	m_width = m_texLeft->getSize().x / 2;
 	m_height = m_texLeft->getSize().y / 2;
 	m_sprite.setOrigin(m_width, m_height);
-
-	m_flockRandomiser = rand() % 11 + 4;
-	m_flocking = true;
-	m_flockDelay = 0;
-
 }
 
 Abductor::~Abductor() 
@@ -234,7 +233,8 @@ void Abductor::checkClosestObstacle()
 	}
 }
 
-void Abductor::Flock(vector<Abductor> abductors) {
+void Abductor::Flock(vector<Abductor> abductors) 
+{
 	sf::Vector2f sep = Separation(abductors);
 	sf::Vector2f ali = Alignment(abductors);
 	sf::Vector2f coh = Cohesion(abductors);
@@ -246,7 +246,8 @@ void Abductor::Flock(vector<Abductor> abductors) {
 	m_acceleration = sep + ali + coh;
 }
 
-sf::Vector2f Abductor::Separation(vector<Abductor> abductors) {
+sf::Vector2f Abductor::Separation(vector<Abductor> abductors) 
+{
 	float desiredseparation = 75;
 
 	sf::Vector2f steer(0, 0);
@@ -290,7 +291,8 @@ sf::Vector2f Abductor::Separation(vector<Abductor> abductors) {
 	return steer;
 }
 
-sf::Vector2f Abductor::Cohesion(vector<Abductor> abductors) {
+sf::Vector2f Abductor::Cohesion(vector<Abductor> abductors) 
+{
 	float neighbordist = 400;
 
 	sf::Vector2f sum(0, 0);
@@ -318,7 +320,8 @@ sf::Vector2f Abductor::Cohesion(vector<Abductor> abductors) {
 	}
 }
 
-sf::Vector2f Abductor::Alignment(vector<Abductor> abductors) {
+sf::Vector2f Abductor::Alignment(vector<Abductor> abductors) 
+{
 	float neighbordist = 100;
 
 	sf::Vector2f sum(0, 0);
@@ -356,7 +359,8 @@ sf::Vector2f Abductor::Alignment(vector<Abductor> abductors) {
 	}
 }
 
-sf::Vector2f Abductor::normalize(sf::Vector2f vector) {
+sf::Vector2f Abductor::normalize(sf::Vector2f vector) 
+{
 	sf::Vector2f tmp = vector;
 	float mag = sqrt(vector.x * vector.x + vector.y * vector.y);
 
@@ -368,7 +372,8 @@ sf::Vector2f Abductor::normalize(sf::Vector2f vector) {
 	return tmp;
 }
 
-sf::Vector2f Abductor::Seek(sf::Vector2f vector) {
+sf::Vector2f Abductor::Seek(sf::Vector2f vector) 
+{
 	sf::Vector2f desired;
 	desired = sf::Vector2f(vector.x - m_position.x, vector.y - m_position.y);
 	// A vector pointing from the location to the target

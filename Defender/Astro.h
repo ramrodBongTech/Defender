@@ -14,6 +14,7 @@ public:
 		FALL,
 		MUTANT,
 		EVADE_OBSTACLE,
+		SWARM,
 	};
 
 	Astro();
@@ -23,6 +24,8 @@ public:
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
 
+	void Swarm(std::vector<Astro> astronaut);
+
 	void caught();
 	void reset();
 
@@ -31,9 +34,12 @@ public:
 
 	void setFalling(bool falling);
 	void setCaught(bool caught);
+	void setMutant(bool mutant);
 
 	int getDamage();
 	void takeDamage(int damage);
+
+	sf::Vector2f GetVelocity();
 
 private:
 	State						m_state;
@@ -41,23 +47,28 @@ private:
 	float						m_elapsedWanderTime;
 	float						m_elapsedPauseTime;
 	float						m_speed;
-
-	sf::Vector2f				m_direction;
-	sf::Vector2f				m_velocity;
-
-	bool						m_isCaught;
-	bool						m_isMutant;
-	bool						m_isFalling;
+	float						m_swarmDelay;
 
 	int							m_worldStart;
 	int							m_worldEnd;
 	int							m_damage;
 	int							m_health;
+	int							m_swarmRandomiser;
+
+	bool						m_isCaught;
+	bool						m_isMutant;
+	bool						m_isFalling;
+	bool						m_isSwarming;
+
+	sf::Vector2f				m_acceleration;
+	sf::Vector2f				m_direction;
+	sf::Vector2f				m_velocity;
 
 	sf::Texture*				m_texLeft;
 	sf::Texture*				m_texRight;
 	sf::Texture*				m_mutantLeft;
 	sf::Texture*				m_mutantRight;
+
 	Player*						m_player;
 	std::vector<Obstacle>*		m_obstacles;
 	Obstacle*					m_closestObstacle;
@@ -68,13 +79,22 @@ private:
 	void Rise();
 	void Fall();
 	void MutantBehaviour();
-	void Swarm();
+	void swarm();
 	void WrapAround();
 	bool enemyDetected();
 	void evadeObstacle();
 	void checkClosestObstacle();
 
-	const int MAX_OBSTACLE_DISTANCE = 400;
+	sf::Vector2f Separation(std::vector<Astro> astronauts);
+	sf::Vector2f Alignment(std::vector<Astro> astronauts);
+	sf::Vector2f Cohesion(std::vector<Astro> astronauts);
+
+	sf::Vector2f Seek(sf::Vector2f v);
+	sf::Vector2f normalize(sf::Vector2f v);
+
+	const int					MAX_OBSTACLE_DISTANCE = 400;
+	const float					MAX_SPEED = 4.8f;
+	const float					MAX_FORCE = .05f;
 };
 
 #endif

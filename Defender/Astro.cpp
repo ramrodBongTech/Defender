@@ -8,16 +8,20 @@ Astro::Astro(sf::Vector2f position, int gameWorldStart, int gameWorldEnd, Player
 m_state(State::WANDER),
 m_elapsedWanderTime(0),
 m_elapsedPauseTime(0),
-m_direction(sf::Vector2f((rand() % 1)-1, 0)),
 m_speed(0.8f),
-m_velocity(sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed)),
-m_isCaught(false),
-m_isMutant(false),
-m_isFalling(false),
+m_swarmDelay(0.0f),
 m_worldStart(gameWorldStart),
 m_worldEnd(gameWorldEnd),
 m_damage(10),
 m_health(4),
+m_swarmRandomiser(rand() % 11 + 4),
+m_isCaught(false),
+m_isMutant(false),
+m_isFalling(false),
+m_isSwarming(true),
+m_acceleration(sf::Vector2f(0, 0)),
+m_direction(sf::Vector2f((rand() % 1)-1, 0)),
+m_velocity(sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed)),
 m_texLeft(&AssetLoader::getInstance()->m_astronautLeft),
 m_texRight(&AssetLoader::getInstance()->m_astronautRight),
 m_mutantLeft(&AssetLoader::getInstance()->m_mutantLeft),
@@ -72,6 +76,9 @@ void Astro::update(float dt)
 		case State::EVADE_OBSTACLE:
 			evadeObstacle();
 			break;
+		case State::SWARM:
+			swarm();
+			break;
 		}
 
 		checkClosestObstacle();
@@ -81,6 +88,8 @@ void Astro::update(float dt)
 
 		if (dis < MAX_OBSTACLE_DISTANCE && m_isMutant)
 			m_state = State::EVADE_OBSTACLE;
+		else if (m_swarmDelay < m_swarmRandomiser && m_isSwarming)
+			m_state = State::SWARM;
 		else if (dis > MAX_OBSTACLE_DISTANCE && m_isMutant)
 			m_state = State::MUTANT;
 		else if (dis > MAX_OBSTACLE_DISTANCE && m_isCaught)
@@ -128,9 +137,17 @@ void Astro::setFalling(bool falling) { m_isFalling = falling; }
 
 void Astro::setCaught(bool caught) { m_isCaught = caught; }
 
+void Astro::setMutant(bool mutant) 
+{ 
+	m_isMutant = mutant;
+	m_state = State::MUTANT;
+}
+
 int Astro::getDamage() { return m_damage; }
 
 void Astro::takeDamage(int damage) { m_health -= damage; }
+
+sf::Vector2f Astro::GetVelocity() { return m_velocity; }
 
 void Astro::Pause(float dt)
 {
@@ -205,12 +222,19 @@ void Astro::MutantBehaviour()
 	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
 	m_velocity = sf::Vector2f(m_direction.x * (m_speed * 6), m_direction.y * (m_speed * 6));
 
-	m_position += m_velocity;;
+	m_position += m_velocity;
 }
 
-void Astro::Swarm()
+void Astro::swarm()
 {
+	m_velocity += m_acceleration;
+	double size = sqrt((m_velocity.x * m_velocity.x) + (m_velocity.y * m_velocity.y));
+	if (size > MAX_SPEED) {
+		m_velocity = normalize(m_velocity) * MAX_SPEED;
+		m_velocity = sf::Vector2f(m_velocity.x * MAX_SPEED, sin(m_position.x / 15) * MAX_SPEED);
+	}
 
+	m_position += m_velocity;
 }
 
 void Astro::WrapAround()
@@ -250,4 +274,64 @@ void Astro::checkClosestObstacle()
 			m_closestObstacle = &m_obstacles->at(i);
 		}
 	}
+}
+
+void Astro::Swarm(std::vector<Astro> astronaut)
+{
+	sf::Vector2f R;
+	int A = 100;
+	int B = 5000;
+	int N = 1;
+	int M = 2;
+	int count = 0;
+	float totalForce = 0;
+	sf::Vector2f sum(0, 0);
+
+	for (int i = 0; i < astronaut.size(); i++)
+	{
+		R = sf::Vector2f(m_position.x - astronaut[i].getPosition().x, m_position.y - astronaut[i].getPosition().y);
+		float D = std::sqrt(R.x * R.x + R.y * R.y);
+		if (D > 0)
+		{
+			float U = -A / pow(D, N) + B / pow(D, M);
+			normalize(R);
+			R = sf::Vector2f(R.x * U, R.y * U);
+			sum = sf::Vector2f(R.x + sum.x, R.y + sum.y);
+		}
+
+	}
+	sum = sf::Vector2f(sum.x / astronaut.size() - 1, sum.y / astronaut.size() - 1);
+	m_acceleration += sum;
+	//updatePosition();
+	//borders();
+}
+
+sf::Vector2f Astro::Seek(sf::Vector2f vector) 
+{
+	sf::Vector2f desired;
+	desired = sf::Vector2f(vector.x - m_position.x, vector.y - m_position.y);
+
+	desired = normalize(desired);
+	desired = sf::Vector2f(desired.x * MAX_SPEED, desired.y * MAX_SPEED);
+	
+	m_acceleration = sf::Vector2f(desired.x - m_velocity.x, desired.y - m_velocity.y);
+	double size = sqrt((m_acceleration.x * m_acceleration.x) + (m_acceleration.y * m_acceleration.y));
+
+	if (size > MAX_FORCE)
+		m_acceleration = normalize(m_acceleration) * MAX_FORCE;
+
+	return m_acceleration;
+}
+
+sf::Vector2f Astro::normalize(sf::Vector2f vector)
+{
+	sf::Vector2f tmp = vector;
+	float mag = sqrt(vector.x * vector.x + vector.y * vector.y);
+
+	if (mag > 0)
+		tmp = sf::Vector2f(vector.x / mag, vector.y / mag);
+	else
+		tmp = tmp;
+
+	return tmp;
 }
