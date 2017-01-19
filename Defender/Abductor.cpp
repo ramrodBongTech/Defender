@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "Abductor.h"
 
-Abductor::Abductor(Player* player, std::vector<Astro>* astros, BulletManager* bulletManager): GameEntity(),
+Abductor::Abductor(Player* player, std::vector<Astro>* astros, BulletManager* bulletManager) : GameEntity(),
 m_speed(1.0f),
 m_firingDelay(3.0f),
-m_direction(sf::Vector2f(-1,0)),
+m_direction(sf::Vector2f(-1, 0)),
 m_velocity(sf::Vector2f((m_direction.x * m_speed), (m_direction.y * m_speed))),
 m_abductorCaught(false),
 m_damage(10),
+m_health(2),
 m_texLeft(&AssetLoader::getInstance()->m_abductorLeft),
 m_texRight(&AssetLoader::getInstance()->m_abductorRight),
 m_astronauts(astros),
@@ -44,6 +45,9 @@ void Abductor::update(float dt)
 
 		if (dis < MAX_SHOOTING_DISTANCE && m_firingDelay >= MAX_FIRING_DELAY)
 			shoot(dis);
+
+		if (m_health <= 0)
+			reset();
 	}
 }
 
@@ -67,6 +71,8 @@ void Abductor::reset()
 }
 
 int Abductor::getDamage() { return m_damage; }
+
+void Abductor::takeDamage(int damage) { m_health -= damage; }
 
 void Abductor::updatePosition() 
 {

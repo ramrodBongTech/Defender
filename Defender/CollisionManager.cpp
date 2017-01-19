@@ -60,6 +60,22 @@ void CollisionManager::Bullet_Collisions()
 						}
 					}
 				}
+
+				if (_b->getAlive())
+				{
+					for (int i = 0; i < m_abductors->size(); i++)
+					{
+						Abductor* _ab = &m_abductors->at(i);
+						if (_ab->getAlive())
+						{
+							if (collide(_ab->getSprite(), _b->getSprite()))
+							{
+								_ab->takeDamage(_b->getDamage());
+								_b->reset();
+							}
+						}
+					}
+				}
 			}
 		}
 	}

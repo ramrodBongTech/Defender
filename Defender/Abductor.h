@@ -23,6 +23,7 @@ public:
 
 	sf::Vector2f GetVelocity();
 	int getDamage();
+	void takeDamage(int damage);
 
 private:
 	float						m_speed;
@@ -32,6 +33,7 @@ private:
 	sf::Vector2f				m_acceleration;
 	bool						m_abductorCaught;
 	int							m_damage;
+	int							m_health;
 
 	std::vector<Astro>*			m_astronauts;
 	Player*						m_player;
