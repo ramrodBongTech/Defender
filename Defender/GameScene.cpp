@@ -266,7 +266,7 @@ void GameScene::InitialiseAstronauts()
 		sf::Vector2f _position(rand() % m_gameWorldEnd, 0.9 * m_height);
 
 		Astro _astro(_position, m_gameWorldStart, m_gameWorldEnd, &m_player, m_obsMan.getObstacles());
-		_astro.setMutant(true);
+		//_astro.setMutant(true);
 		m_astronauts.push_back(_astro);
 	}
 }

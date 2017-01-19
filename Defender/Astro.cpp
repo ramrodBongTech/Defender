@@ -16,7 +16,7 @@ m_damage(10),
 m_health(4),
 m_swarmRandomiser(rand() % 11 + 4),
 m_isCaught(false),
-m_isMutant(false),
+m_isMutant(true),
 m_isFalling(false),
 m_isSwarming(true),
 m_acceleration(sf::Vector2f(0, 0)),
@@ -81,6 +81,7 @@ void Astro::update(float dt)
 			break;
 		}
 
+		m_swarmDelay += dt;
 		checkClosestObstacle();
 
 		sf::Vector2f BA = m_closestObstacle->getPosition() - m_position;
@@ -92,11 +93,11 @@ void Astro::update(float dt)
 			m_state = State::SWARM;
 		else if (dis > MAX_OBSTACLE_DISTANCE && m_isMutant)
 			m_state = State::MUTANT;
-		else if (dis > MAX_OBSTACLE_DISTANCE && m_isCaught)
+		else if (m_isCaught)
 			m_state = State::RISE;
-		else if (dis > MAX_OBSTACLE_DISTANCE && m_isFalling)
+		else if (m_isFalling)
 			m_state = State::FALL;
-		else if (dis > MAX_OBSTACLE_DISTANCE && !m_isCaught && !m_isMutant && !m_isFalling)
+		else if (!m_isCaught && !m_isMutant && !m_isFalling)
 			m_state = State::WANDER;
 		else if (enemyDetected())
 			m_state = State::EVADE;
@@ -195,6 +196,7 @@ void Astro::Rise()
 		m_sprite.setTexture(*m_mutantLeft);
 		m_isMutant = true;
 		m_isCaught = false;
+		m_isSwarming = true;
 	}
 }
 
@@ -217,6 +219,8 @@ void Astro::Fall()
 
 void Astro::MutantBehaviour()
 {
+	m_isSwarming = false;
+
 	m_direction = m_player->getPosition() - m_position;
 	float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
 	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
@@ -235,6 +239,7 @@ void Astro::swarm()
 	}
 
 	m_position += m_velocity;
+	m_acceleration = sf::Vector2f(0, 0);
 }
 
 void Astro::WrapAround()
@@ -279,8 +284,8 @@ void Astro::checkClosestObstacle()
 void Astro::Swarm(std::vector<Astro> astronaut)
 {
 	sf::Vector2f R;
-	int A = 100;
-	int B = 5000;
+	int A = 300;
+	int B = 15000;
 	int N = 1;
 	int M = 2;
 	int count = 0;
@@ -302,6 +307,7 @@ void Astro::Swarm(std::vector<Astro> astronaut)
 	}
 	sum = sf::Vector2f(sum.x / astronaut.size() - 1, sum.y / astronaut.size() - 1);
 	m_acceleration += sum;
+	m_acceleration = sf::Vector2f(m_acceleration.x * 0.4f, m_acceleration.y * 0.4f);
 	//updatePosition();
 	//borders();
 }
