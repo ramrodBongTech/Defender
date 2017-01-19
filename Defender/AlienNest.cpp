@@ -46,7 +46,7 @@ void AlienNest::update(float dt)
 		sf::Vector2f BA = m_player->getPosition() - m_position;
 		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
 
-		if (obstacleDis < MAX_EVADE_DISTANCE)
+		if (obstacleDis < MAX_OBSTACLE_DISTANCE)
 			evadeObstacle();
 		else if (dis > MAX_EVADE_DISTANCE)
 			wander();

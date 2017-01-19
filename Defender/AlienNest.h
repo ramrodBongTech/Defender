@@ -46,6 +46,7 @@ private:
 
 	const int MAX_SHOOTING_DISTANCE = 300;
 	const int MAX_EVADE_DISTANCE = 600;
+	const int MAX_OBSTACLE_DISTANCE = 400;
 	const int MAX_FIRING_DELAY = 10;
 	const int MAX_NUM_ABDUCTORS = 5;
 	const int MAX_ABDUCTOR_DELAY = 5;

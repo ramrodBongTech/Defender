@@ -67,10 +67,21 @@ void Astro::update(float dt)
 		case State::MUTANT:
 			MutantBehaviour();
 			break;
+		case State::EVADE_OBSTACLE:
+			evadeObstacle();
+			break;
 		}
 
 		if (enemyDetected())
 			m_state = State::EVADE;
+
+		checkClosestObstacle();
+
+		sf::Vector2f BA = m_closestObstacle->getPosition() - m_position;
+		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
+
+		if (dis < MAX_OBSTACLE_DISTANCE)
+			m_state = State::EVADE_OBSTACLE;
 
 		m_sprite.setPosition(m_position);
 		WrapAround();
@@ -199,3 +210,28 @@ void Astro::WrapAround()
 
 bool Astro::enemyDetected(){ return false; }
 
+void Astro::evadeObstacle()
+{
+	m_direction = m_position - m_closestObstacle->getPosition();
+	float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
+	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
+	m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
+	m_position += m_velocity;
+}
+
+void Astro::checkClosestObstacle()
+{
+	sf::Vector2f temp = m_obstacles->at(0).getPosition() - m_position;
+	float _lowestDistance = std::sqrt((temp.x*temp.x) + (temp.y*temp.y));;
+	m_closestObstacle = &m_obstacles->at(0);
+	for (int i = 0; i < m_obstacles->size(); i++)
+	{
+		sf::Vector2f BA = m_obstacles->at(i).getPosition() - m_position;
+		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
+		if (dis < _lowestDistance && !m_obstacles->at(i).getAlive())
+		{
+			_lowestDistance = dis;
+			m_closestObstacle = &m_obstacles->at(i);
+		}
+	}
+}

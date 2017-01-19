@@ -2,6 +2,7 @@
 #define ASTRO_H
 
 #include "Player.h"
+#include "Obstacle.h"
 
 class Astro : public GameEntity {
 public:
@@ -12,6 +13,7 @@ public:
 		RISE,
 		FALL,
 		MUTANT,
+		EVADE_OBSTACLE,
 	};
 
 	Astro();
@@ -32,28 +34,30 @@ public:
 	void takeDamage(int damage);
 
 private:
-	State m_state;
+	State						m_state;
 	
-	float			m_elapsedWanderTime;
-	float			m_elapsedPauseTime;
+	float						m_elapsedWanderTime;
+	float						m_elapsedPauseTime;
+	float						m_speed;
 
-	sf::Vector2f	m_direction;
-	float			m_speed;
-	sf::Vector2f	m_velocity;
+	sf::Vector2f				m_direction;
+	sf::Vector2f				m_velocity;
 
-	bool			m_isCaught;
-	bool			m_isMutant;
+	bool						m_isCaught;
+	bool						m_isMutant;
 
-	int				m_worldStart;
-	int				m_worldEnd;
-	int				m_damage;
-	int				m_health;
+	int							m_worldStart;
+	int							m_worldEnd;
+	int							m_damage;
+	int							m_health;
 
-	sf::Texture*	m_texLeft;
-	sf::Texture*	m_texRight;
-	sf::Texture*	m_mutantLeft;
-	sf::Texture*	m_mutantRight;
-	Player*			m_player;
+	sf::Texture*				m_texLeft;
+	sf::Texture*				m_texRight;
+	sf::Texture*				m_mutantLeft;
+	sf::Texture*				m_mutantRight;
+	Player*						m_player;
+	std::vector<Obstacle>*		m_obstacles;
+	Obstacle*					m_closestObstacle;
 
 	void Wander(float dt);
 	void Pause(float dt);
@@ -64,6 +68,10 @@ private:
 	void Swarm();
 	void WrapAround();
 	bool enemyDetected();
+	void evadeObstacle();
+	void checkClosestObstacle();
+
+	const int MAX_OBSTACLE_DISTANCE = 400;
 };
 
 #endif
