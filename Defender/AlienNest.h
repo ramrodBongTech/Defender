@@ -17,12 +17,14 @@ public:
 	void reset();
 
 	int getDamage();
+	void takeDamage(int damage);
 
 private:
 	float						m_speed;
 	float						m_firingDelay;
 	float						m_abductorDelay;
 	int							m_damage;
+	int							m_health;
 	sf::Vector2f				m_direction;
 	sf::Vector2f				m_velocity;
 

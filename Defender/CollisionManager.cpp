@@ -47,7 +47,19 @@ void CollisionManager::Bullet_Collisions()
 			}
 			else
 			{
-				// Loop through all of the aliens
+				// Nests
+				for (int i = 0; i < m_nests->size(); i++)
+				{
+					AlienNest*_n = &m_nests->at(i);
+					if (_n->getAlive())
+					{
+						if (collide(_n->getSprite(), _b->getSprite()))
+						{
+							_n->takeDamage(_b->getDamage());
+							_b->reset();
+						}
+					}
+				}
 			}
 		}
 	}

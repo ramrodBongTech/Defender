@@ -6,6 +6,7 @@ m_speed(1.0f),
 m_firingDelay(10.0f),
 m_abductorDelay(0.0f),
 m_damage(10),
+m_health(1),
 m_direction(sf::Vector2f(-1, 0)),
 m_velocity(sf::Vector2f((m_direction.x * m_speed), (m_direction.y * m_speed))),
 m_texLeft(&AssetLoader::getInstance()->m_alienNestLeft),
@@ -49,6 +50,9 @@ void AlienNest::update(float dt)
 
 		if (m_abductorDelay >= MAX_ABDUCTOR_DELAY)
 			spawnAbductor();
+
+		if (m_health <= 0)
+			reset();
 	}
 }
 
@@ -66,6 +70,8 @@ void AlienNest::reset()
 }
 
 int AlienNest::getDamage() { return m_damage; }
+
+void AlienNest::takeDamage(int damage) { m_health -= damage; }
 
 void AlienNest::updatePosition()
 {
