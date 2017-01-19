@@ -34,7 +34,7 @@ void ObstacleManager::spawnObstacle()
 		{
 			m_obstacles[i].setAlive(true);
 			//m_obstacles[i].setPosition(sf::Vector2f(rand() % 10800, (rand() % 100) - 200));
-			m_obstacles[i].setPosition(sf::Vector2f(rand() % 5400, 300));
+			m_obstacles[i].setPosition(sf::Vector2f(4000, 300));
 			break;
 		}
 	}

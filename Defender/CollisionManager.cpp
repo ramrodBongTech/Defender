@@ -49,21 +49,21 @@ void CollisionManager::Bullet_Collisions()
 			}
 			else
 			{
-				for (int j = 0; j < m_obsacles->size(); j++)
+				/*for (int j = 0; j < m_obsacles->size(); j++)
 				{
-					Obstacle* _obs = &m_obsacles->at(j);
+					Obstacle* _obs = &m_obsacles->at(j);*/
 
 					// Player & Obstacles
 					/*if (collide(_b->getSprite(), m_player->getSprite()))
 						m_player->setAlive(false);*/
 
 					// Bullets & Obstacles
-					if (_obs->getSprite(), _b->getSprite())
-						_b->reset();
+					/*if (_obs->getSprite(), _b->getSprite())
+						_b->reset();*/
 
 					// Nests
-					if (_obs->getAlive())
-					{
+					/*if (_obs->getAlive())
+					{*/
 						for (int k = 0; k < m_nests->size(); k++)
 						{
 							AlienNest*_n = &m_nests->at(k);
@@ -76,8 +76,8 @@ void CollisionManager::Bullet_Collisions()
 									_b->reset();
 								}
 								// Nests & Obstacles
-								if (collide(_n->getSprite(), _obs->getSprite()))
-									_n->reset();
+								/*if (collide(_n->getSprite(), _obs->getSprite()))
+									_n->reset();*/
 							}
 						}
 
@@ -96,8 +96,8 @@ void CollisionManager::Bullet_Collisions()
 										_b->reset();
 									}
 									// Abductors & Obstacles
-									if (collide(_ab->getSprite(), _obs->getSprite()))
-										_ab->reset();
+									/*if (collide(_ab->getSprite(), _obs->getSprite()))
+										_ab->reset();*/
 								}
 							}
 						}
@@ -111,8 +111,8 @@ void CollisionManager::Bullet_Collisions()
 								if (_as->getAlive())
 								{
 									// Astronauts/Mutants && Obstacles
-									if (collide(_as->getSprite(), _obs->getSprite()))
-										_as->reset();
+									/*if (collide(_as->getSprite(), _obs->getSprite()))
+										_as->reset();*/
 
 									if (_as->isMutant())
 									{
@@ -126,8 +126,8 @@ void CollisionManager::Bullet_Collisions()
 								}
 							}
 						}
-					}
-				}
+					//}
+				//}
 			}
 		}
 	}
@@ -156,16 +156,16 @@ void CollisionManager::Player_Missile_Collision()
 		Missile *_m = &m_missiles->at(i);
 		if (_m->getAlive())
 		{
-			for (int j = 0; j < m_obsacles->size(); j++)
-			{
-				Obstacle* _obs = &m_obsacles->at(j);
-				if (_obs->getAlive())
-				{
-					// Missiles & Obstacles
-					if (collide(_m->getSprite(), _obs->getSprite()))
-						_m->reset();
-				}
-			}
+			//for (int j = 0; j < m_obsacles->size(); j++)
+			//{
+			//	Obstacle* _obs = &m_obsacles->at(j);
+			//	if (_obs->getAlive())
+			//	{
+			//		// Missiles & Obstacles
+			//		if (collide(_m->getSprite(), _obs->getSprite()))
+			//			_m->reset();
+			//	}
+			//}
 			// Missiles && Player
 			if (collide(_m->getSprite(), m_player->getSprite()))
 			{

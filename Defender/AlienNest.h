@@ -8,7 +8,7 @@
 
 class AlienNest : public GameEntity {
 public:
-	AlienNest(Player* player, std::vector<Astro>* astros, AbductorManager* abMan, BulletManager* bulletManager);
+	AlienNest(Player* player, std::vector<Astro>* astros, AbductorManager* abMan, BulletManager* bulletManager, std::vector<Obstacle>* obstacles);
 	~AlienNest();
 
 	void update(float dt);
@@ -33,12 +33,16 @@ private:
 	Player*						m_player;
 	AbductorManager*			m_abMan;
 	BulletManager*				m_bulletManager;
+	std::vector<Obstacle>*		m_obstacles;
+	Obstacle*					m_closestObstacle;
 
 	void updatePosition();
 	void spawnAbductor();
 	void wander();
 	void evade();
 	void shoot(float dis);
+	void evadeObstacle();
+	void checkClosestObstacle();
 
 	const int MAX_SHOOTING_DISTANCE = 300;
 	const int MAX_EVADE_DISTANCE = 600;

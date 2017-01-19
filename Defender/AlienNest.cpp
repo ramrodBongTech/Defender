@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AlienNest.h"
 
-AlienNest::AlienNest(Player* player, std::vector<Astro>* astros, AbductorManager* abMan, BulletManager* bulletManager) : GameEntity(),
+AlienNest::AlienNest(Player* player, std::vector<Astro>* astros, AbductorManager* abMan, BulletManager* bulletManager, std::vector<Obstacle>* obstacles) : GameEntity(),
 m_speed(1.0f),
 m_firingDelay(10.0f),
 m_abductorDelay(0.0f),
@@ -13,7 +13,8 @@ m_texLeft(&AssetLoader::getInstance()->m_alienNestLeft),
 m_texRight(&AssetLoader::getInstance()->m_alienNestRight),
 m_player(player),
 m_abMan(abMan),
-m_bulletManager(bulletManager)
+m_bulletManager(bulletManager),
+m_obstacles(obstacles)
 {
 	m_position = sf::Vector2f(rand() % 10800, rand() % 300);
 	m_alive = true;
@@ -37,10 +38,17 @@ void AlienNest::update(float dt)
 		m_firingDelay += dt;
 		m_abductorDelay += dt;
 
+		checkClosestObstacle();
+
+		sf::Vector2f OT = m_closestObstacle->getPosition() - m_position;
+		float obstacleDis = std::sqrt((OT.x*OT.x) + (OT.y*OT.y));
+
 		sf::Vector2f BA = m_player->getPosition() - m_position;
 		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
 
-		if (dis > MAX_EVADE_DISTANCE)
+		if (obstacleDis < MAX_EVADE_DISTANCE)
+			evadeObstacle();
+		else if (dis > MAX_EVADE_DISTANCE)
 			wander();
 		else
 			evade();
@@ -124,4 +132,30 @@ void AlienNest::shoot(float dis)
 		_missile->setPosition(sf::Vector2f(m_position.x, m_position.y));
 	}
 	m_firingDelay = 0;
+}
+
+void AlienNest::evadeObstacle()
+{
+	m_direction = m_position - m_closestObstacle->getPosition();
+	float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
+	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
+	m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
+	updatePosition();
+}
+
+void AlienNest::checkClosestObstacle()
+{
+	sf::Vector2f temp = m_obstacles->at(0).getPosition() - m_position;
+	float _lowestDistance = std::sqrt((temp.x*temp.x) + (temp.y*temp.y));;
+	m_closestObstacle = &m_obstacles->at(0);
+	for (int i = 0; i < m_obstacles->size(); i++)
+	{
+		sf::Vector2f BA = m_obstacles->at(i).getPosition() - m_position;
+		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
+		if (dis < _lowestDistance && !m_obstacles->at(i).getAlive())
+		{
+			_lowestDistance = dis;
+			m_closestObstacle = &m_obstacles->at(i);
+		}
+	}
 }

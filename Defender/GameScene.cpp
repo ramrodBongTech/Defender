@@ -101,7 +101,7 @@ void GameScene::createGround()
 void GameScene::createNests()
 {
 	for (int i = 0; i < MAX_NUMBER_NESTS; i++)
-		m_nests.push_back(AlienNest(&m_player, &m_astronauts, &m_abMan, &m_bulletManager));
+		m_nests.push_back(AlienNest(&m_player, &m_astronauts, &m_abMan, &m_bulletManager, m_obsMan.getObstacles()));
 }
 
 bool GameScene::groundCollision()
