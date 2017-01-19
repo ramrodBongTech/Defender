@@ -5,13 +5,14 @@
 #include "BulletManager.h"
 #include "Astro.h"
 #include "Player.h"
+#include "Obstacle.h"
 #include <vector>
 
 using namespace std;
 
 class Abductor : public GameEntity {
 public:
-	Abductor(Player* player, std::vector<Astro>* astros, BulletManager* bulletManager);
+	Abductor(Player* player, std::vector<Astro>* astros, BulletManager* bulletManager, std::vector<Obstacle>* obstacles);
 	~Abductor();
 
 	void Flock(vector<Abductor> abductors);
@@ -43,6 +44,7 @@ private:
 	BulletManager*				m_bulletManager;
 	Astro*						m_caughtAstro;
 	std::vector<Obstacle>*		m_obstacles;
+	Obstacle*					m_closestObstacle;
 
 	sf::Texture*				m_texLeft;
 	sf::Texture*				m_texRight;
@@ -59,7 +61,8 @@ private:
 	void flock();
 	void shoot(float dis);
 	void rise();
-	void signalAbduction();
+	void evadeObstacle();
+	void checkClosestObstacle();
 
 	const int MAX_SHOOTING_DISTANCE = 200;
 	const int MAX_EVADE_DISTANCE = 400;

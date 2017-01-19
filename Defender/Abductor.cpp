@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Abductor.h"
 
-Abductor::Abductor(Player* player, std::vector<Astro>* astros, BulletManager* bulletManager) : GameEntity(),
+Abductor::Abductor(Player* player, std::vector<Astro>* astros, BulletManager* bulletManager, std::vector<Obstacle>* obstacles) : GameEntity(),
 m_speed(1.0f),
 m_firingDelay(3.0f),
 m_signalTimer(0),
@@ -17,7 +17,9 @@ m_texRight(&AssetLoader::getInstance()->m_abductorRight),
 m_astronauts(astros),
 m_player(player),
 m_bulletManager(bulletManager),
-m_caughtAstro(nullptr)
+m_caughtAstro(nullptr),
+m_obstacles(obstacles),
+m_closestObstacle(nullptr)
 {
 	m_sprite.setTexture(*m_texLeft);
 	m_sprite.setPosition(m_position);
@@ -38,13 +40,20 @@ void Abductor::update(float dt)
 	{
 		m_firingDelay += dt;
 
-		if (!m_abductorCaught)
+		checkClosestObstacle();
+
+		sf::Vector2f BA = m_closestObstacle->getPosition() - m_position;
+		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
+
+		if (dis < MAX_EVADE_DISTANCE)
+			evadeObstacle();
+		else if (!m_abductorCaught)
 			chase();
 		else
 			rise();
 
-		sf::Vector2f BA = m_player->getPosition() - m_position;
-		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
+		BA = m_player->getPosition() - m_position;
+		dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
 
 		if (dis < MAX_SHOOTING_DISTANCE && m_firingDelay >= MAX_FIRING_DELAY)
 			shoot(dis);
@@ -120,7 +129,7 @@ void Abductor::chase()
 	{
 		sf::Vector2f BA = m_astronauts->at(i).getPosition() - m_position;
 		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
-		if (dis < _lowestDistance && !m_astronauts->at(i).isCaught() && !m_astronauts->at(i).isMutant())
+		if (dis < _lowestDistance && !m_astronauts->at(i).isCaught() && !m_astronauts->at(i).isMutant() && m_astronauts->at(i).getAlive())
 		{
 			_lowestDistance = dis;
 			_closestAstro = &m_astronauts->at(i);
@@ -176,9 +185,30 @@ void Abductor::rise()
 	}
 }
 
-void Abductor::signalAbduction()
+void Abductor::evadeObstacle() 
 {
-	
+	m_direction = m_position - m_closestObstacle->getPosition();
+	float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
+	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
+	m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
+	updatePosition();
+}
+
+void Abductor::checkClosestObstacle()
+{
+	sf::Vector2f temp = m_obstacles->at(0).getPosition() - m_position;
+	float _lowestDistance = std::sqrt((temp.x*temp.x) + (temp.y*temp.y));;
+	m_closestObstacle = &m_obstacles->at(0);
+	for (int i = 0; i < m_obstacles->size(); i++)
+	{
+		sf::Vector2f BA = m_obstacles->at(i).getPosition() - m_position;
+		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
+		if (dis < _lowestDistance && !m_obstacles->at(i).getAlive())
+		{
+			_lowestDistance = dis;
+			m_closestObstacle = &m_obstacles->at(i);
+		}
+	}
 }
 
 void Abductor::Flock(vector<Abductor> abductors) {

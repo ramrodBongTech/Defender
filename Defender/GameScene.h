@@ -33,6 +33,7 @@ private:
 
 	sf::VertexArray		m_ground;
 
+	ObstacleManager		m_obsMan;
 	Player				m_player;
 	Camera				m_cam;
 	vector<Astro>		m_astronauts;
@@ -41,7 +42,6 @@ private:
 	BulletManager		m_bulletManager;
 	AbductorManager		m_abMan;
 	PowerUpManager		m_powerMan;
-	ObstacleManager		m_obsMan;
 	CollisionManager	m_collMan;
 
 	void createGround();

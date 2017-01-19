@@ -51,11 +51,11 @@ void CollisionManager::Bullet_Collisions()
 			{
 				for (int j = 0; j < m_obsacles->size(); j++)
 				{
-					Obstacle* _obs = &m_obsacles->at(i);
+					Obstacle* _obs = &m_obsacles->at(j);
 
 					// Player & Obstacles
-					if (collide(_b->getSprite(), m_player->getSprite()))
-						m_player->setAlive(false);
+					/*if (collide(_b->getSprite(), m_player->getSprite()))
+						m_player->setAlive(false);*/
 
 					// Bullets & Obstacles
 					if (_obs->getSprite(), _b->getSprite())
@@ -158,7 +158,7 @@ void CollisionManager::Player_Missile_Collision()
 		{
 			for (int j = 0; j < m_obsacles->size(); j++)
 			{
-				Obstacle* _obs = &m_obsacles->at(i);
+				Obstacle* _obs = &m_obsacles->at(j);
 				if (_obs->getAlive())
 				{
 					// Missiles & Obstacles

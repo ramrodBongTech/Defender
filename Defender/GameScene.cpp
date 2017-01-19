@@ -9,13 +9,13 @@ m_gameWorldStart(0),
 m_gameWorldEnd(width * m_screenSizes),
 m_radarMultiplier(0.2),
 m_ground(sf::VertexArray(sf::PrimitiveType::LineStrip, 10)),
+m_obsMan(ObstacleManager()),
 m_player(Player()),
 m_cam(Camera(width, height, m_gameWorldStart, m_gameWorldEnd)),
 m_radarSprite(sf::Sprite(AssetLoader::getInstance()->m_background)),
 m_bulletManager(BulletManager()),
-m_abMan(AbductorManager(&m_astronauts, &m_player, &m_bulletManager)),
+m_abMan(AbductorManager(&m_astronauts, &m_player, &m_bulletManager, m_obsMan.getObstacles())),
 m_powerMan(PowerUpManager()),
-m_obsMan(ObstacleManager()),
 m_collMan(CollisionManager(&m_player, m_powerMan.getPowerUps(), m_bulletManager.getBullets(), m_bulletManager.getMissiles(), &m_nests, m_abMan.getAbductors(), &m_astronauts, m_obsMan.getObstacles()))
 {
 	m_radarSprite.setScale(1, 0.20);

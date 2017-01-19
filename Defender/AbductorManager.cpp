@@ -1,12 +1,10 @@
 #include "stdafx.h"
 #include "AbductorManager.h"
 
-AbductorManager::AbductorManager(std::vector<Astro>* astros, Player* player, BulletManager* bulletManager):
-m_astros(astros),
-m_player(player)
+AbductorManager::AbductorManager(std::vector<Astro>* astros, Player* player, BulletManager* bulletManager, std::vector<Obstacle>* obstacles)
 {
 	for (int i = 0; i < MAX_ABDUCTORS; i++)
-		m_abductors.push_back(Abductor(m_player, m_astros, bulletManager));
+		m_abductors.push_back(Abductor(player, astros, bulletManager, obstacles));
 }
 
 AbductorManager::~AbductorManager() {}
