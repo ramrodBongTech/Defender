@@ -13,6 +13,7 @@ m_astronauts(astros),
 m_player(player),
 m_bulletManager(bulletManager)
 {
+	m_velocity = sf::Vector2f(0,0);
 	m_sprite.setTexture(*m_texLeft);
 	m_sprite.setPosition(m_position);
 	m_sprite.setOrigin(m_texLeft->getSize().x / 2, m_texLeft->getSize().y / 2);
@@ -54,15 +55,15 @@ void Abductor::updatePosition()
 	m_position += m_velocity;
 	m_sprite.setPosition(m_position);
 
-	if (m_direction.x < 0)
+	/*if (m_direction.x < 0)
 		m_sprite.setTexture(*m_texLeft);
 	else
-		m_sprite.setTexture(*m_texRight);
+		m_sprite.setTexture(*m_texRight);*/
 }
 
 void Abductor::chase() 
 {
-	sf::Vector2f temp = m_astronauts->at(0).getPosition() - m_position;
+	/*sf::Vector2f temp = m_astronauts->at(0).getPosition() - m_position;
 	float _lowestDistance = std::sqrt((temp.x*temp.x) + (temp.y*temp.y));;
 	Astro* _closestAstro = &m_astronauts->at(0);
 	for (int i = 1; i < m_astronauts->size(); i++)
@@ -81,12 +82,13 @@ void Abductor::chase()
 		m_abductorCaught = true;
 		_closestAstro->caught();
 		signalAbduction();
-	}
+	}*/
 
-	m_direction = _closestAstro->getPosition() - m_position;
-	float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
-	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
-	m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
+	//m_direction = _closestAstro->getPosition() - m_position;
+	/*float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
+	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);*/
+	//m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
+	m_velocity = m_acceleration;
 
 	updatePosition();
 }
@@ -130,15 +132,15 @@ void Abductor::Flock(vector<Abductor> abductors) {
 	sf::Vector2f ali = Alignment(abductors);
 	sf::Vector2f coh = Cohesion(abductors);
 	// Arbitrarily weight these forces
-	sep = sf::Vector2f(sep.x * 1.5f, sep.y * 1.5f);
-	ali = sf::Vector2f(ali.x * 1.0f, ali.y * 1.0f); // Might need to alter weights for different characteristics
-	coh = sf::Vector2f(coh.x * 1.0, coh.y * 1.0f);
+	sep *= 5.f;
+	ali *= 1.f;// Might need to alter weights for different characteristics
+	coh *= 10.f;
 	// Add the force vectors to acceleration
 	m_acceleration += sep + ali + coh;
 }
 
 sf::Vector2f Abductor::Separation(vector<Abductor> abductors) {
-	float desiredseparation = 180;
+	float desiredseparation = 20;
 
 	sf::Vector2f steer(0, 0);
 	int count = 0;
@@ -153,12 +155,9 @@ sf::Vector2f Abductor::Separation(vector<Abductor> abductors) {
 		if ((d > 0) && (d < desiredseparation))
 		{
 			sf::Vector2f diff(m_position.x - abductors[i].getPosition().x, m_position.y - abductors[i].getPosition().y);
+
 			//normalise
-			float magnitude = sqrt((diff.x * diff.x) + (diff.y * diff.y));
-			if (magnitude > 0)
-				diff = sf::Vector2f(diff.x / magnitude, diff.y / magnitude);
-			else
-				diff = diff;
+			diff = normalize(diff);
 
 			diff = sf::Vector2f(diff.x / d, diff.y / d);      // Weight by distance
 			steer += diff;
@@ -167,30 +166,25 @@ sf::Vector2f Abductor::Separation(vector<Abductor> abductors) {
 	}
 	// Adds average difference of location to acceleration
 	if (count > 0)
-		steer = sf::Vector2f(steer.x / (float)count, steer.y / (float)count);
+		steer /= (float)count;
 
 	float _steerMagnitude = sqrt((steer.x * steer.x) + (steer.y * steer.y));
 	if (_steerMagnitude > 0)
 	{
-		// Steering = Desired - Velocity
-		if (_steerMagnitude > 0)
-			steer = sf::Vector2f(steer.x / _steerMagnitude, steer.y / _steerMagnitude);
-		else
-			steer = steer;
-
-		steer = sf::Vector2f(steer.x * MAX_SPEED, steer.y * MAX_SPEED);
+		steer /= _steerMagnitude;
+		steer *= MAX_SPEED;
 		steer -= m_velocity;
 
 		double size = sqrt((steer.x * steer.x) + (steer.y * steer.y));
-
-		if (size > 0.5)
-			steer = sf::Vector2f(steer.x / size, steer.y / size);
+		if (size > MAX_FORCE)
+			steer = normalize(steer) * MAX_FORCE;
 	}
+
 	return steer;
 }
 
 sf::Vector2f Abductor::Cohesion(vector<Abductor> abductors) {
-	float neighbordist = 50;
+	float neighbordist = 100;
 
 	sf::Vector2f sum(0, 0);
 	int count = 0;
@@ -208,7 +202,7 @@ sf::Vector2f Abductor::Cohesion(vector<Abductor> abductors) {
 	}
 	if (count > 0)
 	{
-		sum = sf::Vector2f(sum.x / count, sum.y / count);
+		sum /= float(count);
 		return Seek(sum);
 	}
 	else {
@@ -218,7 +212,7 @@ sf::Vector2f Abductor::Cohesion(vector<Abductor> abductors) {
 }
 
 sf::Vector2f Abductor::Alignment(vector<Abductor> abductors) {
-	float neighbordist = 50;
+	float neighbordist = 100;
 
 	sf::Vector2f sum(0, 0);
 	int count = 0;
@@ -236,16 +230,17 @@ sf::Vector2f Abductor::Alignment(vector<Abductor> abductors) {
 	// If there are boids close enough for alignment...
 	if (count > 0)
 	{
-		sum = sf::Vector2f(sum.x / (float)count, sum.y / (float)count);
+		sum /= (float)count;
 		sum = normalize(sum);		// Turn sum into a unit vector, and
-		sum = sf::Vector2f(sum.x * MAX_SPEED, sum.y * MAX_SPEED);  // Multiply by maxSpeed
+		sum *= MAX_SPEED;  // Multiply by maxSpeed
 																   // Steer = Desired - Velocity
 		sf::Vector2f steer;//sum = desired(average)  
 		steer = sf::Vector2f(sum.x - m_velocity.x, sum.y - m_velocity.y);
 
-		double size = sqrt(steer.x * steer.x + steer.y * steer.y);
-		if (size > 0.5)
-			steer = sf::Vector2f(steer.x / size, steer.y / size);
+		double size = sqrt((steer.x * steer.x) + (steer.y * steer.y));
+		if (size > MAX_FORCE)
+			steer = normalize(steer) * MAX_FORCE;
+
 		return steer;
 	}
 	else {
@@ -268,7 +263,7 @@ sf::Vector2f Abductor::normalize(sf::Vector2f vector) {
 
 sf::Vector2f Abductor::Seek(sf::Vector2f vector) {
 	sf::Vector2f desired;
-	desired = sf::Vector2f(desired.x - vector.x, desired.y - vector.y);
+	desired = sf::Vector2f(vector.x - m_position.x, vector.y - m_position.y);
 	// A vector pointing from the location to the target
 	// Normalize desired and scale to maximum speed
 	desired = normalize(desired);
@@ -277,8 +272,8 @@ sf::Vector2f Abductor::Seek(sf::Vector2f vector) {
 	m_acceleration = sf::Vector2f(desired.x - m_velocity.x, desired.y - m_velocity.y);
 	double size = sqrt((m_acceleration.x * m_acceleration.x) + (m_acceleration.y * m_acceleration.y));
 
-	if (size > 0.5)
-		m_acceleration = sf::Vector2f(m_acceleration.x / size, m_acceleration.y / size);
+	if (size > MAX_FORCE)
+		m_acceleration = normalize(m_acceleration) * MAX_FORCE;
 
 	return m_acceleration;
 }

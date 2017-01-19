@@ -27,7 +27,8 @@ private:
 	sf::Vector2f				m_velocity;
 	sf::Vector2f				m_acceleration;
 	bool						m_abductorCaught;
-	const int					MAX_SPEED = 5.f;
+	const float					MAX_SPEED = 5.f;
+	const float					MAX_FORCE = 2.5f;
 
 	std::vector<Astro>*			m_astronauts;
 	Player*						m_player;
