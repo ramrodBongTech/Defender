@@ -34,7 +34,6 @@ void Abductor::update(float dt)
 	{
 		m_firingDelay += dt;
 		m_flockDelay += dt;
-		cout << m_flockDelay << "," << m_flockRandomiser << endl;
 
 		if (m_flockDelay < m_flockRandomiser && m_flocking)
 			flock();

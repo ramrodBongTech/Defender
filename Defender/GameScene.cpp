@@ -17,6 +17,7 @@ m_abMan(AbductorManager(&m_astronauts, &m_player, &m_bulletManager))
 	createGround();
 	createNests();
 	InitialiseAstronauts();
+	InitialiseRadar();
 	m_player.setManager(&m_bulletManager);
 }
 
@@ -71,6 +72,8 @@ void GameScene::draw(sf::RenderWindow& window)
 	m_abMan.draw(window);
 
 	m_bulletManager.draw(window);
+
+	
 }
 
 void GameScene::createGround()
@@ -143,27 +146,33 @@ bool GameScene::groundCollision()
 
 void GameScene::drawRadar(sf::RenderWindow& window)
 {
-	sf::Vector2f screenPos = sf::Vector2f(window.getView().getCenter().x - window.getSize().x / 2, window.getView().getCenter().y - window.getSize().y / 2);
+	int widthdiv = 9;
+	double heightdiv = 0.2f;
 
+	sf::Vector2f screenPos = sf::Vector2f(window.getView().getCenter().x - window.getSize().x / 2, window.getView().getCenter().y - window.getSize().y / 2);
+	
 	m_radarSprite.setPosition(screenPos);
 	window.draw(m_radarSprite);
 
-	sf::RectangleShape sr = sf::RectangleShape();
-	sr.setPosition(sf::Vector2f((screenPos.x / 9) + screenPos.x, screenPos.y * 0.2));
-	sr.setSize(sf::Vector2f(window.getSize().x / 9, window.getSize().y * 0.2));
+	m_radarBounds.setPosition(sf::Vector2f(m_player.getPosition().x - (m_radarBounds.getSize().x / 2), 1));
+	window.draw(m_radarBounds);
+
+	/*sf::RectangleShape sr = sf::RectangleShape();
+	sr.setPosition(sf::Vector2f((screenPos.x / widthdiv) + screenPos.x, screenPos.y * heightdiv));
+	sr.setSize(sf::Vector2f(window.getSize().x / widthdiv, window.getSize().y * heightdiv))''
 	sr.setFillColor(sf::Color::Transparent);
 	sr.setOutlineThickness(1);
 	sr.setOutlineColor(sf::Color::White);
-	window.draw(sr);
+	window.draw(sr);*/
 
 	sf::VertexArray gr = m_ground;
 	for (int i = 0; i < gr.getVertexCount(); i++)
-		gr[i].position = sf::Vector2f((gr[i].position.x / 9) + screenPos.x, (gr[i].position.y * 0.2));
+		gr[i].position = sf::Vector2f((/*gr[i].position.x*/ *m_radarBounds.getPosition().x), (gr[i].position.y * m_radarBounds.getPosition().y));
 	window.draw(gr);
 
 	sf::RectangleShape p = sf::RectangleShape();
-	p.setPosition(sf::Vector2f((m_player.getPosition().x / 9) + screenPos.x, m_player.getPosition().y * 0.2));
-	p.setSize(sf::Vector2f(m_player.getWidth() * 0.2, m_player.getHeight() * 0.2));
+	p.setPosition(sf::Vector2f((m_player.getPosition().x / widthdiv) + screenPos.x, m_player.getPosition().y * heightdiv));
+	p.setSize(sf::Vector2f(m_player.getWidth() * heightdiv, m_player.getHeight() * heightdiv));
 	p.setFillColor(sf::Color::Green);
 	window.draw(p);
 
@@ -172,9 +181,9 @@ void GameScene::drawRadar(sf::RenderWindow& window)
 		if (m_nests[i].getAlive())
 		{
 			sf::RectangleShape n = sf::RectangleShape();
-			n.setPosition(sf::Vector2f((m_nests[i].getPosition().x / 9) + screenPos.x, (m_nests[i].getPosition().y * 0.2)));
+			n.setPosition(sf::Vector2f((m_nests[i].getPosition().x / widthdiv) + screenPos.x, (m_nests[i].getPosition().y * heightdiv)));
 			n.setFillColor(sf::Color::Red);
-			n.setSize(sf::Vector2f(m_nests[i].getSprite()->getTexture()->getSize().x * 0.2, m_nests[i].getSprite()->getTexture()->getSize().y * 0.2));
+			n.setSize(sf::Vector2f(m_nests[i].getSprite()->getTexture()->getSize().x * heightdiv, m_nests[i].getSprite()->getTexture()->getSize().y * heightdiv));
 			window.draw(n);
 		}
 	}
@@ -185,9 +194,9 @@ void GameScene::drawRadar(sf::RenderWindow& window)
 		if (_abductors->at(i).getAlive())
 		{
 			sf::RectangleShape ab = sf::RectangleShape();
-			ab.setPosition(sf::Vector2f((_abductors->at(i).getPosition().x / 9) + screenPos.x, (_abductors->at(i).getPosition().y * 0.2)));
+			ab.setPosition(sf::Vector2f((_abductors->at(i).getPosition().x / widthdiv) + screenPos.x, (_abductors->at(i).getPosition().y * heightdiv)));
 			ab.setFillColor(sf::Color::White);
-			ab.setSize(sf::Vector2f(_abductors->at(i).getSprite()->getTexture()->getSize().x * 0.2, _abductors->at(i).getSprite()->getTexture()->getSize().y * 0.2));
+			ab.setSize(sf::Vector2f(_abductors->at(i).getSprite()->getTexture()->getSize().x * heightdiv, _abductors->at(i).getSprite()->getTexture()->getSize().y * heightdiv));
 			window.draw(ab);
 		}
 	}
@@ -197,12 +206,12 @@ void GameScene::drawRadar(sf::RenderWindow& window)
 		if (m_astronauts[i].getAlive())
 		{
 			sf::RectangleShape a = sf::RectangleShape();
-			a.setPosition(sf::Vector2f((m_astronauts[i].getPosition().x / 9) + screenPos.x, (m_astronauts[i].getPosition().y * 0.2)));
+			a.setPosition(sf::Vector2f((m_astronauts[i].getPosition().x / widthdiv) + screenPos.x, (m_astronauts[i].getPosition().y * heightdiv)));
 			if (!m_astronauts[i].isMutant())
 				a.setFillColor(sf::Color::Magenta);
 			else
 				a.setFillColor(sf::Color::Cyan);
-			a.setSize(sf::Vector2f(m_astronauts[i].getSprite()->getTexture()->getSize().x * 0.25, m_astronauts[i].getSprite()->getTexture()->getSize().y * 0.25));
+			a.setSize(sf::Vector2f(m_astronauts[i].getSprite()->getTexture()->getSize().x * heightdiv, m_astronauts[i].getSprite()->getTexture()->getSize().y * heightdiv));
 			window.draw(a);
 		}
 	}
@@ -237,4 +246,11 @@ void GameScene::smartBomb()
 	vector<Abductor>* _abductors = m_abMan.getAbductors();
 	for (int i = 0; i < _abductors->size(); i++)
 		_abductors->at(i).setAlive(false);
+}
+
+void GameScene::InitialiseRadar() {
+	m_radarBounds.setSize(sf::Vector2f(400, 120));
+	m_radarBounds.setFillColor(sf::Color::Transparent);
+	m_radarBounds.setOutlineThickness(1);
+	m_radarBounds.setOutlineColor(sf::Color::White);
 }

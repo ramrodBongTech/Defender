@@ -27,6 +27,7 @@ private:
 	int					m_gameWorldEnd;
 
 	sf::VertexArray		m_ground;
+	sf::RectangleShape	m_radarBounds;
 
 	Player				m_player;
 	Camera				m_cam;
@@ -41,6 +42,7 @@ private:
 	bool groundCollision();
 	void drawRadar(sf::RenderWindow& window);
 	void InitialiseAstronauts();
+	void InitialiseRadar();
 	void smartBomb();
 
 	const int MAX_NUMBER_NESTS = 5;
