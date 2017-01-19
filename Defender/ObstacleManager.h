@@ -20,8 +20,8 @@ private:
 
 	void spawnObstacle();
 
-	const int MAX_OBSTACLES = 20;
-	const int MAX_SPAWN_TIME = 2;
+	const int MAX_OBSTACLES = 10;
+	const int MAX_SPAWN_TIME = 10;
 };
 
 #endif

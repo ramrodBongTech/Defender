@@ -38,5 +38,6 @@ void Obstacle::draw(sf::RenderWindow& window)
 void Obstacle::reset() 
 {
 	m_position = sf::Vector2f(99999, 99999);
+	m_sprite.setPosition(m_position);
 	m_alive = false;
 }

@@ -21,8 +21,8 @@ m_obstacles(obstacles)
 	m_alive = true;
 	m_sprite.setTexture(*m_texLeft);
 	m_sprite.setPosition(m_position);
-	m_width = m_texLeft->getSize().x / 2;
-	m_height = m_texLeft->getSize().y / 2;
+	m_width = m_texLeft->getSize().x ;
+	m_height = m_texLeft->getSize().y ;
 	m_sprite.setOrigin(m_width, m_height);
 
 	m_direction = sf::Vector2f(rand() % 99, rand() % 99);
@@ -81,6 +81,7 @@ void AlienNest::reset()
 	m_alive = false;
 	m_position = sf::Vector2f(99999, 99999);
 	m_sprite.setPosition(m_position);
+	m_health = 1;
 }
 
 int AlienNest::getDamage() { return m_damage; }

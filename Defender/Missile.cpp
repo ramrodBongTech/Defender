@@ -103,12 +103,13 @@ void Missile::reset()
 	m_direction = sf::Vector2f(0, 0);
 	m_acceleration = sf::Vector2f(0, 0);
 	m_velocity = sf::Vector2f(0, 0);
-	m_position = sf::Vector2f(-9999, -9999);
+	m_position = sf::Vector2f(99999, 99999);
 	m_alive = false;
 	m_isExploding = false;
 	m_explosionTimer = 0;
 	m_sprite.setTexture(AssetLoader::getInstance()->m_missile);
 	m_sprite.setTextureRect(sf::IntRect(m_sprite.getTextureRect().left, m_sprite.getTextureRect().top, m_sprite.getTexture()->getSize().x, m_sprite.getTexture()->getSize().y));
+	m_sprite.setPosition(m_position);
 	m_ttl = 0;
 }
 

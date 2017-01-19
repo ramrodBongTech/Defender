@@ -117,6 +117,7 @@ void Astro::reset()
 	m_alive = false;
 	m_position = sf::Vector2f(99999, 99999);
 	m_sprite.setPosition(m_position);
+	m_health = 4;
 }
 
 bool Astro::isCaught() { return m_isCaught; }

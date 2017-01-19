@@ -156,6 +156,7 @@
     <ClInclude Include="Abductor.h" />
     <ClInclude Include="AbductorManager.h" />
     <ClInclude Include="AlienNest.h" />
+    <ClInclude Include="AlienNestManager.h" />
     <ClInclude Include="AssetLoader.h" />
     <ClInclude Include="Astro.h" />
     <ClInclude Include="Bullet.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="Abductor.cpp" />
     <ClCompile Include="AbductorManager.cpp" />
     <ClCompile Include="AlienNest.cpp" />
+    <ClCompile Include="AlienNestManager.cpp" />
     <ClCompile Include="AssetLoader.cpp" />
     <ClCompile Include="Astro.cpp" />
     <ClCompile Include="Bullet.cpp" />

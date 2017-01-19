@@ -38,5 +38,5 @@ void ObstacleManager::spawnObstacle()
 			break;
 		}
 	}
-	m_spawnTimer = -360;
+	m_spawnTimer = 0;
 }

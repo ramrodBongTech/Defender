@@ -97,6 +97,7 @@ void Abductor::reset()
 	m_alive = false;
 	m_position = sf::Vector2f(99999, 99999);
 	m_sprite.setPosition(m_position);
+	m_health = 2;
 	if (m_abductorCaught)
 	{
 		m_abductorCaught = false;

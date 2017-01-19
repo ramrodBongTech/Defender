@@ -79,6 +79,7 @@ void Bullet::reset()
 	m_direction = sf::Vector2f(0, 0);
 	m_velocity = sf::Vector2f(0, 0);
 	m_position = sf::Vector2f(-99999, -99999);
+	m_sprite.setPosition(m_position);
 	m_ttl = 0;
 	m_alive = false;
 }

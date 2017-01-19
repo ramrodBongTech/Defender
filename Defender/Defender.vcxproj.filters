@@ -26,6 +26,7 @@
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="ObstacleManager.cpp" />
+    <ClCompile Include="AlienNestManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetLoader.h" />
@@ -53,6 +54,7 @@
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="ObstacleManager.h" />
+    <ClInclude Include="AlienNestManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

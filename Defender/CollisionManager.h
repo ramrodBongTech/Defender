@@ -34,6 +34,7 @@ private:
 	void Player_Nest_Collision();
 	void Player_Abductor_Collision();
 	void Player_Mutant_Collision();
+	void Obstacle_Everything_Collisions();
 };
 
 #endif
