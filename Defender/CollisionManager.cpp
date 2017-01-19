@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "CollisionManager.h"
 
-CollisionManager::CollisionManager(Player* player, std::vector<PowerUp>* powerUps, std::vector<Bullet>* bullets, std::vector<Missile>* missiles, std::vector<AlienNest>* nests, std::vector<Abductor>* abductors):
+CollisionManager::CollisionManager(Player* player, std::vector<PowerUp>* powerUps, std::vector<Bullet>* bullets, std::vector<Missile>* missiles, std::vector<AlienNest>* nests, std::vector<Abductor>* abductors, std::vector<Astro>* astronauts):
 m_player(player),
 m_powerUps(powerUps),
 m_bullets(bullets),
 m_missiles(missiles),
 m_nests(nests),
-m_abductors(abductors)
+m_abductors(abductors),
+m_astronauts(astronauts)
 {}
 
 CollisionManager::~CollisionManager() {}
@@ -104,16 +105,30 @@ void CollisionManager::Player_Abductor_Collision()
 {
 	for (int i = 0; i < m_abductors->size(); i++)
 	{
-		Abductor* _a = &m_abductors->at(i);
-		if (_a->getAlive())
+		Abductor* _ab = &m_abductors->at(i);
+		if (_ab->getAlive())
 		{
-			if (collide(_a->getSprite(), m_player->getSprite()))
+			if (collide(_ab->getSprite(), m_player->getSprite()))
 			{
-				m_player->takeDamage(_a->getDamage());
-				_a->reset();
+				m_player->takeDamage(_ab->getDamage());
+				_ab->reset();
 			}
 		}
 	}
 }
 
-void CollisionManager::Player_Mutant_Collision() {}
+void CollisionManager::Player_Mutant_Collision() 
+{
+	for (int i = 0; i < m_astronauts->size(); i++)
+	{
+		Astro* _as = &m_astronauts->at(i);
+		if (_as->getAlive() && _as->isMutant())
+		{
+			if (collide(_as->getSprite(), m_player->getSprite()))
+			{
+				m_player->takeDamage(_as->getDamage());
+				_as->reset();
+			}
+		}
+	}
+}

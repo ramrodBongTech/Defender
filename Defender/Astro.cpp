@@ -15,6 +15,7 @@ m_isCaught(false),
 m_isMutant(false),
 m_worldStart(gameWorldStart),
 m_worldEnd(gameWorldEnd),
+m_damage(10),
 m_texLeft(&AssetLoader::getInstance()->m_astronautLeft),
 m_texRight(&AssetLoader::getInstance()->m_astronautRight),
 m_mutantLeft(&AssetLoader::getInstance()->m_mutantLeft),
@@ -99,6 +100,8 @@ bool Astro::isCaught() { return m_isCaught; }
 bool Astro::isMutant() { return m_isMutant; }
 
 void Astro::setState(State s) { m_state = s; }
+
+int Astro::getDamage() { return m_damage; }
 
 void Astro::Pause(float dt)
 {

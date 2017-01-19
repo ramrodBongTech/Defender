@@ -28,6 +28,7 @@ public:
 	bool isMutant();
 
 	void setState(State s);
+	int getDamage();
 
 private:
 	State m_state;
@@ -44,6 +45,7 @@ private:
 
 	int				m_worldStart;
 	int				m_worldEnd;
+	int				m_damage;
 
 	sf::Texture*	m_texLeft;
 	sf::Texture*	m_texRight;
