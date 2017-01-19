@@ -100,7 +100,8 @@ void Abductor::reset()
 	if (m_abductorCaught)
 	{
 		m_abductorCaught = false;
-		m_caughtAstro->setState(Astro::State::FALL);
+		m_caughtAstro->setFalling(true);
+		m_caughtAstro->setCaught(false);
 		m_caughtAstro = nullptr;
 	}
 }
@@ -170,6 +171,7 @@ void Abductor::shoot(float dis)
 		tempDir = sf::Vector2f(tempDir.x / length, tempDir.y / length);
 		_bullet->setDirection(tempDir);
 		_bullet->setSpeed();
+		_bullet->setIsPlayerBullet(false);
 	}
 	m_firingDelay = 0;
 }

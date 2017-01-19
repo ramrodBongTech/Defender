@@ -269,7 +269,7 @@ void GameScene::InitialiseAstronauts()
 	{
 		sf::Vector2f _position(rand() % m_gameWorldEnd, 0.9 * m_height);
 
-		Astro _astro(_position, m_gameWorldStart, m_gameWorldEnd, &m_player);
+		Astro _astro(_position, m_gameWorldStart, m_gameWorldEnd, &m_player, m_obsMan.getObstacles());
 		m_astronauts.push_back(_astro);
 	}
 }
@@ -280,8 +280,11 @@ void GameScene::smartBomb()
 	{
 		if (m_astronauts[i].isMutant())
 			m_astronauts[i].reset();
-		else if(m_astronauts[i].isCaught())
-			m_astronauts[i].setState(Astro::State::FALL);
+		else if (m_astronauts[i].isCaught())
+		{
+			m_astronauts[i].setFalling(true);
+			m_astronauts[i].setCaught(false);
+		}
 	}
 
 	for (int i = 0; i < m_nests.size(); i++)

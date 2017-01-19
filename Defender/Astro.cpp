@@ -4,7 +4,7 @@
 Astro::Astro() : GameEntity()
 {}
 
-Astro::Astro(sf::Vector2f position, int gameWorldStart, int gameWorldEnd, Player* player) : GameEntity(),
+Astro::Astro(sf::Vector2f position, int gameWorldStart, int gameWorldEnd, Player* player, std::vector<Obstacle>* obstacles) : GameEntity(),
 m_state(State::WANDER),
 m_elapsedWanderTime(0),
 m_elapsedPauseTime(0),
@@ -13,6 +13,7 @@ m_speed(0.8f),
 m_velocity(sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed)),
 m_isCaught(false),
 m_isMutant(false),
+m_isFalling(false),
 m_worldStart(gameWorldStart),
 m_worldEnd(gameWorldEnd),
 m_damage(10),
@@ -21,7 +22,8 @@ m_texLeft(&AssetLoader::getInstance()->m_astronautLeft),
 m_texRight(&AssetLoader::getInstance()->m_astronautRight),
 m_mutantLeft(&AssetLoader::getInstance()->m_mutantLeft),
 m_mutantRight(&AssetLoader::getInstance()->m_mutantRight),
-m_player(player)
+m_player(player),
+m_obstacles(obstacles)
 {
 	m_position = position;
 	m_alive = true;
@@ -72,16 +74,23 @@ void Astro::update(float dt)
 			break;
 		}
 
-		if (enemyDetected())
-			m_state = State::EVADE;
-
 		checkClosestObstacle();
 
 		sf::Vector2f BA = m_closestObstacle->getPosition() - m_position;
 		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
 
-		if (dis < MAX_OBSTACLE_DISTANCE)
+		if (dis < MAX_OBSTACLE_DISTANCE && m_isMutant)
 			m_state = State::EVADE_OBSTACLE;
+		else if (dis > MAX_OBSTACLE_DISTANCE && m_isMutant)
+			m_state = State::MUTANT;
+		else if (dis > MAX_OBSTACLE_DISTANCE && m_isCaught)
+			m_state = State::RISE;
+		else if (dis > MAX_OBSTACLE_DISTANCE && m_isFalling)
+			m_state = State::FALL;
+		else if (dis > MAX_OBSTACLE_DISTANCE && !m_isCaught && !m_isMutant && !m_isFalling)
+			m_state = State::WANDER;
+		else if (enemyDetected())
+			m_state = State::EVADE;
 
 		m_sprite.setPosition(m_position);
 		WrapAround();
@@ -114,7 +123,9 @@ bool Astro::isCaught() { return m_isCaught; }
 
 bool Astro::isMutant() { return m_isMutant; }
 
-void Astro::setState(State s) { m_state = s; }
+void Astro::setFalling(bool falling) { m_isFalling = falling; }
+
+void Astro::setCaught(bool caught) { m_isCaught = caught; }
 
 int Astro::getDamage() { return m_damage; }
 
@@ -171,8 +182,6 @@ void Astro::Rise()
 
 void Astro::Fall()
 {
-	m_position.y += 1.0f;
-	m_sprite.setPosition(m_position);
 	if (m_position.y >= 0.9 * 600)
 	{
 		m_state = State::WANDER;
@@ -182,7 +191,10 @@ void Astro::Fall()
 			m_sprite.setTexture(*m_texRight);
 
 		m_isCaught = false;
+		m_isFalling = false;
 	}
+	m_position.y += 1.0f;
+	m_sprite.setPosition(m_position);
 }
 
 void Astro::MutantBehaviour()
@@ -212,11 +224,14 @@ bool Astro::enemyDetected(){ return false; }
 
 void Astro::evadeObstacle()
 {
-	m_direction = m_position - m_closestObstacle->getPosition();
-	float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
-	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
-	m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
-	m_position += m_velocity;
+	if (m_isMutant)
+	{
+		m_direction = m_position - m_closestObstacle->getPosition();
+		float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
+		m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
+		m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
+		m_position += m_velocity;
+	}
 }
 
 void Astro::checkClosestObstacle()

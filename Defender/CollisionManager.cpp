@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CollisionManager.h"
 
-CollisionManager::CollisionManager(Player* player, std::vector<PowerUp>* powerUps, std::vector<Bullet>* bullets, std::vector<Missile>* missiles, std::vector<AlienNest>* nests, std::vector<Abductor>* abductors, std::vector<Astro>* astronauts, std::vector<Obstacle>* obsacles):
+CollisionManager::CollisionManager(Player* player, std::vector<PowerUp>* powerUps, std::vector<Bullet>* bullets, std::vector<Missile>* missiles, std::vector<AlienNest>* nests, std::vector<Abductor>* abductors, std::vector<Astro>* astronauts, std::vector<Obstacle>* obstacles):
 m_player(player),
 m_powerUps(powerUps),
 m_bullets(bullets),
@@ -9,7 +9,7 @@ m_missiles(missiles),
 m_nests(nests),
 m_abductors(abductors),
 m_astronauts(astronauts),
-m_obsacles()
+m_obstacles(obstacles)
 {}
 
 CollisionManager::~CollisionManager() {}
@@ -49,41 +49,44 @@ void CollisionManager::Bullet_Collisions()
 			}
 			else
 			{
-				/*for (int j = 0; j < m_obsacles->size(); j++)
+				for (int j = 0; j < m_obstacles->size(); j++)
 				{
-					Obstacle* _obs = &m_obsacles->at(j);*/
-
-					// Player & Obstacles
-					/*if (collide(_b->getSprite(), m_player->getSprite()))
-						m_player->setAlive(false);*/
-
-					// Bullets & Obstacles
-					/*if (_obs->getSprite(), _b->getSprite())
-						_b->reset();*/
+					Obstacle* _obs = &m_obstacles->at(j);
 
 					// Nests
-					/*if (_obs->getAlive())
-					{*/
-						for (int k = 0; k < m_nests->size(); k++)
-						{
-							AlienNest*_n = &m_nests->at(k);
-							if (_n->getAlive())
-							{
-								// Nests & Bullets
-								if (collide(_n->getSprite(), _b->getSprite()))
-								{
-									_n->takeDamage(_b->getDamage());
-									_b->reset();
-								}
-								// Nests & Obstacles
-								/*if (collide(_n->getSprite(), _obs->getSprite()))
-									_n->reset();*/
-							}
-						}
+					if (_obs->getAlive())
+					{
+						// Player & Obstacles
+						if (collide(_obs->getSprite(), m_player->getSprite()))
+							m_player->setAlive(false);
 
-						// Abductors
+						// Bullets & Obstacles
+   						sf::Vector2f BO = _b->getPosition() - _obs->getPosition();
+						float l = std::sqrt((BO.x*BO.x) + (BO.y*BO.y));
+						if (l < _b->getWidth() + _obs->getWidth())
+							_b->reset();
+
 						if (_b->getAlive())
 						{
+							for (int k = 0; k < m_nests->size(); k++)
+							{
+								AlienNest*_n = &m_nests->at(k);
+								if (_n->getAlive())
+								{
+									// Nests & Bullets
+									if (collide(_n->getSprite(), _b->getSprite()))
+									{
+										_n->takeDamage(_b->getDamage());
+										_b->reset();
+									}
+									// Nests & Obstacles
+									if (collide(_n->getSprite(), _obs->getSprite()))
+										_n->reset();
+								}
+							}
+
+							// Abductors
+
 							for (int k = 0; k < m_abductors->size(); k++)
 							{
 								Abductor* _ab = &m_abductors->at(k);
@@ -96,23 +99,20 @@ void CollisionManager::Bullet_Collisions()
 										_b->reset();
 									}
 									// Abductors & Obstacles
-									/*if (collide(_ab->getSprite(), _obs->getSprite()))
-										_ab->reset();*/
+									if (collide(_ab->getSprite(), _obs->getSprite()))
+										_ab->reset();
 								}
 							}
-						}
 
-						// Mutants
-						if (_b->getAlive())
-						{
+							// Mutants
 							for (int k = 0; k < m_astronauts->size(); k++)
 							{
 								Astro* _as = &m_astronauts->at(k);
 								if (_as->getAlive())
 								{
 									// Astronauts/Mutants && Obstacles
-									/*if (collide(_as->getSprite(), _obs->getSprite()))
-										_as->reset();*/
+									if (collide(_as->getSprite(), _obs->getSprite()))
+										_as->reset();
 
 									if (_as->isMutant())
 									{
@@ -126,8 +126,8 @@ void CollisionManager::Bullet_Collisions()
 								}
 							}
 						}
-					//}
-				//}
+					}
+				}
 			}
 		}
 	}
@@ -156,16 +156,16 @@ void CollisionManager::Player_Missile_Collision()
 		Missile *_m = &m_missiles->at(i);
 		if (_m->getAlive())
 		{
-			//for (int j = 0; j < m_obsacles->size(); j++)
-			//{
-			//	Obstacle* _obs = &m_obsacles->at(j);
-			//	if (_obs->getAlive())
-			//	{
-			//		// Missiles & Obstacles
-			//		if (collide(_m->getSprite(), _obs->getSprite()))
-			//			_m->reset();
-			//	}
-			//}
+			for (int j = 0; j < m_obstacles->size(); j++)
+			{
+				Obstacle* _obs = &m_obstacles->at(j);
+				if (_obs->getAlive())
+				{
+					// Missiles & Obstacles
+					if (collide(_m->getSprite(), _obs->getSprite()))
+						_m->reset();
+				}
+			}
 			// Missiles && Player
 			if (collide(_m->getSprite(), m_player->getSprite()))
 			{

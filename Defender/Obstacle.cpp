@@ -13,7 +13,7 @@ m_velocity(sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed))
 	m_sprite.setOrigin(sf::Vector2f(m_width, m_height));
 	m_sprite.setScale(2.0f, 2.0f);
 	if (rand() % 2 == 0)
-		m_direction.x = -m_direction.x;
+		m_velocity.x = -m_velocity.x;
 }
 
 Obstacle::~Obstacle() {}

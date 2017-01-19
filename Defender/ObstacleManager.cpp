@@ -13,7 +13,7 @@ void ObstacleManager::update(float dt)
 {
 	m_spawnTimer += dt;
 	for (int i = 0; i < m_obstacles.size(); i++)
-		//m_obstacles[i].update(dt);
+		m_obstacles[i].update(dt);
 	if (m_spawnTimer >= MAX_SPAWN_TIME)
 		spawnObstacle();
 }
@@ -33,8 +33,8 @@ void ObstacleManager::spawnObstacle()
 		if (!m_obstacles[i].getAlive())
 		{
 			m_obstacles[i].setAlive(true);
-			//m_obstacles[i].setPosition(sf::Vector2f(rand() % 10800, (rand() % 100) - 200));
-			m_obstacles[i].setPosition(sf::Vector2f(4000, 300));
+			m_obstacles[i].setPosition(sf::Vector2f(rand() % 10800, (rand() % 100) - 200));
+			//m_obstacles[i].setPosition(sf::Vector2f(4000, 300));		FOR TESTING
 			break;
 		}
 	}

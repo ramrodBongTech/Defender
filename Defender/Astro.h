@@ -17,7 +17,7 @@ public:
 	};
 
 	Astro();
-	Astro(sf::Vector2f position, int gameWorldStart, int gameWorldEnd, Player* player);
+	Astro(sf::Vector2f position, int gameWorldStart, int gameWorldEnd, Player* player, std::vector<Obstacle>* obstacles);
 	~Astro();
 
 	void update(float dt);
@@ -29,7 +29,9 @@ public:
 	bool isCaught();
 	bool isMutant();
 
-	void setState(State s);
+	void setFalling(bool falling);
+	void setCaught(bool caught);
+
 	int getDamage();
 	void takeDamage(int damage);
 
@@ -45,6 +47,7 @@ private:
 
 	bool						m_isCaught;
 	bool						m_isMutant;
+	bool						m_isFalling;
 
 	int							m_worldStart;
 	int							m_worldEnd;

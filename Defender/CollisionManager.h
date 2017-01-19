@@ -24,7 +24,7 @@ private:
 	std::vector<AlienNest>*			m_nests;
 	std::vector<Abductor>*			m_abductors;
 	std::vector<Astro>*				m_astronauts;
-	std::vector<Obstacle>*			m_obsacles;
+	std::vector<Obstacle>*			m_obstacles;
 
 	bool collide(sf::Sprite* s1, sf::Sprite* s2);
 
