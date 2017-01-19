@@ -79,6 +79,40 @@ void AssetLoader::loadTextures()
 		std::cout << "Mutant Right image not loading" << std::endl;
 	m_mutantRight.setSmooth(true);
 
+	// Load in the power up textures
+	if (!m_powerUp.loadFromFile("Assets/Textures/powerUp.png"))
+		std::cout << "Power Up image not loading" << std::endl;
+	m_powerUp.setSmooth(true);
+
+	// Load in the explosion textures
+	if (!m_explosion1.loadFromFile("Assets/Textures/explosion1.png"))
+		std::cout << "First explosion image not loading" << std::endl;
+	m_explosion1.setSmooth(true);
+
+	if (!m_explosion2.loadFromFile("Assets/Textures/explosion2.png"))
+		std::cout << "Second Explosion image not loading" << std::endl;
+	m_explosion2.setSmooth(true);
+
+	if (!m_explosion3.loadFromFile("Assets/Textures/explosion3.png"))
+		std::cout << "Third Explosion image not loading" << std::endl;
+	m_explosion3.setSmooth(true);
+
+	if (!m_explosion4.loadFromFile("Assets/Textures/explosion4.png"))
+		std::cout << "Fourth Explosion image not loading" << std::endl;
+	m_explosion4.setSmooth(true);
+
+	if (!m_explosion5.loadFromFile("Assets/Textures/explosion5.png"))
+		std::cout << "Fifth explosion image not loading" << std::endl;
+	m_explosion5.setSmooth(true);
+
+	if (!m_explosion6.loadFromFile("Assets/Textures/explosion6.png"))
+		std::cout << "Sixth Explosion image not loading" << std::endl;
+	m_explosion6.setSmooth(true);
+
+	// Load in the obstacle texture
+	if (!m_obstacle.loadFromFile("Assets/Textures/obstacle.png"))
+		std::cout << "Opstacle image not loading" << std::endl;
+	m_obstacle.setSmooth(true);
 }
 
 void AssetLoader::loadSounds()

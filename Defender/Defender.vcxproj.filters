@@ -21,6 +21,12 @@
     <ClCompile Include="Astro.cpp" />
     <ClCompile Include="AbductorManager.cpp" />
     <ClCompile Include="BulletManager.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
+    <ClCompile Include="PowerUpManager.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="ObstacleManager.cpp" />
+    <ClCompile Include="AlienNestManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetLoader.h" />
@@ -43,6 +49,12 @@
     <ClInclude Include="Astro.h" />
     <ClInclude Include="AbductorManager.h" />
     <ClInclude Include="BulletManager.h" />
+    <ClInclude Include="PowerUp.h" />
+    <ClInclude Include="PowerUpManager.h" />
+    <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="ObstacleManager.h" />
+    <ClInclude Include="AlienNestManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

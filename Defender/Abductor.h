@@ -5,13 +5,14 @@
 #include "BulletManager.h"
 #include "Astro.h"
 #include "Player.h"
+#include "Obstacle.h"
 #include <vector>
 
 using namespace std;
 
 class Abductor : public GameEntity {
 public:
-	Abductor(Player* player, std::vector<Astro>* astros, BulletManager* bulletManager);
+	Abductor(Player* player, std::vector<Astro>* astros, BulletManager* bulletManager, std::vector<Obstacle>* obstacles);
 	~Abductor();
 
 	void Flock(vector<Abductor> abductors);
@@ -19,8 +20,13 @@ public:
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
 
+	void reset();
+
 	sf::Vector2f GetVelocity();
-	bool isFlocking();
+
+	int getDamage();
+	void takeDamage(int damage);
+
 private:
 	float						m_speed;
 	float						m_firingDelay;
@@ -28,17 +34,30 @@ private:
 	float						m_flockDelay;
 	bool						m_flocking;
 
+	float						m_signalTimer;
+	bool	isFlocking();
+
 	int							m_flockRandomiser;
+
 	sf::Vector2f				m_direction;
 	sf::Vector2f				m_velocity;
 	sf::Vector2f				m_acceleration;
+	sf::Vector2f				m_signalPos;
 	bool						m_abductorCaught;
+
+	bool						m_signal;
+	int							m_damage;
+	int							m_health;
+
 	const float					MAX_SPEED = 2.f;
 	const float					MAX_FORCE = .05f;
 
 	std::vector<Astro>*			m_astronauts;
 	Player*						m_player;
 	BulletManager*				m_bulletManager;
+	Astro*						m_caughtAstro;
+	std::vector<Obstacle>*		m_obstacles;
+	Obstacle*					m_closestObstacle;
 
 	sf::Texture*				m_texLeft;
 	sf::Texture*				m_texRight;
@@ -55,9 +74,11 @@ private:
 	void flock();
 	void shoot(float dis);
 	void rise();
-	void signalAbduction();
+	void evadeObstacle();
+	void checkClosestObstacle();
 
-	const int MAX_SHOOTING_DISTANCE = 300;
+	const int MAX_SHOOTING_DISTANCE = 200;
+	const int MAX_EVADE_DISTANCE = 400;
 	const int MAX_FIRING_DELAY = 3;
 };
 

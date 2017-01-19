@@ -79,6 +79,7 @@ void Bullet::reset()
 	m_direction = sf::Vector2f(0, 0);
 	m_velocity = sf::Vector2f(0, 0);
 	m_position = sf::Vector2f(-99999, -99999);
+	m_sprite.setPosition(m_position);
 	m_ttl = 0;
 	m_alive = false;
 }
@@ -99,13 +100,12 @@ void Bullet::setSpeed() { m_velocity = sf::Vector2f(m_speed * m_direction.x, m_s
 
 void Bullet::setIsPlayerBullet(bool ipb) { m_isPlayerBullet = ipb; }
 
-bool Bullet::isplayerBullet() { return m_isPlayerBullet; }
+bool Bullet::isPlayerBullet() { return m_isPlayerBullet; }
 
 void Bullet::setSprite()
 {
-	m_sprite.setPosition(sf::Vector2f(0, 0));
-	m_sprite.setOrigin(sf::Vector2f(m_width, m_height));
 	m_sprite.setPosition(m_position);
+	m_sprite.setOrigin(sf::Vector2f(m_width, m_height));
 	m_sprite.setRotation(90);
 	m_sprite.setColor(sf::Color(255, 0, 0, 255));
 	m_sprite.setScale(0.25f, 1.0f);

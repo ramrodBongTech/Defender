@@ -13,16 +13,21 @@ public:
 	void update(float dt, sf::Vector2f* playerPos);
 	void draw(sf::RenderWindow& window);
 
+	void reset();
+
 private:
 	sf::Vector2f		m_acceleration;
+	float				m_explosionTimer;
+	bool				m_isExploding;
+	sf::Sprite			m_explosionSprite;
 
 	void updatePosition();
 	void track(sf::Vector2f* playerPos);
-	void explode();
-	void reset();
+	void explode(float dt);
 	void getNewOrientation();
 
-	const float			MAX_SPEED = 6.0f;
+	const int			MAX_SPEED = 6;
+	const double		MAX_EXPLOSION_TIME = 0.6;
 };
 
 #endif

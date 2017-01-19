@@ -34,6 +34,17 @@ public:
 	sf::Texture		m_mutantLeft;
 	sf::Texture		m_mutantRight;
 
+	sf::Texture		m_powerUp;
+
+	sf::Texture		m_explosion1;
+	sf::Texture		m_explosion2;
+	sf::Texture		m_explosion3;
+	sf::Texture		m_explosion4;
+	sf::Texture		m_explosion5;
+	sf::Texture		m_explosion6;
+
+	sf::Texture		m_obstacle;
+
 private:
 	void loadTextures();
 	void loadSounds();
