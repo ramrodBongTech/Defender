@@ -24,6 +24,8 @@ void Obstacle::update(float dt)
 	{
 		m_position += m_velocity;
 		m_sprite.setPosition(m_position);
+		if (m_position.y + m_height > 600)
+			reset();
 	}
 }
 

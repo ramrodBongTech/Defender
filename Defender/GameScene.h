@@ -9,7 +9,7 @@
 #include "AbductorManager.h"
 #include "PowerUpManager.h"
 #include "CollisionManager.h"
-#include "Obstacle.h"
+#include "ObstacleManager.h"
 
 #include <vector>
 
@@ -42,7 +42,7 @@ private:
 	AbductorManager		m_abMan;
 	PowerUpManager		m_powerMan;
 	CollisionManager	m_collMan;
-	Obstacle			m_ob;
+	ObstacleManager		m_obsMan;
 
 	void createGround();
 	void createNests();

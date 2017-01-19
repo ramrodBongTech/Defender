@@ -16,16 +16,13 @@ m_bulletManager(BulletManager()),
 m_abMan(AbductorManager(&m_astronauts, &m_player, &m_bulletManager)),
 m_powerMan(PowerUpManager()),
 m_collMan(CollisionManager(&m_player, m_powerMan.getPowerUps(), m_bulletManager.getBullets(), m_bulletManager.getMissiles(), &m_nests, m_abMan.getAbductors(), &m_astronauts)),
-m_ob(Obstacle())
+m_obsMan(ObstacleManager())
 {
 	m_radarSprite.setScale(1, 0.20);
 	createGround();
 	createNests();
 	InitialiseAstronauts();
 	m_player.setManager(&m_bulletManager);
-
-	m_ob.setAlive(true);
-	m_ob.setPosition(m_player.getPosition());
 }
 
 GameScene::~GameScene()
@@ -63,7 +60,7 @@ void GameScene::update(float dt)
 
 	m_collMan.update();
 
-	m_ob.update(dt);
+	m_obsMan.update(dt);
 }
 
 void GameScene::draw(sf::RenderWindow& window)
@@ -88,7 +85,7 @@ void GameScene::draw(sf::RenderWindow& window)
 
 	m_powerMan.draw(window);
 
-	m_ob.draw(window);
+	m_obsMan.draw(window);
 }
 
 void GameScene::createGround()
