@@ -17,6 +17,9 @@ m_bulletManager(bulletManager)
 	m_sprite.setTexture(*m_texLeft);
 	m_sprite.setPosition(m_position);
 	m_sprite.setOrigin(m_texLeft->getSize().x / 2, m_texLeft->getSize().y / 2);
+	m_flockRandomiser = rand() % 6 + 3;
+	m_flocking = true;
+	m_flockDelay = 0;
 }
 
 Abductor::~Abductor() 
@@ -30,17 +33,21 @@ void Abductor::update(float dt)
 	if (m_alive)
 	{
 		m_firingDelay += dt;
+		m_flockDelay += dt;
+		cout << m_flockDelay << "," << m_flockRandomiser << endl;
 
-		if (!m_abductorCaught)
+		if (m_flockDelay < m_flockRandomiser && m_flocking)
+			flock();
+		else if (!m_abductorCaught)
 			chase();
-		else
+		else if (m_abductorCaught)
 			rise();
 
-		sf::Vector2f BA = m_player->getPosition() - m_position;
+		/*sf::Vector2f BA = m_player->getPosition() - m_position;
 		float dis = std::sqrt((BA.x*BA.x) + (BA.y*BA.y));
 
 		if (dis < MAX_SHOOTING_DISTANCE && m_firingDelay >= MAX_FIRING_DELAY)
-			shoot(dis);
+			shoot(dis);*/
 	}
 }
 
@@ -50,20 +57,12 @@ void Abductor::draw(sf::RenderWindow& window)
 		window.draw(m_sprite);
 }
 
-void Abductor::updatePosition() 
-{
-	m_position += m_velocity;
-	m_sprite.setPosition(m_position);
-
-	/*if (m_direction.x < 0)
-		m_sprite.setTexture(*m_texLeft);
-	else
-		m_sprite.setTexture(*m_texRight);*/
-}
-
 void Abductor::chase() 
 {
-	/*sf::Vector2f temp = m_astronauts->at(0).getPosition() - m_position;
+	m_flockDelay = 0;
+	m_flocking = false;
+
+	sf::Vector2f temp = m_astronauts->at(0).getPosition() - m_position;
 	float _lowestDistance = std::sqrt((temp.x*temp.x) + (temp.y*temp.y));;
 	Astro* _closestAstro = &m_astronauts->at(0);
 	for (int i = 1; i < m_astronauts->size(); i++)
@@ -82,20 +81,35 @@ void Abductor::chase()
 		m_abductorCaught = true;
 		_closestAstro->caught();
 		signalAbduction();
-	}*/
+	}
 
-	//m_direction = _closestAstro->getPosition() - m_position;
-	/*float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
-	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);*/
-	//m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
-	m_velocity = m_acceleration;
-
+	m_direction = _closestAstro->getPosition() - m_position;
+	float length = sqrt((m_direction.x*m_direction.x) + (m_direction.y*m_direction.y));
+	m_direction = sf::Vector2f(m_direction.x / length, m_direction.y / length);
+	m_velocity = sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed);
+	
 	updatePosition();
+}
+
+void Abductor::updatePosition()
+{
+	m_position += m_velocity;
+	m_sprite.setPosition(m_position);
+
+	if (m_velocity.x < 0)
+		m_sprite.setTexture(*m_texLeft);
+	else
+		m_sprite.setTexture(*m_texRight);
 }
 
 void Abductor::flock() 
 {
+	m_velocity += m_acceleration;
+	double size = sqrt((m_velocity.x * m_velocity.x) + (m_velocity.y * m_velocity.y));
+	if (size > MAX_SPEED)
+		m_velocity = normalize(m_velocity) * MAX_SPEED;
 
+	updatePosition();
 }
 
 void Abductor::shoot(float dis)
@@ -132,15 +146,15 @@ void Abductor::Flock(vector<Abductor> abductors) {
 	sf::Vector2f ali = Alignment(abductors);
 	sf::Vector2f coh = Cohesion(abductors);
 	// Arbitrarily weight these forces
-	sep *= 5.f;
-	ali *= 1.f;// Might need to alter weights for different characteristics
-	coh *= 10.f;
+	sep *= 3.5f;
+	ali *= 2.f;// Might need to alter weights for different characteristics
+	coh *= 1.f;
 	// Add the force vectors to acceleration
-	m_acceleration += sep + ali + coh;
+	m_acceleration = sep + ali + coh;
 }
 
 sf::Vector2f Abductor::Separation(vector<Abductor> abductors) {
-	float desiredseparation = 20;
+	float desiredseparation = 75;
 
 	sf::Vector2f steer(0, 0);
 	int count = 0;
@@ -184,7 +198,7 @@ sf::Vector2f Abductor::Separation(vector<Abductor> abductors) {
 }
 
 sf::Vector2f Abductor::Cohesion(vector<Abductor> abductors) {
-	float neighbordist = 100;
+	float neighbordist = 400;
 
 	sf::Vector2f sum(0, 0);
 	int count = 0;
@@ -279,3 +293,4 @@ sf::Vector2f Abductor::Seek(sf::Vector2f vector) {
 }
 
 sf::Vector2f Abductor::GetVelocity() { return m_velocity; }
+bool Abductor::isFlocking() { return m_flocking; }

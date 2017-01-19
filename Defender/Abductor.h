@@ -20,15 +20,21 @@ public:
 	void draw(sf::RenderWindow& window);
 
 	sf::Vector2f GetVelocity();
+	bool isFlocking();
 private:
 	float						m_speed;
 	float						m_firingDelay;
+
+	float						m_flockDelay;
+	bool						m_flocking;
+
+	int							m_flockRandomiser;
 	sf::Vector2f				m_direction;
 	sf::Vector2f				m_velocity;
 	sf::Vector2f				m_acceleration;
 	bool						m_abductorCaught;
-	const float					MAX_SPEED = 5.f;
-	const float					MAX_FORCE = 2.5f;
+	const float					MAX_SPEED = 2.f;
+	const float					MAX_FORCE = .05f;
 
 	std::vector<Astro>*			m_astronauts;
 	Player*						m_player;

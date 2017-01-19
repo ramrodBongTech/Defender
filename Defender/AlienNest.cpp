@@ -44,8 +44,10 @@ void AlienNest::update(float dt)
 		if (dis < MAX_SHOOTING_DISTANCE && m_firingDelay >= MAX_FIRING_DELAY)
 			shoot(dis);
 
-		if (m_abductorDelay >= MAX_ABDUCTOR_DELAY)
+		if (m_abductorDelay >= MAX_ABDUCTOR_DELAY) {
 			spawnAbductor();
+			m_abductorDelay = 0;
+		}
 	}
 }
 
