@@ -16,6 +16,7 @@ m_isMutant(false),
 m_worldStart(gameWorldStart),
 m_worldEnd(gameWorldEnd),
 m_damage(10),
+m_health(4),
 m_texLeft(&AssetLoader::getInstance()->m_astronautLeft),
 m_texRight(&AssetLoader::getInstance()->m_astronautRight),
 m_mutantLeft(&AssetLoader::getInstance()->m_mutantLeft),
@@ -73,6 +74,9 @@ void Astro::update(float dt)
 
 		m_sprite.setPosition(m_position);
 		WrapAround();
+
+		if (m_health <= 0)
+			reset();
 	}
 }
 
@@ -102,6 +106,8 @@ bool Astro::isMutant() { return m_isMutant; }
 void Astro::setState(State s) { m_state = s; }
 
 int Astro::getDamage() { return m_damage; }
+
+void Astro::takeDamage(int damage) { m_health -= damage; }
 
 void Astro::Pause(float dt)
 {

@@ -61,6 +61,7 @@ void CollisionManager::Bullet_Collisions()
 					}
 				}
 
+				// Abductors
 				if (_b->getAlive())
 				{
 					for (int i = 0; i < m_abductors->size(); i++)
@@ -71,6 +72,23 @@ void CollisionManager::Bullet_Collisions()
 							if (collide(_ab->getSprite(), _b->getSprite()))
 							{
 								_ab->takeDamage(_b->getDamage());
+								_b->reset();
+							}
+						}
+					}
+				}
+
+				// Mutants
+				if (_b->getAlive())
+				{
+					for (int i = 0; i < m_astronauts->size(); i++)
+					{
+						Astro* _as = &m_astronauts->at(i);
+						if (_as->getAlive() && _as->isMutant())
+						{
+							if (collide(_as->getSprite(), _b->getSprite()))
+							{
+								_as->takeDamage(_b->getDamage());
 								_b->reset();
 							}
 						}

@@ -29,6 +29,7 @@ public:
 
 	void setState(State s);
 	int getDamage();
+	void takeDamage(int damage);
 
 private:
 	State m_state;
@@ -46,6 +47,7 @@ private:
 	int				m_worldStart;
 	int				m_worldEnd;
 	int				m_damage;
+	int				m_health;
 
 	sf::Texture*	m_texLeft;
 	sf::Texture*	m_texRight;
