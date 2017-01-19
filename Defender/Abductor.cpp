@@ -111,7 +111,7 @@ void Abductor::reset()
 	{
 		m_abductorCaught = false;
 		m_caughtAstro->setFalling(true);
-		m_caughtAstro->setCaught(false);
+		//m_caughtAstro->setCaught(false);
 		m_caughtAstro = nullptr;
 	}
 }

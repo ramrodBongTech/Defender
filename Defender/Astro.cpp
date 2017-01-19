@@ -16,9 +16,9 @@ m_damage(10),
 m_health(4),
 m_swarmRandomiser(rand() % 11 + 4),
 m_isCaught(false),
-m_isMutant(true),
+m_isMutant(false),
 m_isFalling(false),
-m_isSwarming(true),
+m_isSwarming(false),
 m_acceleration(sf::Vector2f(0, 0)),
 m_direction(sf::Vector2f((rand() % 1)-1, 0)),
 m_velocity(sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed)),
@@ -80,8 +80,6 @@ void Astro::update(float dt)
 			swarm();
 			break;
 		}
-
-		m_swarmDelay += dt;
 		checkClosestObstacle();
 
 		sf::Vector2f BA = m_closestObstacle->getPosition() - m_position;
@@ -235,7 +233,7 @@ void Astro::swarm()
 	double size = sqrt((m_velocity.x * m_velocity.x) + (m_velocity.y * m_velocity.y));
 	if (size > MAX_SPEED) {
 		m_velocity = normalize(m_velocity) * MAX_SPEED;
-		m_velocity = sf::Vector2f(m_velocity.x * MAX_SPEED, sin(m_position.x / 15) * MAX_SPEED);
+		m_velocity = sf::Vector2f(m_velocity.x * MAX_SPEED, m_velocity.y * MAX_SPEED);
 	}
 
 	m_position += m_velocity;
@@ -288,28 +286,26 @@ void Astro::Swarm(std::vector<Astro> astronaut)
 	int B = 15000;
 	int N = 1;
 	int M = 2;
-	int count = 0;
-	float totalForce = 0;
 	sf::Vector2f sum(0, 0);
 
 	for (int i = 0; i < astronaut.size(); i++)
 	{
-		R = sf::Vector2f(m_position.x - astronaut[i].getPosition().x, m_position.y - astronaut[i].getPosition().y);
-		float D = std::sqrt(R.x * R.x + R.y * R.y);
-		if (D > 0)
-		{
-			float U = -A / pow(D, N) + B / pow(D, M);
-			normalize(R);
-			R = sf::Vector2f(R.x * U, R.y * U);
-			sum = sf::Vector2f(R.x + sum.x, R.y + sum.y);
-		}
-
+		/*if (astronaut[i].isMutant())
+		{*/
+			R = sf::Vector2f(m_position.x - astronaut[i].getPosition().x, m_position.y - astronaut[i].getPosition().y);
+			float D = std::sqrt(R.x * R.x + R.y * R.y);
+			if (D > 0)
+			{
+				float U = -A / pow(D, N) + B / pow(D, M);
+				normalize(R);
+				R = sf::Vector2f(R.x * U, R.y * U);
+				sum = sf::Vector2f(R.x + sum.x, R.y + sum.y);
+			}
+		//}
 	}
 	sum = sf::Vector2f(sum.x / astronaut.size() - 1, sum.y / astronaut.size() - 1);
 	m_acceleration += sum;
 	m_acceleration = sf::Vector2f(m_acceleration.x * 0.4f, m_acceleration.y * 0.4f);
-	//updatePosition();
-	//borders();
 }
 
 sf::Vector2f Astro::Seek(sf::Vector2f vector) 
