@@ -28,10 +28,13 @@ public:
 private:
 	float						m_speed;
 	float						m_firingDelay;
+	float						m_signalTimer;
 	sf::Vector2f				m_direction;
 	sf::Vector2f				m_velocity;
 	sf::Vector2f				m_acceleration;
+	sf::Vector2f				m_signalPos;
 	bool						m_abductorCaught;
+	bool						m_signal;
 	int							m_damage;
 	int							m_health;
 

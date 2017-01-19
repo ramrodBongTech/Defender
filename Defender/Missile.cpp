@@ -79,22 +79,22 @@ void Missile::explode(float dt)
 {
 	m_explosionTimer += dt;
 
-	if (m_explosionTimer >= 1.0f && m_explosionTimer < 1.2f)
+	if (m_explosionTimer >= 0.5f && m_explosionTimer < 0.6f)
 		m_sprite.setTexture(AssetLoader::getInstance()->m_explosion6);
-	else if (m_explosionTimer >= 0.8f && m_explosionTimer < 1.0f)
+	else if (m_explosionTimer >= 0.4f && m_explosionTimer < 0.5f)
 		m_sprite.setTexture(AssetLoader::getInstance()->m_explosion5);
-	else if (m_explosionTimer >= 0.6f && m_explosionTimer < 0.8f)
+	else if (m_explosionTimer >= 0.3f && m_explosionTimer < 0.4f)
 		m_sprite.setTexture(AssetLoader::getInstance()->m_explosion4);
-	else if (m_explosionTimer >= 0.4f && m_explosionTimer < 0.6f)
+	else if (m_explosionTimer >= 0.2f && m_explosionTimer < 0.3f)
 		m_sprite.setTexture(AssetLoader::getInstance()->m_explosion3);
-	else if (m_explosionTimer >= 0.2f && m_explosionTimer < 0.4f)
+	else if (m_explosionTimer >= 0.1f && m_explosionTimer < 0.2f)
 		m_sprite.setTexture(AssetLoader::getInstance()->m_explosion2);
-	else if (m_explosionTimer >= 0 && m_explosionTimer < 0.2f)
+	else if (m_explosionTimer >= 0 && m_explosionTimer < 0.1f)
         m_sprite.setTexture(AssetLoader::getInstance()->m_explosion1);
 
 	m_sprite.setTextureRect(sf::IntRect(m_sprite.getTextureRect().left, m_sprite.getTextureRect().top, m_sprite.getTexture()->getSize().x, m_sprite.getTexture()->getSize().y));
 
-	if (m_explosionTimer >= MAX_EXPLOSION_TIME)
+	if (m_explosionTimer >= 0.6)
 		reset();
 }
 

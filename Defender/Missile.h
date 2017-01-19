@@ -27,7 +27,7 @@ private:
 	void getNewOrientation();
 
 	const int			MAX_SPEED = 6;
-	const double		MAX_EXPLOSION_TIME = 1.2;
+	const double		MAX_EXPLOSION_TIME = 0.6;
 };
 
 #endif

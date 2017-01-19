@@ -4,9 +4,12 @@
 Abductor::Abductor(Player* player, std::vector<Astro>* astros, BulletManager* bulletManager) : GameEntity(),
 m_speed(1.0f),
 m_firingDelay(3.0f),
+m_signalTimer(0),
 m_direction(sf::Vector2f(-1, 0)),
 m_velocity(sf::Vector2f((m_direction.x * m_speed), (m_direction.y * m_speed))),
+m_signalPos(sf::Vector2f(0, 0)),
 m_abductorCaught(false),
+m_signal(false),
 m_damage(10),
 m_health(2),
 m_texLeft(&AssetLoader::getInstance()->m_abductorLeft),
@@ -48,6 +51,17 @@ void Abductor::update(float dt)
 
 		if (m_health <= 0)
 			reset();
+
+		if (m_signal)
+		{
+			m_signalTimer += dt;
+
+			if (m_signalTimer >= 2.0f)
+			{
+				m_signalTimer = 0;
+				m_signal = false;
+			}
+		}
 	}
 }
 
@@ -55,6 +69,18 @@ void Abductor::draw(sf::RenderWindow& window)
 {
 	if (m_alive)
 		window.draw(m_sprite);
+
+	if (m_signal)
+	{
+		sf::RectangleShape sr = sf::RectangleShape();
+		sf::Vector2f screenPos = sf::Vector2f(window.getView().getCenter().x - window.getSize().x / 2, window.getView().getCenter().y - window.getSize().y / 2);
+		sr.setPosition(sf::Vector2f((m_signalPos.x / 9) + screenPos.x, m_signalPos.y * 0.2));
+		sr.setSize(sf::Vector2f((m_width * 4) / 9, (m_height * 4) * 0.2));
+		sr.setFillColor(sf::Color::Transparent);
+		sr.setOutlineThickness(2);
+		sr.setOutlineColor(sf::Color::Red);
+		window.draw(sr);
+	}
 }
 
 void Abductor::reset()
@@ -106,7 +132,8 @@ void Abductor::chase()
 		m_abductorCaught = true;
 		m_caughtAstro = _closestAstro;
 		_closestAstro->caught();
-		signalAbduction();
+		m_signal = true;
+		m_signalPos = m_position;
 	}
 
 	m_direction = _closestAstro->getPosition() - m_position;
@@ -151,7 +178,7 @@ void Abductor::rise()
 
 void Abductor::signalAbduction()
 {
-
+	
 }
 
 void Abductor::Flock(vector<Abductor> abductors) {
