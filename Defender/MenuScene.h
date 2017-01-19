@@ -10,6 +10,8 @@ public:
 
 	void update(float dt);
 	void draw(sf::RenderWindow& window);
+private:
+	sf::Sprite m_logo;
 };
 
 #endif

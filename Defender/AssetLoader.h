@@ -47,6 +47,8 @@ public:
 
 	sf::Texture		m_background;
 
+	sf::Texture		m_logo;
+
 private:
 	void loadTextures();
 	void loadSounds();

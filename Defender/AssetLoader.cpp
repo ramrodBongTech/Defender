@@ -116,7 +116,11 @@ void AssetLoader::loadTextures()
 
 	if (!m_background.loadFromFile("Assets/Textures/background.png"))
 		std::cout << "background image not loading" << std::endl;
-	m_obstacle.setSmooth(true);
+	m_background.setSmooth(true);
+
+	if (!m_logo.loadFromFile("Assets/Textures/logo.png"))
+		std::cout << "logo image not loading" << std::endl;
+	m_logo.setSmooth(true);
 }
 
 void AssetLoader::loadSounds()
