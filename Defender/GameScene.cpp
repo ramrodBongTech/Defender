@@ -190,6 +190,19 @@ void GameScene::drawRadar(sf::RenderWindow& window)
 		}
 	}
 
+	vector<Missile>* _missiles = m_bulletManager.getMissiles();
+	for (int i = 0; i < _missiles->size(); i++)
+	{
+		if (_missiles->at(i).getAlive())
+		{
+			sf::RectangleShape m = sf::RectangleShape();
+			m.setPosition(sf::Vector2f((_missiles->at(i).getPosition().x / m_screenSizes) + screenPos.x, (_missiles->at(i).getPosition().y * m_radarMultiplier)));
+			m.setFillColor(sf::Color(220, 20, 60, 255));
+			m.setSize(sf::Vector2f(_missiles->at(i).getSprite()->getTexture()->getSize().x * m_radarMultiplier, _missiles->at(i).getSprite()->getTexture()->getSize().y * m_radarMultiplier));
+			window.draw(m);
+		}
+	}
+
 	for (int i = 0; i < m_nests.size(); i++)
 	{
 		if (m_nests[i].getAlive())
