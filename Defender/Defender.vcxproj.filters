@@ -24,6 +24,7 @@
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="PowerUpManager.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetLoader.h" />
@@ -49,6 +50,7 @@
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="PowerUpManager.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="Obstacle.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

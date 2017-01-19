@@ -43,6 +43,8 @@ public:
 	sf::Texture		m_explosion5;
 	sf::Texture		m_explosion6;
 
+	sf::Texture		m_obstacle;
+
 private:
 	void loadTextures();
 	void loadSounds();
