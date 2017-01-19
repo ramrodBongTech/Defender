@@ -22,6 +22,7 @@ void CollisionManager::update()
 	Player_Nest_Collision();
 	Player_Abductor_Collision();
 	Player_Mutant_Collision();
+	Obstacle_Everything_Collisions();
 }
 
 bool CollisionManager::collide(sf::Sprite* s1, sf::Sprite* s2)

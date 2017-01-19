@@ -290,18 +290,15 @@ void Astro::Swarm(std::vector<Astro> astronaut)
 
 	for (int i = 0; i < astronaut.size(); i++)
 	{
-		/*if (astronaut[i].isMutant())
-		{*/
-			R = sf::Vector2f(m_position.x - astronaut[i].getPosition().x, m_position.y - astronaut[i].getPosition().y);
-			float D = std::sqrt(R.x * R.x + R.y * R.y);
-			if (D > 0)
-			{
-				float U = -A / pow(D, N) + B / pow(D, M);
-				normalize(R);
-				R = sf::Vector2f(R.x * U, R.y * U);
-				sum = sf::Vector2f(R.x + sum.x, R.y + sum.y);
-			}
-		//}
+		R = sf::Vector2f(m_position.x - astronaut[i].getPosition().x, m_position.y - astronaut[i].getPosition().y);
+		float D = std::sqrt(R.x * R.x + R.y * R.y);
+		if (D > 0)
+		{
+			float U = -A / pow(D, N) + B / pow(D, M);
+			normalize(R);
+			R = sf::Vector2f(R.x * U, R.y * U);
+			sum = sf::Vector2f(R.x + sum.x, R.y + sum.y);
+		}
 	}
 	sum = sf::Vector2f(sum.x / astronaut.size() - 1, sum.y / astronaut.size() - 1);
 	m_acceleration += sum;

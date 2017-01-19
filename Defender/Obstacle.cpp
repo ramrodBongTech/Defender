@@ -6,6 +6,8 @@ m_speed(8.0f),
 m_direction(sf::Vector2f(0.5f, 0.5f)),
 m_velocity(sf::Vector2f(m_direction.x * m_speed, m_direction.y * m_speed))
 {
+	/*m_alive = true;
+	m_position = sf::Vector2f(3000, 300);*/
 	m_sprite = sf::Sprite(AssetLoader::getInstance()->m_obstacle);
 	m_width = m_sprite.getTexture()->getSize().x / 2;
 	m_height = m_sprite.getTexture()->getSize().y / 2;
@@ -24,7 +26,7 @@ void Obstacle::update(float dt)
 	{
 		m_position += m_velocity;
 		m_sprite.setPosition(m_position);
-		if (m_position.y + m_height > 600)
+		if (m_position.y > 800)
 			reset();
 	}
 }
