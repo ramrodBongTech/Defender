@@ -6,7 +6,7 @@ Camera::Camera(float width, float height, int worldStart, int worldEnd):
 	m_height(height),
 	m_worldStart(worldStart),
 	m_worldEnd(worldEnd),
-	m_sprite(AssetLoader::getInstance()->m_background)
+	m_sprite(AssetLoader::getInstance()->m_grid)
 {
 	m_sprite.setPosition(m_worldStart, 0);
 	m_sprite.scale(9, 1);

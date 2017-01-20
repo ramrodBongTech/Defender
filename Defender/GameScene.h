@@ -32,12 +32,14 @@ private:
 	double				m_radarMultiplier;
 
 	sf::VertexArray		m_ground;
+	sf::RectangleShape	m_radarBounds;
 
 	ObstacleManager		m_obsMan;
 	Player				m_player;
 	Camera				m_cam;
 	vector<Astro>		m_astronauts;
 	sf::Sprite			m_radarSprite;
+	sf::Sprite			m_backgroundSprite;
 	BulletManager		m_bulletManager;
 	AbductorManager		m_abMan;
 	PowerUpManager		m_powerMan;
@@ -48,6 +50,7 @@ private:
 	bool groundCollision();
 	void drawRadar(sf::RenderWindow& window);
 	void InitialiseAstronauts();
+	void InitialiseRadar();
 	void smartBomb();
 
 	const int MAX_NUMBER_NESTS = 5;
